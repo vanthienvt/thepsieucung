@@ -2907,9 +2907,10 @@
       if (matchedItems.length > 0 && (userSpecifiedSize || userWantsToBuy)) {
         const topMatch = matchedItems[0];
         setTimeout(() => {
+          toggleAiChat(false);
           autoOpenProductWithSize(topMatch.prod, topMatch.exactSize);
           showToast(`👴 Ông 6 đã mở sẵn mục "${topMatch.prod.title.slice(0, 42)}..." cho mình chọn mua nghen!`, "success");
-        }, 900);
+        }, 1200);
       }
     }
 
