@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Vòng Quay May Mắn Tri Ân — Thép Siêu Cứng Ông 6</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at 50% 15%, #2b1103 0%, #0d0602 60%, #000000 100%);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFE259 0%, #FFA751 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .fire-gradient {
+      background: linear-gradient(135deg, #ff4e00 0%, #ec9f05 100%);
+    }
+    .metal-card {
+      background: rgba(28, 18, 12, 0.85);
+      border: 1px solid rgba(255, 170, 50, 0.35);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .wheel-glow {
+      box-shadow: 0 0 35px rgba(255, 120, 20, 0.5), inset 0 0 20px rgba(255, 180, 50, 0.3);
+    }
+    .pointer {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 38px;
+      height: 48px;
+      z-index: 30;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8));
+    }
+    @keyframes pulse-gold {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,180,50,0.5)); }
+      50% { transform: scale(1.03); filter: drop-shadow(0 0 16px rgba(255,200,80,0.8)); }
+    }
+    .pulse-btn {
+      animation: pulse-gold 2s infinite ease-in-out;
+    }
+    .logo-glow {
+      filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.6));
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 flex flex-col items-center justify-between">
+
+  <!-- HEADER VỚI LOGO CHÍNH THỨC CỦA ÔNG 6 -->
+  <header class="w-full max-w-md text-center my-1 flex flex-col items-center">
+    <!-- Logo Gà Chiến Cáp Tàu Chính Thức -->
+    <div class="relative mb-2">
+      <img src="logo.png" alt="Logo Thép Siêu Cứng Ông 6" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-amber-400 shadow-2xl logo-glow object-cover">
+      <span class="absolute -bottom-1 -right-1 px-2 py-0.5 rounded-full bg-amber-500 text-black font-black text-[9px] uppercase tracking-wider shadow">
+        30 NĂM
+      </span>
+    </div>
+
+    <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-orange-950/80 border border-orange-500/40 text-orange-300 text-xs font-semibold mb-1">
+      <i class="fa-solid fa-fire text-amber-400"></i> XƯỞNG THÉP SIÊU CỨNG ÔNG 6
+    </div>
+    
+    <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-tight gold-gradient-text leading-tight">
+      VÒNG QUAY MAY MẮN
+    </h1>
+    <p class="text-xs text-amber-200/90 mt-0.5 font-medium">
+      Tri Ân Khách Hàng Đã Mua Thép • 100% Đều Có Quà Thật
+    </p>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="w-full max-w-md flex flex-col gap-4 mt-2">
+
+    <!-- BƯỚC 1: XÁC THỰC MÃ CÀO TRÊN THẺ -->
+    <div id="step-code" class="metal-card rounded-2xl p-4 text-center">
+      <div class="flex items-center justify-center gap-2 mb-2 text-amber-400 text-sm font-bold">
+        <i class="fa-solid fa-ticket-simple"></i> BƯỚC 1: NHẬP MÃ CÀO TRÊN THẺ
+      </div>
+      <p class="text-xs text-gray-300 mb-3">
+        Cào nhẹ lớp tráng bạc trên thẻ bảo hành trong kiện hàng của anh để lấy mã quay (8 ký tự):
+      </p>
+      
+      <div class="relative max-w-xs mx-auto mb-2">
+        <input 
+          id="scratch-code-input" 
+          type="text" 
+          placeholder="VÍ DỤ: ZTR4-BRDY"
+          class="w-full uppercase text-center font-mono font-bold tracking-widest py-3 px-4 rounded-xl bg-black/60 border-2 border-amber-500/60 text-amber-300 placeholder-gray-500 focus:outline-none focus:border-amber-400 text-lg shadow-inner"
+        >
+      </div>
+      
+      <p id="code-error-msg" class="text-xs text-red-400 hidden mb-2 font-medium"></p>
+      
+      <button 
+        id="btn-verify-code"
+        onclick="verifyCode()"
+        class="w-full max-w-xs py-3 rounded-xl fire-gradient font-bold text-white uppercase text-sm tracking-wide shadow-lg hover:brightness-110 active:scale-95 transition-all"
+      >
+        <i class="fa-solid fa-unlock-keyhole mr-1"></i> MỞ KHÓA VÒNG QUAY
+      </button>
+
+      <div class="mt-3 pt-3 border-t border-white/10 flex justify-between items-center text-[11px] text-gray-400 px-1">
+        <span><i class="fa-solid fa-shield-halved text-green-400"></i> Mã cào chống giả 1 lượt</span>
+        <button onclick="fillTestCode()" class="text-amber-400 underline hover:text-amber-300 font-semibold">Bấm thử mã ZTR4-BRDY</button>
+      </div>
+    </div>
+
+    <!-- BƯỚC 2: CHỌN PHÂN LOẠI NGHỀ -->
+    <div id="step-select-category" class="metal-card rounded-2xl p-4 hidden">
+      <div class="text-center mb-3">
+        <span class="px-2.5 py-0.5 rounded-full bg-green-900/60 border border-green-500/50 text-green-300 text-xs font-bold inline-block mb-1">
+          <i class="fa-solid fa-check-circle"></i> ĐÃ XÁC THỰC MÃ CÀO THÀNH CÔNG
+        </span>
+        <h2 class="text-base font-bold text-white uppercase">BƯỚC 2: ANH ĐANG LÀM NGHỀ GÌ?</h2>
+        <p class="text-xs text-amber-200/80">Để Ông 6 tặng đúng phôi thép chuyên môn theo nghề của anh</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-2.5">
+        <!-- 1. CỰA GÀ -->
+        <button onclick="selectCategory('cua_ga')" class="category-btn group p-3 rounded-xl bg-orange-950/40 border border-orange-500/30 hover:border-amber-400 text-left flex items-center gap-3 transition-all hover:bg-orange-900/40">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0 font-bold">
+            🐓
+          </div>
+          <div class="flex-grow">
+            <div class="font-extrabold text-sm text-white group-hover:text-amber-300 flex items-center justify-between">
+              THỢ RÈN CỰA GÀ / ĐI GIẢI
+              <i class="fa-solid fa-chevron-right text-xs text-amber-400/60"></i>
+            </div>
+            <p class="text-[11px] text-amber-200/70 mt-0.5">Quà: Tặng 10 cây phôi đế cựa gà tự chọn Ly (2ly - 3ly5) + Thẻ cào ĐT</p>
+          </div>
+        </button>
+
+        <!-- 2. CẦN THỦ CÂU CÁ -->
+        <button onclick="selectCategory('cau_ca')" class="category-btn group p-3 rounded-xl bg-orange-950/40 border border-orange-500/30 hover:border-amber-400 text-left flex items-center gap-3 transition-all hover:bg-orange-900/40">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0 font-bold">
+            🎣
+          </div>
+          <div class="flex-grow">
+            <div class="font-extrabold text-sm text-white group-hover:text-cyan-300 flex items-center justify-between">
+              CẦN THỦ SĂN CÁ / LÀM LƯỠI
+              <i class="fa-solid fa-chevron-right text-xs text-cyan-400/60"></i>
+            </div>
+            <p class="text-[11px] text-cyan-200/70 mt-0.5">Quà: Tặng 5 cây thép cắt sẵn 14cm/20cm tự chọn Ly + Thẻ cào ĐT</p>
+          </div>
+        </button>
+
+        <!-- 3. ĐI SOI / CHĨA -->
+        <button onclick="selectCategory('chia')" class="category-btn group p-3 rounded-xl bg-orange-950/40 border border-orange-500/30 hover:border-amber-400 text-left flex items-center gap-3 transition-all hover:bg-orange-900/40">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-green-700 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0 font-bold">
+            🔱
+          </div>
+          <div class="flex-grow">
+            <div class="font-extrabold text-sm text-white group-hover:text-green-300 flex items-center justify-between">
+              THỢ ĐI SOI ĐÊM / CHĨA XIÊN
+              <i class="fa-solid fa-chevron-right text-xs text-green-400/60"></i>
+            </div>
+            <p class="text-[11px] text-green-200/70 mt-0.5">Quà: Tặng 2 cây thép 30cm (2ly8 - 4ly) tự chọn + Thẻ cào ĐT</p>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- BƯỚC 3: MÀN HÌNH VÒNG QUAY MAY MẮN -->
+    <div id="step-wheel" class="metal-card rounded-3xl p-4 flex flex-col items-center hidden relative overflow-hidden">
+      
+      <!-- Tag nghề hiện tại -->
+      <div class="w-full flex justify-between items-center mb-2 px-1">
+        <span id="current-category-badge" class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold flex items-center gap-1.5">
+          <span id="cat-icon">🐓</span> <span id="cat-title">CỰA GÀ</span>
+        </span>
+        <button onclick="changeCategory()" class="text-xs text-gray-400 hover:text-amber-300 underline">
+          Đổi nhóm nghề
+        </button>
+      </div>
+
+      <!-- KHUNG VÒNG QUAY -->
+      <div class="relative my-2 w-[310px] h-[310px] sm:w-[340px] sm:h-[340px] flex items-center justify-center">
+        <!-- Kim chỉ thưởng SVG -->
+        <svg class="pointer" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 50L5 15C5 6.71573 11.7157 0 20 0C28.2843 0 35 6.71573 35 15L20 50Z" fill="url(#pointer-gradient)"/>
+          <circle cx="20" cy="15" r="7" fill="#fff" stroke="#d97706" stroke-width="3"/>
+          <defs>
+            <linearGradient id="pointer-gradient" x1="20" y1="0" x2="20" y2="50" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBBF24"/>
+              <stop offset="0.6" stop-color="#EA580C"/>
+              <stop offset="1" stop-color="#991B1B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Canvas Vòng quay -->
+        <canvas id="wheel-canvas" width="340" height="340" class="rounded-full wheel-glow border-4 border-amber-500/40"></canvas>
+
+        <!-- Nút tròn trung tâm -->
+        <button 
+          id="btn-spin"
+          onclick="spinWheel()" 
+          class="absolute w-20 h-20 rounded-full fire-gradient text-white font-black text-sm tracking-wider uppercase border-4 border-amber-300 shadow-2xl flex flex-col items-center justify-center z-20 cursor-pointer active:scale-95 transition-all"
+        >
+          <span>QUAY</span>
+          <span class="text-[10px] text-amber-200 font-bold">NGAY</span>
+        </button>
+      </div>
+
+      <!-- Ghi chú bảo đảm 100% -->
+      <p class="text-[11px] text-amber-300/90 text-center mt-1 font-medium">
+        <i class="fa-solid fa-gift text-amber-400"></i> Bấm "QUAY NGAY" — 100% đều trúng quà của Ông 6!
+      </p>
+    </div>
+
+    <!-- MODAL POPUP KẾT QUẢ TRÚNG THƯỞNG -->
+    <div id="modal-result" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="metal-card rounded-3xl p-5 max-w-sm w-full text-center border-2 border-amber-400 shadow-2xl relative">
+        
+        <div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gradient-to-tr from-amber-400 to-red-500 flex items-center justify-center text-3xl shadow-lg">
+          🎁
+        </div>
+
+        <h3 class="text-xl font-black gold-gradient-text uppercase">CHÚC MỪNG ANH!</h3>
+        <p class="text-xs text-gray-300 mt-1">Anh đã quay trúng phần quà tri ân:</p>
+
+        <!-- Khung tên phần quà -->
+        <div class="my-3 p-3 rounded-2xl bg-amber-950/60 border border-amber-400/50">
+          <div id="prize-title" class="text-lg font-black text-amber-300 leading-tight">
+            TẶNG 10 CÂY PHÔI ĐẾ CỰA GÀ
+          </div>
+          <div id="prize-sub" class="text-xs text-gray-300 mt-1">
+            Thép cáp tàu siêu cứng bao đập bao uốn
+          </div>
+        </div>
+
+        <!-- MỤC TỰ CHỌN LY KHI TRÚNG PHÔI THÉP (DYNAMIC) -->
+        <div id="prize-customizer" class="text-left my-3 p-3 rounded-xl bg-black/60 border border-amber-500/30 hidden">
+          <label class="block text-xs font-bold text-amber-300 mb-1">
+            <i class="fa-solid fa-sliders text-amber-400"></i> CHỌN QUY CÁCH ANH MUỐN NHẬN:
+          </label>
+          <div id="customizer-options" class="flex flex-col gap-2 text-xs">
+            <!-- Render động các lựa chọn Ly/Dài -->
+          </div>
+        </div>
+
+        <!-- THÔNG TIN MÃ VÀ HƯỚNG DẪN NHẬN -->
+        <div class="bg-black/50 rounded-xl p-2.5 text-xs text-gray-300 mb-3 text-left border border-white/5">
+          <div class="flex justify-between py-0.5">
+            <span class="text-gray-400">Mã cào đã dùng:</span>
+            <span id="display-verified-code" class="font-mono font-bold text-amber-300">ZTR4-BRDY</span>
+          </div>
+          <div class="flex justify-between py-0.5">
+            <span class="text-gray-400">Người tặng quà:</span>
+            <span class="font-semibold text-white">Xưởng Thép Siêu Cứng Ông 6</span>
+          </div>
+          <div class="flex justify-between py-0.5">
+            <span class="text-gray-400">Hotline / Zalo:</span>
+            <span class="font-bold text-amber-400">0934.376.614</span>
+          </div>
+        </div>
+
+        <!-- GHI CHÚ ĐIỀU KIỆN ÁP DỤNG RÕ RÀNG -->
+        <div class="p-2 rounded-lg bg-amber-950/40 border border-amber-500/20 text-[10px] text-amber-200/90 mb-3 text-left">
+          <i class="fa-solid fa-circle-info text-amber-400"></i> <b>Lưu ý nhận quà:</b> Phần quà phôi thép & voucher được gửi tặng kèm khi anh đặt đơn hàng thép tiếp theo từ 150k trở lên qua Zalo Ông 6. Riêng thẻ cào điện thoại sẽ được gửi mã nạp trực tiếp qua Zalo!
+        </div>
+
+        <!-- NÚT BẤM NHẬN QUA ZALO -->
+        <a 
+          id="btn-claim-zalo"
+          href="#"
+          target="_blank"
+          class="w-full py-3.5 px-4 rounded-xl fire-gradient text-white font-extrabold uppercase text-sm tracking-wide shadow-xl flex items-center justify-center gap-2 hover:brightness-110 pulse-btn transition-all block"
+        >
+          <i class="fa-solid fa-comment-dots text-lg"></i>
+          NHẬN QUÀ QUA ZALO NGAY
+        </a>
+
+        <p class="text-[10px] text-gray-400 mt-2">
+          Bấm nút trên để mở Zalo Ông 6 (0934.376.614), tin nhắn xác nhận quà sẽ được soạn sẵn tự động!
+        </p>
+
+        <button onclick="closeModal()" class="mt-3 text-xs text-gray-400 hover:text-white underline">
+          Đóng cửa sổ
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- NÚT CHATBOX AI TRỰC TUYẾN DƯỚI GÓC PHẢI -->
+  <div class="fixed bottom-4 right-4 z-40">
+    <button 
+      onclick="toggleChatbox()"
+      class="w-14 h-14 rounded-full fire-gradient text-white shadow-2xl flex items-center justify-center text-2xl border-2 border-amber-300 hover:scale-105 active:scale-95 transition-all relative"
+      title="Chat tư vấn với Ông 6"
+    >
+      <i class="fa-solid fa-robot"></i>
+      <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-black animate-pulse"></span>
+    </button>
+  </div>
+
+  <!-- POPUP CHATBOX TỰ ĐỘNG BÁO GIÁ & TƯ VẤN (AI ASSISTANT) -->
+  <div id="chatbox-modal" class="fixed bottom-20 right-4 w-[340px] max-w-[90vw] metal-card rounded-2xl border border-amber-400 shadow-2xl z-50 hidden flex flex-col overflow-hidden">
+    <div class="p-3 bg-gradient-to-r from-amber-600 to-orange-800 flex justify-between items-center text-white">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-base">👴</div>
+        <div>
+          <div class="font-bold text-xs">Trợ Lý AI — Thép Ông 6</div>
+          <div class="text-[10px] text-amber-200">Báo giá tự động • Trực tuyến 24/7</div>
+        </div>
+      </div>
+      <button onclick="toggleChatbox()" class="text-white hover:text-amber-200 text-sm">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="chat-messages" class="p-3 h-64 overflow-y-auto flex flex-col gap-2 text-xs">
+      <div class="bg-black/50 p-2.5 rounded-xl rounded-tl-none border border-white/10 text-gray-200 self-start max-w-[85%]">
+        Chào anh! Em là Trợ lý AI của Xưởng Thép Siêu Cứng Ông 6 (0934.376.614). Anh cần hỏi bảng giá thép theo Ly hay quy trình nhận quà thẻ cào ạ?
+      </div>
+    </div>
+
+    <!-- Quick questions -->
+    <div class="p-2 bg-black/40 border-t border-white/10 flex flex-wrap gap-1.5">
+      <button onclick="askBot('giá cựa')" class="text-[10px] bg-orange-950/80 border border-orange-500/40 text-amber-300 px-2 py-1 rounded-lg hover:bg-orange-900">
+        Bảng giá cựa gà?
+      </button>
+      <button onclick="askBot('giá lưỡi')" class="text-[10px] bg-orange-950/80 border border-orange-500/40 text-amber-300 px-2 py-1 rounded-lg hover:bg-orange-900">
+        Giá thép lưỡi câu?
+      </button>
+      <button onclick="askBot('giá chĩa')" class="text-[10px] bg-orange-950/80 border border-orange-500/40 text-amber-300 px-2 py-1 rounded-lg hover:bg-orange-900">
+        Giá thép làm chĩa?
+      </button>
+      <button onclick="askBot('tôi thép')" class="text-[10px] bg-orange-950/80 border border-orange-500/40 text-amber-300 px-2 py-1 rounded-lg hover:bg-orange-900">
+        Cách tôi thép cáp?
+      </button>
+    </div>
+
+    <div class="p-2 border-t border-white/10 bg-black/60 flex items-center gap-1.5">
+      <input 
+        id="chat-input" 
+        type="text" 
+        placeholder="Hỏi bất kỳ điều gì về thép Ông 6..."
+        class="flex-grow bg-white/10 border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
+        onkeydown="if(event.key === 'Enter') sendChatMessage()"
+      >
+      <button onclick="sendChatMessage()" class="w-8 h-8 rounded-lg fire-gradient text-white flex items-center justify-center flex-shrink-0 text-xs">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="w-full max-w-md text-center py-3 text-[11px] text-gray-500 border-t border-white/10 mt-3">
+    <p>© 2026 Xưởng Rèn Kéo Thép Cáp Tàu Ông 6 • Hotline / Zalo: <span class="text-amber-400 font-bold">0934.376.614</span></p>
+    <p class="text-[10px] text-gray-600 mt-0.5">Bảo hành 1 đổi 1 • Giao hàng thu hộ COD tận nhà toàn quốc</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

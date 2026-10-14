@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>MẪU THẺ CÀO TRÒN 2 MẶT — ÔNG 6 (CHUẨN BẾ TRÒN IN ẤN)</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 8mm;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #e5e7eb;
+      margin: 0;
+      padding: 15px;
+      color: #111;
+    }
+    .print-sheet {
+      display: grid;
+      grid-template-columns: repeat(3, 68mm);
+      grid-gap: 8mm;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+    /* THẺ TRÒN ĐƯỜNG KÍNH 68MM CHUẨN IN ẤN BẾ KHUÔN */
+    .round-card {
+      width: 68mm;
+      height: 68mm;
+      border-radius: 50%;
+      background: #000;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      page-break-inside: avoid;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    }
+    .front-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    /* SVG MẶT SAU CHIẾM TOÀN BỘ KHÔNG GIAN HÌNH TRÒN */
+    .back-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .btn-print {
+      padding: 12px 28px;
+      font-size: 13pt;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ea580c 0%, #d97706 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.45);
+    }
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NÚT ĐIỀU KHIỂN IN -->
+  <div class="no-print" style="text-align: center; margin-bottom: 20px;">
+    <h1 style="margin: 0; color: #111; font-size: 17pt;">MẪU IN THẺ CÀO TRÒN 2 MẶT — CHỮ BO CONG HOÀN HẢO THEO VÒNG TRÒN</h1>
+    <p style="font-size: 10.5pt; color: #4b5563; margin: 4px 0 12px 0;">
+      ✓ Mặt 1: Logo gà chiến (Dòng chữ vàng kim: <b>BAO ĐẬP BAO UỐN 1 ĐỔI 1</b>)<br>
+      ✓ Mặt 2: <b>Chữ bo cong vòng cung</b> chuẩn xác 100%, không bị cắt chữ, tình nghĩa anh em đồng nghề!
+    </p>
+    <button class="btn-print" onclick="window.print()">
+      🖨️ BẤM VÀO ĐÂY ĐỂ IN RA GIẤY (Ctrl + P)
+    </button>
+  </div>
+
+  <!-- PHẦN 1: MẶT TRƯỚC (LOGO VÀ DÒNG CHỮ UY TÍN) -->
+  <div class="no-print" style="text-align: center; font-weight: bold; color: #92400e; margin-bottom: 8px; font-size: 11pt;">
+    🔻 MẶT 1: HÌNH TRÒN LOGO GÀ CHIẾN SIẾT CÁP TÀU (BAO ĐẬP BAO UỐN 1 ĐỔI 1) 🔻
+  </div>
+
+  <div class="print-sheet">
+    <div class="round-card">
+      <img src="logo_front.png" alt="Logo Ông 6" class="front-img">
+    </div>
+    <div class="round-card">
+      <img src="logo_front.png" alt="Logo Ông 6" class="front-img">
+    </div>
+    <div class="round-card">
+      <img src="logo_front.png" alt="Logo Ông 6" class="front-img">
+    </div>
+  </div>
+
+  <!-- PHẦN 2: MẶT SAU (MẶT CÀO & QR VỚI CHỮ BO CONG CHUẨN XÁC) -->
+  <div class="no-print" style="text-align: center; font-weight: bold; color: #92400e; margin-bottom: 8px; font-size: 11pt;">
+    🔻 MẶT 2: THẺ CÀO TRI ÂN (CHỮ BO TRÒN THEO CUNG TRÒN — KHÔNG BAO GIỜ BỊ CẮT CHỮ) 🔻
+  </div>
+
+  <div class="print-sheet">
+    
+    <!-- THẺ TRÒN MẶT SAU 1 -->
+    <div class="round-card">
+      <svg class="back-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Nền tròn gradient kim loại -->
+        <defs>
+          <radialGradient id="bgGrad" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="#241206"/>
+            <stop offset="70%" stop-color="#0c0502"/>
+            <stop offset="100%" stop-color="#000000"/>
+          </radialGradient>
+          <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F1F5F9"/>
+            <stop offset="50%" stop-color="#94A3B8"/>
+            <stop offset="100%" stop-color="#CBD5E1"/>
+          </linearGradient>
+          <!-- Đường cung chữ chạy đỉnh trên (Cung tròn ngược chiều kim đồng hồ để chữ đọc xuôi) -->
+          <path id="arc-top-curve" d="M 35,150 A 115,115 0 0,1 265,150" fill="none" />
+          <!-- Đường cung chữ chạy đáy dưới -->
+          <path id="arc-bottom-curve" d="M 45,150 A 108,108 0 0,0 255,150" fill="none" />
+        </defs>
+
+        <!-- Vòng tròn nền -->
+        <circle cx="150" cy="150" r="148" fill="url(#bgGrad)"/>
+        <!-- Viền vàng kim ngoài cùng -->
+        <circle cx="150" cy="150" r="143" fill="none" stroke="#F59E0B" stroke-width="5"/>
+        <circle cx="150" cy="150" r="138" fill="none" stroke="#B45309" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+        <!-- 1. CHỮ BO CONG ĐỈNH TRÊN (TRI ÂN ANH EM ĐỒNG NGHỀ) -->
+        <text fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="15.5px" letter-spacing="1.5px">
+          <textPath href="#arc-top-curve" startOffset="50%" text-anchor="middle">
+            TRI ÂN ANH EM ĐỒNG NGHỀ
+          </textPath>
+        </text>
+
+        <!-- Lời cảm ơn mộc mạc -->
+        <text x="150" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'Segoe UI', Arial, sans-serif" font-size="9.5px" font-style="italic">
+          "Cảm ơn anh em đã luôn tin tưởng Ông 6!"
+        </text>
+
+        <!-- 2. BẢNG QUÀ TẶNG TRÚNG 100% -->
+        <rect x="25" y="68" width="250" height="52" rx="10" fill="#78350F" fill-opacity="0.45" stroke="#F59E0B" stroke-width="1.2"/>
+        <text x="150" y="83" text-anchor="middle" fill="#FEF08A" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="10.5px">
+          🎁 CÀO LẤY MÃ QUAY TRÚNG 100%:
+        </text>
+        <text x="150" y="99" text-anchor="middle" fill="#FDE047" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="9.5px">
+          10 Phôi Siêu Cứng • 5 Phôi Lưỡi • 2 Phôi Chĩa
+        </text>
+        <text x="150" y="113" text-anchor="middle" fill="#FFF" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="9px">
+          Voucher 50K • Thẻ Cào ĐT 10k - 20k
+        </text>
+
+        <!-- 3. KHU VỰC QR CODE VÀ Ô CÀO BẠC -->
+        <!-- Khung QR Code -->
+        <g transform="translate(42, 130)">
+          <rect width="66" height="66" rx="6" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+          <image href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/0934376614" x="4" y="4" width="58" height="58"/>
+          <rect y="68" width="66" height="12" rx="3" fill="#B45309"/>
+          <text x="33" y="77" text-anchor="middle" fill="#FFF" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="7.5px">
+            QUÉT ZALO
+          </text>
+        </g>
+
+        <!-- Khung Mã Cào Tráng Bạc -->
+        <g transform="translate(122, 130)">
+          <rect width="138" height="42" rx="6" fill="url(#silverGrad)" stroke="#475569" stroke-width="1.5"/>
+          <text x="69" y="26" text-anchor="middle" fill="#0F172A" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="13px" letter-spacing="1.2px">
+            MÃ: ZTR4-BRDY
+          </text>
+          <text x="69" y="58" text-anchor="middle" fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="8.5px">
+            👉 CÀO NHẸ LẤY MÃ 8 KÝ TỰ
+          </text>
+          <text x="69" y="72" text-anchor="middle" fill="#CBD5E1" font-family="'Segoe UI', Arial, sans-serif" font-size="7.5px">
+            Quét Zalo nhận quà liền tay!
+          </text>
+        </g>
+
+        <!-- 4. GHI CHÚ ĐIỀU KIỆN ÁP DỤNG -->
+        <text x="150" y="235" text-anchor="middle" fill="#94A3B8" font-family="'Segoe UI', Arial, sans-serif" font-size="8px">
+          *Tặng kèm quà & voucher cho đơn tiếp theo từ 150k qua Zalo
+        </text>
+
+        <!-- 5. CHỮ BO CONG ĐÁY DƯỚI (HOTLINE ZALO ÔNG 6) -->
+        <text fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="11.5px" letter-spacing="1px">
+          <textPath href="#arc-bottom-curve" startOffset="50%" text-anchor="middle">
+            ★ ZALO / HOTLINE: 0934.376.614 ★
+          </textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- THẺ TRÒN MẶT SAU 2 -->
+    <div class="round-card">
+      <svg class="back-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="148" fill="url(#bgGrad)"/>
+        <circle cx="150" cy="150" r="143" fill="none" stroke="#F59E0B" stroke-width="5"/>
+        <circle cx="150" cy="150" r="138" fill="none" stroke="#B45309" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+        <text fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="15.5px" letter-spacing="1.5px">
+          <textPath href="#arc-top-curve" startOffset="50%" text-anchor="middle">
+            TRI ÂN ANH EM ĐỒNG NGHỀ
+          </textPath>
+        </text>
+
+        <text x="150" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'Segoe UI', Arial, sans-serif" font-size="9.5px" font-style="italic">
+          "Cảm ơn anh em đã luôn tin tưởng Ông 6!"
+        </text>
+
+        <rect x="25" y="68" width="250" height="52" rx="10" fill="#78350F" fill-opacity="0.45" stroke="#F59E0B" stroke-width="1.2"/>
+        <text x="150" y="83" text-anchor="middle" fill="#FEF08A" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="10.5px">
+          🎁 CÀO LẤY MÃ QUAY TRÚNG 100%:
+        </text>
+        <text x="150" y="99" text-anchor="middle" fill="#FDE047" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="9.5px">
+          10 Phôi Siêu Cứng • 5 Phôi Lưỡi • 2 Phôi Chĩa
+        </text>
+        <text x="150" y="113" text-anchor="middle" fill="#FFF" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="9px">
+          Voucher 50K • Thẻ Cào ĐT 10k - 20k
+        </text>
+
+        <g transform="translate(42, 130)">
+          <rect width="66" height="66" rx="6" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+          <image href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/0934376614" x="4" y="4" width="58" height="58"/>
+          <rect y="68" width="66" height="12" rx="3" fill="#B45309"/>
+          <text x="33" y="77" text-anchor="middle" fill="#FFF" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="7.5px">
+            QUÉT ZALO
+          </text>
+        </g>
+
+        <g transform="translate(122, 130)">
+          <rect width="138" height="42" rx="6" fill="url(#silverGrad)" stroke="#475569" stroke-width="1.5"/>
+          <text x="69" y="26" text-anchor="middle" fill="#0F172A" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="13px" letter-spacing="1.2px">
+            MÃ: ZTR4-BRDY
+          </text>
+          <text x="69" y="58" text-anchor="middle" fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="8.5px">
+            👉 CÀO NHẸ LẤY MÃ 8 KÝ TỰ
+          </text>
+          <text x="69" y="72" text-anchor="middle" fill="#CBD5E1" font-family="'Segoe UI', Arial, sans-serif" font-size="7.5px">
+            Quét Zalo nhận quà liền tay!
+          </text>
+        </g>
+
+        <text x="150" y="235" text-anchor="middle" fill="#94A3B8" font-family="'Segoe UI', Arial, sans-serif" font-size="8px">
+          *Tặng kèm quà & voucher cho đơn tiếp theo từ 150k qua Zalo
+        </text>
+
+        <text fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="11.5px" letter-spacing="1px">
+          <textPath href="#arc-bottom-curve" startOffset="50%" text-anchor="middle">
+            ★ ZALO / HOTLINE: 0934.376.614 ★
+          </textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- THẺ TRÒN MẶT SAU 3 -->
+    <div class="round-card">
+      <svg class="back-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="148" fill="url(#bgGrad)"/>
+        <circle cx="150" cy="150" r="143" fill="none" stroke="#F59E0B" stroke-width="5"/>
+        <circle cx="150" cy="150" r="138" fill="none" stroke="#B45309" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+        <text fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="15.5px" letter-spacing="1.5px">
+          <textPath href="#arc-top-curve" startOffset="50%" text-anchor="middle">
+            TRI ÂN ANH EM ĐỒNG NGHỀ
+          </textPath>
+        </text>
+
+        <text x="150" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'Segoe UI', Arial, sans-serif" font-size="9.5px" font-style="italic">
+          "Cảm ơn anh em đã luôn tin tưởng Ông 6!"
+        </text>
+
+        <rect x="25" y="68" width="250" height="52" rx="10" fill="#78350F" fill-opacity="0.45" stroke="#F59E0B" stroke-width="1.2"/>
+        <text x="150" y="83" text-anchor="middle" fill="#FEF08A" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="10.5px">
+          🎁 CÀO LẤY MÃ QUAY TRÚNG 100%:
+        </text>
+        <text x="150" y="99" text-anchor="middle" fill="#FDE047" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="9.5px">
+          10 Phôi Siêu Cứng • 5 Phôi Lưỡi • 2 Phôi Chĩa
+        </text>
+        <text x="150" y="113" text-anchor="middle" fill="#FFF" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="9px">
+          Voucher 50K • Thẻ Cào ĐT 10k - 20k
+        </text>
+
+        <g transform="translate(42, 130)">
+          <rect width="66" height="66" rx="6" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+          <image href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/0934376614" x="4" y="4" width="58" height="58"/>
+          <rect y="68" width="66" height="12" rx="3" fill="#B45309"/>
+          <text x="33" y="77" text-anchor="middle" fill="#FFF" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="7.5px">
+            QUÉT ZALO
+          </text>
+        </g>
+
+        <g transform="translate(122, 130)">
+          <rect width="138" height="42" rx="6" fill="url(#silverGrad)" stroke="#475569" stroke-width="1.5"/>
+          <text x="69" y="26" text-anchor="middle" fill="#0F172A" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="13px" letter-spacing="1.2px">
+            MÃ: ZTR4-BRDY
+          </text>
+          <text x="69" y="58" text-anchor="middle" fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="8.5px">
+            👉 CÀO NHẸ LẤY MÃ 8 KÝ TỰ
+          </text>
+          <text x="69" y="72" text-anchor="middle" fill="#CBD5E1" font-family="'Segoe UI', Arial, sans-serif" font-size="7.5px">
+            Quét Zalo nhận quà liền tay!
+          </text>
+        </g>
+
+        <text x="150" y="235" text-anchor="middle" fill="#94A3B8" font-family="'Segoe UI', Arial, sans-serif" font-size="8px">
+          *Tặng kèm quà & voucher cho đơn tiếp theo từ 150k qua Zalo
+        </text>
+
+        <text fill="#FBBF24" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" font-size="11.5px" letter-spacing="1px">
+          <textPath href="#arc-bottom-curve" startOffset="50%" text-anchor="middle">
+            ★ ZALO / HOTLINE: 0934.376.614 ★
+          </textPath>
+        </text>
+      </svg>
+    </div>
+
+  </div>
+
+</body>
+</html>
