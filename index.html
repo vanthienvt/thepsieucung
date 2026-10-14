@@ -169,15 +169,7 @@
           <span>ZALO: 0934.376.614</span>
         </a>
 
-        <!-- Nút kích hoạt Quản Trị (Chỉ mở khi có mã PIN của anh) -->
-        <button 
-          id="btn-admin-trigger"
-          onclick="openAdminModal()" 
-          title="Chế độ quản trị đổi ảnh & video"
-          class="w-8 h-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-gray-500 hover:text-amber-400 flex items-center justify-center text-xs transition-colors border border-white/10"
-        >
-          <i class="fa-solid fa-gear"></i>
-        </button>
+        
       </div>
 
     </div>
@@ -1073,35 +1065,7 @@
     </div>
   </div>
 
-  <!-- MODAL XÁC THỰC MÃ PIN QUẢN TRỊ VIÊN (CHỈ DÀNH RIÊNG CHO ANH) -->
-  <div id="admin-pin-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-    <div class="metal-card rounded-2xl max-w-sm w-full p-6 border-2 border-amber-400 shadow-2xl relative text-center">
-      <button onclick="closeAdminModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-lg">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-3 text-xl">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <h3 class="text-base font-black text-white uppercase mb-1">Xác Thực Quản Trị Viên</h3>
-      <p class="text-xs text-gray-400 mb-4">Nhập mã PIN bí mật của chủ xưởng để bật chế độ chỉnh sửa & thay đổi ảnh/video sản phẩm.</p>
-      
-      <div class="text-left mb-4">
-        <label class="block text-[11px] text-gray-300 font-bold mb-1">Mã PIN bảo mật:</label>
-        <input 
-          type="password" 
-          id="admin-pin-input" 
-          placeholder="Nhập 0934 hoặc SĐT của anh..." 
-          class="w-full p-2.5 rounded-xl bg-zinc-900 border border-amber-500/40 text-center tracking-widest text-lg font-black text-amber-400 focus:outline-none focus:border-amber-300"
-          onkeyup="if(event.key === 'Enter') confirmAdminPin()"
-        >
-        <span class="text-[10px] text-gray-500 mt-1 block text-center">Gợi ý: Mặc định là 0934 hoặc SĐT 0934376614</span>
-      </div>
-
-      <button onclick="confirmAdminPin()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs uppercase tracking-wide shadow-lg transition-all">
-        BẬT CHẾ ĐỘ QUẢN TRỊ
-      </button>
-    </div>
-  </div>
+  
 
   <!-- NÚT NỔI & KHUNG CHAT ÔNG 6 (LOGO ÔNG GIÀ THỢ RÈN MIỀN TÂY + TỰ NHẢY MỞ SẢN PHẨM) -->
   <button 
@@ -1275,12 +1239,26 @@
 
     const sectionStates = { best: false, sale: false, chia: false, cau: false, cua: false };
 
-    // Kiểm tra trạng thái Admin
+    // Kiểm tra trạng thái Admin (CHỈ cho phép khi mở file index.html trực tiếp trên máy chủ xưởng qua file://)
+    function isLocalMachineFile() {
+      return window.location.protocol === "file:";
+    }
+
     function isAdminLoggedIn() {
+      if (!isLocalMachineFile()) return false;
       return localStorage.getItem("ong6_admin_active") === "true";
     }
 
     function checkAdminUI() {
+      const btnTrigger = document.getElementById("btn-admin-trigger");
+      const pinModal = document.getElementById("admin-pin-modal");
+
+      // Nếu khách mở trên mạng (http/https), gỡ bỏ hoàn toàn nút bánh răng & modal quản trị
+      if (!isLocalMachineFile()) {
+        if (btnTrigger) btnTrigger.remove();
+        if (pinModal) pinModal.remove();
+      }
+
       const isAdmin = isAdminLoggedIn();
       const banner = document.getElementById("admin-banner");
       const btnModalAdmin = document.getElementById("btn-admin-change-modal-img");
@@ -1309,22 +1287,26 @@
     }
 
     function openAdminModal() {
+      if (!isLocalMachineFile()) return;
       if (isAdminLoggedIn()) {
         showToast("Chế độ Quản trị viên đang được bật rồi anh nhé!", "success");
         return;
       }
-      document.getElementById("admin-pin-modal").classList.remove("hidden");
+      const modal = document.getElementById("admin-pin-modal");
+      if (!modal) return;
+      modal.classList.remove("hidden");
       document.getElementById("admin-pin-input").value = "";
       document.getElementById("admin-pin-input").focus();
     }
 
     function closeAdminModal() {
-      document.getElementById("admin-pin-modal").classList.add("hidden");
+      const modal = document.getElementById("admin-pin-modal");
+      if (modal) modal.classList.add("hidden");
     }
 
     function confirmAdminPin() {
+      if (!isLocalMachineFile()) return;
       const pin = document.getElementById("admin-pin-input").value.trim();
-      // Mã PIN bí mật của chủ shop: 0934 hoặc 0934376614
       if (pin === "0934" || pin === "0934376614" || pin === "123456") {
         localStorage.setItem("ong6_admin_active", "true");
         closeAdminModal();
