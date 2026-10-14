@@ -1140,7 +1140,7 @@
             <span>ÔNG 6 — LÒ THÉP MIỀN TÂY</span>
           </h3>
           <div id="ai-engine-badge" class="text-[11px] text-green-400 font-bold flex items-center gap-1">
-            <i class="fa-solid fa-circle-check text-[9px]"></i> <span>Tư vấn ngắn gọn • Tự mở đúng cỡ thép</span>
+            <i class="fa-solid fa-circle-check text-[9px]"></i> <span>Tư vấn ngắn gọn • Hiện sản phẩm ngay trong chat</span>
           </div>
         </div>
       </div>
@@ -1155,14 +1155,14 @@
         <img src="assets/ong6_avatar.jpg" alt="Ông 6" class="w-9 h-9 rounded-full object-cover border-2 border-amber-400 shrink-0 mt-0.5">
         <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl rounded-tl-sm p-3 text-xs sm:text-sm text-gray-100 leading-relaxed space-y-1 shadow">
           <div class="font-black text-amber-300">Ông 6 chào anh em mình nghen! 👋</div>
-          <p>Anh em cần mua cỡ mấy ly làm <b>Lưỡi Câu</b>, <b>Chĩa Xiên</b> hay <b>Cựa Gà</b> cứ nhắn (ví dụ: <i>"mua thép 2ly lưỡi câu"</i>), Ông 6 bật sẵn đúng mục đó cho mình chọn liền tay!</p>
+          <p>Anh em cần hỏi cỡ mấy ly làm <b>Lưỡi Câu</b>, <b>Chĩa Xiên</b> hay <b>Cựa Gà</b> cứ nhắn, Ông 6 báo giá đúng số cây từng bó và đưa mục mua ngay bên dưới cho mình chọn nghen!</p>
         </div>
       </div>
     </div>
 
-    <!-- Nút bấm nhanh 1 chạm (Bấm là nhảy ra đúng mục mua luôn) -->
+    <!-- Nút bấm nhanh 1 chạm -->
     <div class="bg-zinc-900/95 border-t border-white/10 px-3 py-2 shrink-0">
-      <div class="text-[11px] text-amber-300 font-extrabold mb-1.5">👇 Bấm chọn nhanh (Ông 6 mở sẵn bảng mua liền):</div>
+      <div class="text-[11px] text-amber-300 font-extrabold mb-1.5">👇 Bấm hỏi nhanh Ông 6:</div>
       <div class="flex flex-wrap gap-1.5">
         <button onclick="sendAiQuickQuestion('Mua thép 2ly lưỡi câu')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-100 hover:text-black text-xs font-extrabold border border-amber-500/40 transition-all">
           🐟 Mua thép 2ly lưỡi câu
@@ -2640,7 +2640,7 @@
           return true;
         }
       } catch (e) {}
-      badge.innerHTML = `<i class="fa-solid fa-circle-check text-[9px]"></i> <span>Tư vấn ngắn gọn • Tự mở đúng cỡ thép</span>`;
+      badge.innerHTML = `<i class="fa-solid fa-circle-check text-[9px]"></i> <span>Tư vấn ngắn gọn • Hiện sản phẩm ngay trong chat</span>`;
       badge.className = "text-[11px] text-amber-300 font-bold flex items-center gap-1";
       return false;
     }
@@ -2745,7 +2745,8 @@
 
     function formatAiTextToHtml(rawText) {
       const NL = String.fromCharCode(10);
-      return rawText
+      const cleaned = (rawText || "").replace(/^Ông\s*6\s*:\s*/i, "");
+      return cleaned
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -2758,17 +2759,19 @@
 
     async function callDirectGeminiFallback(userMessage) {
       const NL = String.fromCharCode(10);
-      const catalogLines = PRODUCTS.map(p =>
-        `- [${p.id}] ${p.title} | Giá tại lò: ${p.priceDirect.toLocaleString('vi-VN')}đ`
-      ).join(NL);
+      const catalogLines = PRODUCTS.map(p => {
+        const firstVar = (p.variations && p.variations[0]) ? p.variations[0].name : "1 bó";
+        return `- [${p.id}] ${p.title} | Gói nhỏ nhất: ${firstVar} = ${p.priceDirect.toLocaleString('vi-VN')}đ`;
+      }).join(NL);
 
       const sysPrompt = [
         "Bạn chính là ÔNG 6 (Thợ rèn già 30 năm ở Chợ Thép Nghề Miền Tây). Zalo: 0934.376.614.",
         "Xưng là 'Ông 6', gọi khách là 'mình' hoặc 'anh em'.",
-        "CHỈ TRẢ LỜI 1 ĐẾN 2 CÂU NGẮN GỌN (tối đa 35 chữ), mộc mạc, dân dã đậm chất Miền Tây ('nghen', 'hết sẩy', 'bao cứng', 'tận lò'). Không nói dài dòng!",
-        "- Lưỡi câu: 1ly6-1ly8 (cá nhỏ/vừa), 2ly-2ly2 (cá lóc lớn), 2ly4-2ly6 (cá bự/câu biển), giá 25.000đ/bó cắt sẵn 14cm, 20cm.",
-        "- Chĩa xiên: 2ly8-3ly (34.000đ), chĩa đại 3ly2-3ly5-4ly (34.000đ-43.000đ).",
-        "- Đế cựa gà: gà tre 2ly-2ly4 (Cựa Ưng, Diều Hâu, Cựa Báo), gà nòi 2ly6-3ly5 (Đế Rồng, Huyết Long 2ly8, Mãnh Hổ 3ly, Hùng Sư 3ly2, Bạo Chúa 3ly5).",
+        "CHỈ TRẢ LỜI 1 ĐẾN 2 CÂU NGẮN GỌN (tối đa 35 chữ), mộc mạc, dân dã đậm chất Miền Tây ('nghen', 'hết sẩy', 'bao cứng', 'tận lò'). Không viết 'Ông 6:' ở đầu câu!",
+        "QUY TẮC BÁO GIÁ SỐ LƯỢNG TRONG 1 BÓ/GÓI (TUYỆT ĐỐI KHÔNG BAO GIỜ NÓI GIÁ 1 CÂY LẺ '/cây'):",
+        "- Thép Chĩa / Cơ Khí (2ly8, 3ly, 3ly2, 3ly5, 4ly): Giá là 1 BÓ 4 CÂY (hoặc Combo 4+1 là 5 cây dài 30cm). Ví dụ: 2ly8, 3ly, 3ly2 là 34.000đ/bó 4 cây; 3ly5 là 39.000đ/bó 4 cây; 4ly là 43.000đ/bó 4 cây.",
+        "- Thép Lưỡi Câu (1ly8, 2ly, 2ly2, 2ly4, 2ly6 cắt sẵn 14cm/20cm): Giá 25.000đ/gói 10 cây (gói 36 cây 69.000đ, gói 70 cây 104.000đ). Riêng 1ly6 nguyên cuộn là 217.000đ/cuộn 0,5kg.",
+        "- Đế Cựa Gà uốn sẵn: Giá 234.000đ - 304.000đ / gói 10 bộ. Phôi thép làm đế cựa (2ly-4ly) là 112.000đ / 0,5kg (nửa ký).",
         "- Ship: Gom giỏ đủ 150.000đ là Ông 6 bao ship tận nhà luôn nghen!",
         "DANH SÁCH 26 MÓN:",
         catalogLines
@@ -2783,7 +2786,7 @@
         "",
         histLines,
         `Khách hỏi: "${userMessage}"`,
-        "Ông 6 trả lời (chỉ 1-2 câu ngắn gọn dưới 35 chữ, giọng Miền Tây, báo đúng cỡ và giá):"
+        "Trả lời thẳng 1-2 câu ngắn gọn dưới 35 chữ, giọng Miền Tây, báo đúng giá kèm số cây/bộ trong gói (KHÔNG ghi 'Ông 6:' ở đầu câu, KHÔNG nói '/cây'):"
       ].join(NL);
 
       const models = ["gemini-3.1-flash-lite", "gemini-3-flash-preview"];
@@ -2807,7 +2810,7 @@
           }
         } catch (e) {}
       }
-      return "Cỡ này tại lò Ông 6 có sẵn hàng cáp tàu bao cứng luôn nghen! Gom giỏ đủ 150k Ông 6 bao ship tận nhà, mình chọn gói bên dưới nghen!";
+      return "Cỡ này tại lò Ông 6 có sẵn hàng cáp tàu bao cứng luôn nghen! Gom giỏ đủ 150k Ông 6 bao ship tận nhà, mình bấm vào mục bên dưới chọn gói nghen!";
     }
 
     async function sendAiChatMessage() {
@@ -2868,20 +2871,21 @@
       aiChatHistory.push({ role: "user", text: userText });
       aiChatHistory.push({ role: "model", text: replyText });
 
-      // Tìm sản phẩm khớp chính xác
+      // Tìm sản phẩm khớp chính xác để hiện ngay trong khung chat (không tự nhảy đè màn hình)
       const matchedItems = findMatchingProductsForChat(userText, replyText);
       let cardsHtml = "";
       if (matchedItems.length > 0) {
         cardsHtml = `<div class="pt-2 mt-2 border-t border-white/10 space-y-2">` +
-          `<div class="text-[11px] text-amber-300 font-extrabold">👇 Bấm vào đây để mở bảng chọn cỡ & mua liền:</div>` +
+          `<div class="text-[11px] text-amber-300 font-extrabold">👇 Bấm vào mục dưới đây để chọn gói & mua:</div>` +
           matchedItems.map(item => {
             const p = item.prod;
+            const starterPack = (p.variations && p.variations[0]) ? p.variations[0].name : "1 bó";
             return `
               <div onclick="autoOpenProductWithSize(PRODUCTS.find(x => x.id === '${p.id}'), '${item.exactSize || ''}'); toggleAiChat(false);" class="flex items-center gap-2.5 bg-black/80 hover:bg-zinc-800 p-2 rounded-xl border border-amber-500/50 cursor-pointer transition-all group">
                 <img src="${getProductImage(p)}" class="w-12 h-12 rounded-lg object-cover border border-amber-400/50 shrink-0">
                 <div class="flex-1 min-w-0">
                   <div class="text-xs font-extrabold text-white group-hover:text-amber-300 truncate">${p.title}</div>
-                  <div class="text-xs font-black text-amber-400 mt-0.5">${p.priceDirect.toLocaleString('vi-VN')} đ <span class="text-[10px] text-gray-400 font-normal line-through">${p.priceShopee.toLocaleString('vi-VN')}đ</span></div>
+                  <div class="text-xs font-black text-amber-400 mt-0.5">${p.priceDirect.toLocaleString('vi-VN')} đ <span class="text-[11px] text-emerald-300 font-bold">/ ${starterPack}</span></div>
                 </div>
                 <span class="bg-amber-500 text-black text-[11px] font-black px-2.5 py-1.5 rounded-lg shrink-0">Mở Mua &rarr;</span>
               </div>
@@ -2899,19 +2903,6 @@
       `;
       msgBox.scrollTop = msgBox.scrollHeight;
       isAiBusy = false;
-
-      // Tự động nhảy bật ra bảng mua hàng nếu khách nói rõ cỡ thép hoặc nói muốn mua/lấy/xem
-      const uLow = userText.toLowerCase();
-      const userSpecifiedSize = extractExactSizes(uLow).length > 0;
-      const userWantsToBuy = /mua|lấy|đặt|chốt|xem|cho tôi|cho anh|lựa/.test(uLow);
-      if (matchedItems.length > 0 && (userSpecifiedSize || userWantsToBuy)) {
-        const topMatch = matchedItems[0];
-        setTimeout(() => {
-          toggleAiChat(false);
-          autoOpenProductWithSize(topMatch.prod, topMatch.exactSize);
-          showToast(`👴 Ông 6 đã mở sẵn mục "${topMatch.prod.title.slice(0, 42)}..." cho mình chọn mua nghen!`, "success");
-        }, 1200);
-      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
