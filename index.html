@@ -1103,45 +1103,44 @@
     </div>
   </div>
 
-  <!-- NÚT NỔI & KHUNG CHATBOX AI GEMINI (CHẠY TRỰC TIẾP TRÊN ANTIGRAVITY & WEB 24/7) -->
+  <!-- NÚT NỔI & KHUNG CHAT ÔNG 6 (LOGO ÔNG GIÀ THỢ RÈN MIỀN TÂY + TỰ NHẢY MỞ SẢN PHẨM) -->
   <button 
     id="ai-chat-fab"
     onclick="toggleAiChat()" 
-    class="fixed bottom-20 right-3 sm:right-5 z-40 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white px-4 py-3 rounded-2xl shadow-[0_8px_30px_rgba(16,185,129,0.5)] border-2 border-amber-400 flex items-center gap-2.5 active:scale-95 transition-all group"
+    class="fixed bottom-20 right-3 sm:right-5 z-40 bg-gradient-to-r from-zinc-900 via-amber-950 to-zinc-900 hover:from-amber-900 hover:to-zinc-800 text-white px-3.5 py-2.5 rounded-2xl shadow-[0_8px_30px_rgba(245,158,11,0.5)] border-2 border-amber-400 flex items-center gap-2.5 active:scale-95 transition-all group"
   >
-    <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-black/40 text-amber-300 text-lg">
-      <i class="fa-solid fa-robot"></i>
-      <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-400 animate-ping"></span>
-      <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-400 border border-black"></span>
+    <div class="relative w-11 h-11 rounded-full border-2 border-amber-400 overflow-hidden shrink-0 shadow-md">
+      <img src="assets/ong6_avatar.jpg" alt="Ông 6" class="w-full h-full object-cover">
+      <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-400 border-2 border-black"></span>
     </div>
-    <div class="text-left">
-      <div class="text-xs sm:text-sm font-black uppercase tracking-wide leading-tight text-white group-hover:text-amber-200">
-        Hỏi AI Ông 6
+    <div class="text-left pr-1">
+      <div class="text-sm sm:text-base font-black uppercase tracking-wide leading-tight text-amber-300 group-hover:text-white flex items-center gap-1.5">
+        <span>ÔNG 6</span>
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
       </div>
-      <div class="text-[10px] text-emerald-200 font-bold leading-tight">
-        Tư vấn chọn cỡ thép 24/7
+      <div class="text-[11px] text-gray-200 font-bold leading-tight">
+        Nói cỡ thép • Mở mua liền!
       </div>
     </div>
   </button>
 
   <div 
     id="ai-chat-panel" 
-    class="fixed bottom-20 right-2 sm:right-5 z-50 w-[95vw] sm:w-[420px] max-h-[80vh] flex flex-col rounded-2xl border-2 border-amber-400 shadow-[0_20px_60px_rgba(0,0,0,0.95)] bg-zinc-950 overflow-hidden hidden"
+    class="fixed bottom-20 right-2 sm:right-5 z-50 w-[95vw] sm:w-[410px] max-h-[80vh] flex flex-col rounded-2xl border-2 border-amber-400 shadow-[0_20px_60px_rgba(0,0,0,0.95)] bg-zinc-950 overflow-hidden hidden"
   >
-    <!-- Header Chat AI -->
-    <div class="bg-gradient-to-r from-zinc-900 via-emerald-950 to-zinc-900 border-b border-amber-500/40 px-4 py-3 flex items-center justify-between shrink-0">
+    <!-- Header Ông 6 -->
+    <div class="bg-gradient-to-r from-zinc-900 via-amber-950/90 to-zinc-900 border-b border-amber-500/40 px-4 py-3 flex items-center justify-between shrink-0">
       <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 rounded-xl bg-emerald-600/30 border border-amber-400/60 text-amber-300 flex items-center justify-center text-lg relative shrink-0">
-          <i class="fa-solid fa-robot"></i>
-          <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-400 border border-black"></span>
+        <div class="w-11 h-11 rounded-full border-2 border-amber-400 overflow-hidden relative shrink-0 shadow">
+          <img src="assets/ong6_avatar.jpg" alt="Ông 6" class="w-full h-full object-cover">
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-400 border border-black"></span>
         </div>
         <div>
-          <h3 class="text-xs sm:text-sm font-black text-white uppercase flex items-center gap-1.5">
-            <span>Trợ Lý AI Xưởng Ông 6</span>
-            <span class="bg-amber-500 text-black text-[9px] font-black px-1.5 py-0.5 rounded">GEMINI</span>
+          <h3 class="text-sm sm:text-base font-black text-amber-300 uppercase flex items-center gap-1.5">
+            <span>ÔNG 6 — LÒ THÉP MIỀN TÂY</span>
           </h3>
-          <div id="ai-engine-badge" class="text-[10px] text-green-400 font-bold flex items-center gap-1">
-            <i class="fa-solid fa-bolt text-[9px]"></i> <span>Đang kết nối trực tiếp Antigravity AI</span>
+          <div id="ai-engine-badge" class="text-[11px] text-green-400 font-bold flex items-center gap-1">
+            <i class="fa-solid fa-circle-check text-[9px]"></i> <span>Tư vấn ngắn gọn • Tự mở đúng cỡ thép</span>
           </div>
         </div>
       </div>
@@ -1151,33 +1150,31 @@
     </div>
 
     <!-- Danh sách tin nhắn -->
-    <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 bg-black/70 max-h-[46vh] sm:max-h-[360px]">
+    <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 bg-black/75 max-h-[46vh] sm:max-h-[350px]">
       <div class="flex items-start gap-2.5">
-        <div class="w-7 h-7 rounded-lg bg-amber-500 text-black flex items-center justify-center font-black text-xs shrink-0 mt-0.5">
-          6
-        </div>
-        <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl rounded-tl-sm p-3 text-xs sm:text-[13px] text-gray-100 leading-relaxed space-y-1.5 shadow">
-          <div class="font-extrabold text-amber-300">Dạ Xưởng Thép Siêu Cứng Ông 6 nghe ạ! 👋</div>
-          <p>Anh đang tìm thép làm <b>Lưỡi Câu</b>, làm <b>Chĩa Xiên Cá</b> hay <b>Phôi Đế Cựa Gà</b>? Anh bấm nút gợi ý bên dưới hoặc nhắn câu hỏi, em tư vấn đúng cỡ ly và báo giá tận lò ngay cho anh nhé!</p>
+        <img src="assets/ong6_avatar.jpg" alt="Ông 6" class="w-9 h-9 rounded-full object-cover border-2 border-amber-400 shrink-0 mt-0.5">
+        <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl rounded-tl-sm p-3 text-xs sm:text-sm text-gray-100 leading-relaxed space-y-1 shadow">
+          <div class="font-black text-amber-300">Ông 6 chào anh em mình nghen! 👋</div>
+          <p>Anh em cần mua cỡ mấy ly làm <b>Lưỡi Câu</b>, <b>Chĩa Xiên</b> hay <b>Cựa Gà</b> cứ nhắn (ví dụ: <i>"mua thép 2ly lưỡi câu"</i>), Ông 6 bật sẵn đúng mục đó cho mình chọn liền tay!</p>
         </div>
       </div>
     </div>
 
-    <!-- Nút bấm hỏi nhanh 1 chạm cho khách trung niên -->
-    <div class="bg-zinc-900/90 border-t border-white/10 px-3 py-2 shrink-0">
-      <div class="text-[10px] text-amber-300 font-bold mb-1.5">👇 Bấm hỏi nhanh (không cần gõ phím):</div>
+    <!-- Nút bấm nhanh 1 chạm (Bấm là nhảy ra đúng mục mua luôn) -->
+    <div class="bg-zinc-900/95 border-t border-white/10 px-3 py-2 shrink-0">
+      <div class="text-[11px] text-amber-300 font-extrabold mb-1.5">👇 Bấm chọn nhanh (Ông 6 mở sẵn bảng mua liền):</div>
       <div class="flex flex-wrap gap-1.5">
-        <button onclick="sendAiQuickQuestion('Tôi muốn mua thép làm lưỡi câu cá lóc và cá lớn thì nên chọn mấy ly?')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-200 hover:text-black text-[11px] font-bold border border-amber-500/30 transition-all">
-          🐟 Chọn thép Lưỡi Câu
+        <button onclick="sendAiQuickQuestion('Mua thép 2ly lưỡi câu')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-100 hover:text-black text-xs font-extrabold border border-amber-500/40 transition-all">
+          🐟 Mua thép 2ly lưỡi câu
         </button>
-        <button onclick="sendAiQuickQuestion('Tư vấn cho tôi cỡ thép làm chĩa xiên cá, tên bắn cá siêu cứng')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-200 hover:text-black text-[11px] font-bold border border-amber-500/30 transition-all">
-          🔱 Chọn thép Chĩa Xiên
+        <button onclick="sendAiQuickQuestion('Mua thép 3ly làm chĩa xiên cá')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-100 hover:text-black text-xs font-extrabold border border-amber-500/40 transition-all">
+          🔱 Mua thép 3ly làm chĩa
         </button>
-        <button onclick="sendAiQuickQuestion('Tư vấn các mẫu phôi đế cựa gà tre và gà nòi của xưởng Ông 6')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-200 hover:text-black text-[11px] font-bold border border-amber-500/30 transition-all">
-          🐓 Chọn Phôi Cựa Gà
+        <button onclick="sendAiQuickQuestion('Mua đế cựa gà 2ly8 Huyết Long')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-100 hover:text-black text-xs font-extrabold border border-amber-500/40 transition-all">
+          🐓 Đế Cựa 2ly8 Huyết Long
         </button>
-        <button onclick="sendAiQuickQuestion('Mua bao nhiêu tiền thì được xưởng Ông 6 miễn phí ship?')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-200 hover:text-black text-[11px] font-bold border border-amber-500/30 transition-all">
-          🚚 Hỏi Miễn Phí Ship
+        <button onclick="sendAiQuickQuestion('Mua bao nhiêu được Ông 6 bao ship?')" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-amber-500 text-gray-100 hover:text-black text-xs font-extrabold border border-amber-500/40 transition-all">
+          🚚 Hỏi Bao Ship
         </button>
       </div>
     </div>
@@ -1187,7 +1184,7 @@
       <input 
         type="text" 
         id="ai-chat-input" 
-        placeholder="Nhập câu hỏi (VD: thép 3ly giá sao, cựa gà 2ly8...)" 
+        placeholder="Nhắn Ông 6 (VD: mua thép 2ly lưỡi câu, thép 3ly5...)" 
         class="flex-1 p-2.5 rounded-xl bg-zinc-900 border border-white/20 text-xs sm:text-sm text-white placeholder-gray-400 focus:outline-none focus:border-amber-400"
         onkeyup="if(event.key === 'Enter') sendAiChatMessage()"
       >
@@ -2638,13 +2635,13 @@
       try {
         const res = await fetch("http://127.0.0.1:5050/api/status", { method: "GET" });
         if (res.ok) {
-          badge.innerHTML = `<i class="fa-solid fa-bolt text-[9px]"></i> <span>Đang chạy trực tiếp trên Antigravity AI (Cổng 5050)</span>`;
-          badge.className = "text-[10px] text-green-400 font-bold flex items-center gap-1";
+          badge.innerHTML = `<i class="fa-solid fa-bolt text-[9px]"></i> <span>Đang trực tiếp tại lò Ông 6 (Antigravity)</span>`;
+          badge.className = "text-[11px] text-green-400 font-bold flex items-center gap-1";
           return true;
         }
       } catch (e) {}
-      badge.innerHTML = `<i class="fa-solid fa-cloud text-[9px]"></i> <span>Đang chạy Gemini AI Trực Tuyến 24/7</span>`;
-      badge.className = "text-[10px] text-amber-300 font-bold flex items-center gap-1";
+      badge.innerHTML = `<i class="fa-solid fa-circle-check text-[9px]"></i> <span>Tư vấn ngắn gọn • Tự mở đúng cỡ thép</span>`;
+      badge.className = "text-[11px] text-amber-300 font-bold flex items-center gap-1";
       return false;
     }
 
@@ -2670,36 +2667,80 @@
       sendAiChatMessage();
     }
 
+    // Trích xuất chính xác cỡ ly (VD: "2ly" không bị nhầm với "2ly6" hay "2ly8")
+    function extractExactSizes(str) {
+      const s = (str || "").toLowerCase();
+      const found = [];
+      const re = /(?:^|[^0-9a-z])([1234])\s*(?:ly|li|\.)\s*([0-9])?(?![0-9])/gi;
+      let m;
+      while ((m = re.exec(s)) !== null) {
+        const d1 = m[1];
+        const d2 = m[2] || "";
+        found.push(d2 ? `${d1}ly${d2}` : `${d1}ly`);
+      }
+      return [...new Set(found)];
+    }
+
     function findMatchingProductsForChat(queryText, replyText) {
-      const combined = (queryText + " " + replyText).toLowerCase();
+      const qLower = (queryText || "").toLowerCase();
+      const combined = (queryText + " " + (replyText || "")).toLowerCase();
+      const userSizes = extractExactSizes(qLower);
+      const allSizes = userSizes.length > 0 ? userSizes : extractExactSizes(combined);
+
+      const wantCau = qLower.includes("lưỡi") || qLower.includes("câu");
+      const wantChia = qLower.includes("chĩa") || qLower.includes("chỉa") || qLower.includes("xiên") || qLower.includes("bắn cá");
+      const wantCua = qLower.includes("cựa") || qLower.includes("gà") || qLower.includes("đế");
+
       const scored = PRODUCTS.map(p => {
         let score = 0;
         const t = p.title.toLowerCase();
-        if (combined.includes("lưỡi câu") || combined.includes("câu cá")) {
-          if (p.category === "cau_ca") score += 4;
+        const prodSizes = extractExactSizes(t);
+
+        // Khớp danh mục khách đang hỏi
+        if (wantCau && p.category === "cau_ca") score += 10;
+        if (wantChia && p.category === "chia") score += 10;
+        if (wantCua && p.category === "cua_ga") score += 10;
+
+        if (!wantCau && !wantChia && !wantCua) {
+          if ((combined.includes("lưỡi") || combined.includes("câu")) && p.category === "cau_ca") score += 4;
+          if ((combined.includes("chĩa") || combined.includes("xiên")) && p.category === "chia") score += 4;
+          if ((combined.includes("cựa") || combined.includes("gà")) && p.category === "cua_ga") score += 4;
         }
-        if (combined.includes("chĩa") || combined.includes("xiên") || combined.includes("bắn cá")) {
-          if (p.category === "chia") score += 4;
-        }
-        if (combined.includes("cựa") || combined.includes("gà")) {
-          if (p.category === "cua_ga") score += 4;
-        }
-        const sizes = ["1ly5", "1ly6", "1ly8", "2ly2", "2ly4", "2ly6", "2ly8", "3ly2", "3ly5", "4ly", "2ly", "3ly"];
-        for (const sz of sizes) {
-          if (combined.includes(sz) && t.replace(/\s+/g, "").includes(sz)) {
-            score += 6;
+
+        // Khớp chính xác cỡ ly (2ly != 2ly6)
+        for (const sz of allSizes) {
+          if (prodSizes.includes(sz)) {
+            score += 18;
           }
         }
-        const names = ["huyết long", "mãnh hổ", "cựa rồng", "bạo chúa", "cựa báo", "hùng sư", "diều hâu", "cựa ưng"];
+
+        // Khớp tên riêng bộ cựa gà
+        const names = ["huyết long", "mãnh hổ", "đế rồng", "cựa rồng", "bạo chúa", "cựa báo", "hùng sư", "diều hâu", "cựa ưng"];
         for (const nm of names) {
           if (combined.includes(nm) && t.includes(nm)) {
-            score += 10;
+            score += 25;
           }
         }
-        return { prod: p, score };
-      }).filter(x => x.score >= 4).sort((a, b) => b.score - a.score);
+        return { prod: p, score, exactSize: allSizes[0] || null };
+      }).filter(x => x.score >= 8).sort((a, b) => b.score - a.score);
 
-      return scored.slice(0, 2).map(x => x.prod);
+      return scored.slice(0, 2);
+    }
+
+    function autoOpenProductWithSize(prod, exactSize) {
+      openProductModal(prod);
+      // Nếu sản phẩm có các nút chọn cỡ ở tầng 1 (ví dụ Phôi làm đế 2Ly-4Ly), tự bấm vào đúng cỡ khách nói
+      if (exactSize) {
+        setTimeout(() => {
+          const t1Btns = document.querySelectorAll("#tier1-btns button");
+          t1Btns.forEach(btn => {
+            const bSizes = extractExactSizes(btn.innerText);
+            if (bSizes.includes(exactSize)) {
+              btn.click();
+            }
+          });
+        }, 120);
+      }
     }
 
     function formatAiTextToHtml(rawText) {
@@ -2718,31 +2759,31 @@
     async function callDirectGeminiFallback(userMessage) {
       const NL = String.fromCharCode(10);
       const catalogLines = PRODUCTS.map(p =>
-        `- [${p.id}] ${p.title} | Giá tại xưởng: ${p.priceDirect.toLocaleString('vi-VN')}đ (Giá Shopee: ${p.priceShopee.toLocaleString('vi-VN')}đ)`
+        `- [${p.id}] ${p.title} | Giá tại lò: ${p.priceDirect.toLocaleString('vi-VN')}đ`
       ).join(NL);
 
       const sysPrompt = [
-        "Bạn là Trợ Lý AI chính thức của XƯỞNG THÉP SIÊU CỨNG ÔNG 6 (Chợ Thép Nghề Miền Tây - 30 năm kéo thép cáp tàu biển Nhật bãi). Hotline/Zalo: 0934.376.614.",
-        "Xưng 'em' hoặc 'Xưởng Ông 6', gọi khách là 'anh'. Trả lời NGẮN GỌN (3-4 câu), chữ dễ đọc cho khách trung niên, tư vấn đúng cỡ ly và báo giá.",
-        "- Lưỡi câu cá: 1ly5, 1ly6, 1ly8 (cá nhỏ/vừa); 2ly, 2ly2 (cá lóc lớn 2-5kg); 2ly6 (cá lớn, câu biển).",
-        "- Chĩa xiên cá / bắn cá: 2ly8, 3ly (chĩa cá lóc, ếch); 3ly2, 3ly5, 4ly (chĩa đại, tên bắn cá). Dài 50cm, 1m, 1m2, 1m5, 2m.",
-        "- Phôi Đế Cựa Gà: Gà tre dùng 2Ly (Cựa Ưng), 2Ly2 (Diều Hâu), 2Ly4 (Cựa Báo). Gà nòi dùng 2Ly6 (Cựa Rồng), 2Ly8 (Đế Huyết Long), 3Ly (Mãnh Hổ), 3Ly2 (Hùng Sư), 3Ly5 (Bạo Chúa).",
-        "- Vận chuyển: Đơn từ 150.000đ (hoặc bấm Thêm Vào Giỏ gộp đủ 150.000đ) được MIỄN PHÍ SHIP 100% toàn quốc. Đơn dưới 150k phí ship COD 25k.",
-        "DANH SÁCH 26 SẢN PHẨM:",
+        "Bạn chính là ÔNG 6 (Thợ rèn già 30 năm ở Chợ Thép Nghề Miền Tây). Zalo: 0934.376.614.",
+        "Xưng là 'Ông 6', gọi khách là 'mình' hoặc 'anh em'.",
+        "CHỈ TRẢ LỜI 1 ĐẾN 2 CÂU NGẮN GỌN (tối đa 35 chữ), mộc mạc, dân dã đậm chất Miền Tây ('nghen', 'hết sẩy', 'bao cứng', 'tận lò'). Không nói dài dòng!",
+        "- Lưỡi câu: 1ly6-1ly8 (cá nhỏ/vừa), 2ly-2ly2 (cá lóc lớn), 2ly4-2ly6 (cá bự/câu biển), giá 25.000đ/bó cắt sẵn 14cm, 20cm.",
+        "- Chĩa xiên: 2ly8-3ly (34.000đ), chĩa đại 3ly2-3ly5-4ly (34.000đ-43.000đ).",
+        "- Đế cựa gà: gà tre 2ly-2ly4 (Cựa Ưng, Diều Hâu, Cựa Báo), gà nòi 2ly6-3ly5 (Đế Rồng, Huyết Long 2ly8, Mãnh Hổ 3ly, Hùng Sư 3ly2, Bạo Chúa 3ly5).",
+        "- Ship: Gom giỏ đủ 150.000đ là Ông 6 bao ship tận nhà luôn nghen!",
+        "DANH SÁCH 26 MÓN:",
         catalogLines
       ].join(NL);
 
-      const histLines = aiChatHistory.slice(-4).map(h =>
-        `${h.role === "user" ? "Khách" : "AI Ông 6"}: ${h.text}`
+      const histLines = aiChatHistory.slice(-3).map(h =>
+        `${h.role === "user" ? "Khách" : "Ông 6"}: ${h.text}`
       ).join(NL);
 
       const fullPrompt = [
         sysPrompt,
         "",
-        "LỊCH SỬ GẦN ĐÂY:",
         histLines,
-        `KHÁCH VỪA HỎI: "${userMessage}"`,
-        "Hãy trả lời khách ngắn gọn (3-4 câu), đúng giá tận xưởng trong danh sách trên:"
+        `Khách hỏi: "${userMessage}"`,
+        "Ông 6 trả lời (chỉ 1-2 câu ngắn gọn dưới 35 chữ, giọng Miền Tây, báo đúng cỡ và giá):"
       ].join(NL);
 
       const models = ["gemini-3.1-flash-lite", "gemini-3-flash-preview"];
@@ -2755,7 +2796,7 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
-              generationConfig: { temperature: 0.35, maxOutputTokens: 1200 }
+              generationConfig: { temperature: 0.35, maxOutputTokens: 1000 }
             })
           });
           if (r.ok) {
@@ -2766,7 +2807,7 @@
           }
         } catch (e) {}
       }
-      return "Dạ anh cần tư vấn cỡ thép làm Lưỡi Câu (1ly5 - 2ly6), Chĩa Xiên (2ly8 - 4ly) hay Phôi Cựa Gà (2ly - 3ly5) ạ? Đơn gộp giỏ từ 150.000đ được Xưởng Ông 6 Bao Ship 100% tận nhà, hoặc anh nhắn Zalo 0934.376.614 để Ông 6 tư vấn liền nhé!";
+      return "Cỡ này tại lò Ông 6 có sẵn hàng cáp tàu bao cứng luôn nghen! Gom giỏ đủ 150k Ông 6 bao ship tận nhà, mình chọn gói bên dưới nghen!";
     }
 
     async function sendAiChatMessage() {
@@ -2784,27 +2825,27 @@
       const userDiv = document.createElement("div");
       userDiv.className = "flex justify-end";
       userDiv.innerHTML = `
-        <div class="bg-amber-500 text-black font-bold rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-xs sm:text-[13px] max-w-[85%] shadow">
+        <div class="bg-amber-500 text-black font-bold rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-xs sm:text-sm max-w-[85%] shadow">
           ${formatAiTextToHtml(userText)}
         </div>
       `;
       msgBox.appendChild(userDiv);
       msgBox.scrollTop = msgBox.scrollHeight;
 
-      // Render trạng thái đang trả lời
+      // Render trạng thái Ông 6 đang trả lời
       const typingDiv = document.createElement("div");
       typingDiv.className = "flex items-start gap-2.5";
       typingDiv.innerHTML = `
-        <div class="w-7 h-7 rounded-lg bg-amber-500 text-black flex items-center justify-center font-black text-xs shrink-0 mt-0.5">6</div>
-        <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-xs text-amber-300 font-semibold flex items-center gap-2">
-          <i class="fa-solid fa-spinner fa-spin"></i> <span>AI Ông 6 đang tra cứu kho thép...</span>
+        <img src="assets/ong6_avatar.jpg" alt="Ông 6" class="w-9 h-9 rounded-full object-cover border-2 border-amber-400 shrink-0 mt-0.5">
+        <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-xs text-amber-300 font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-spinner fa-spin"></i> <span>Ông 6 đang lấy đúng cỡ thép cho mình...</span>
         </div>
       `;
       msgBox.appendChild(typingDiv);
       msgBox.scrollTop = msgBox.scrollHeight;
 
       let replyText = "";
-      // 1. Ưu tiên gọi trực tiếp Antigravity AI Server (cổng 5050 trên máy tính)
+      // 1. Ưu tiên gọi trực tiếp Antigravity AI Server (cổng 5050)
       try {
         const localRes = await fetch("http://127.0.0.1:5050/api/chat", {
           method: "POST",
@@ -2819,7 +2860,7 @@
         }
       } catch (e) {}
 
-      // 2. Nếu khách truy cập từ xa trên mạng Internet thì gọi Gemini Cloud trực tiếp
+      // 2. Dự phòng gọi Gemini Cloud miễn phí 24/7
       if (!replyText) {
         replyText = await callDirectGeminiFallback(userText);
       }
@@ -2827,34 +2868,49 @@
       aiChatHistory.push({ role: "user", text: userText });
       aiChatHistory.push({ role: "model", text: replyText });
 
-      // Tìm sản phẩm phù hợp để gắn nút bấm mua ngay trong khung chat
-      const matchedProds = findMatchingProductsForChat(userText, replyText);
+      // Tìm sản phẩm khớp chính xác
+      const matchedItems = findMatchingProductsForChat(userText, replyText);
       let cardsHtml = "";
-      if (matchedProds.length > 0) {
+      if (matchedItems.length > 0) {
         cardsHtml = `<div class="pt-2 mt-2 border-t border-white/10 space-y-2">` +
-          `<div class="text-[11px] text-amber-300 font-extrabold">👇 Bấm vào sản phẩm bên dưới để chọn cỡ & mua ngay:</div>` +
-          matchedProds.map(p => `
-            <div onclick="openProductModal('${p.id}'); toggleAiChat(false);" class="flex items-center gap-2.5 bg-black/80 hover:bg-zinc-800 p-2 rounded-xl border border-amber-500/40 cursor-pointer transition-all group">
-              <img src="${getProductImage(p)}" class="w-12 h-12 rounded-lg object-cover border border-amber-400/50 shrink-0">
-              <div class="flex-1 min-w-0">
-                <div class="text-xs font-extrabold text-white group-hover:text-amber-300 truncate">${p.title}</div>
-                <div class="text-xs font-black text-amber-400 mt-0.5">${p.priceDirect.toLocaleString('vi-VN')} đ <span class="text-[10px] text-gray-400 font-normal line-through">${p.priceShopee.toLocaleString('vi-VN')}đ</span></div>
+          `<div class="text-[11px] text-amber-300 font-extrabold">👇 Bấm vào đây để mở bảng chọn cỡ & mua liền:</div>` +
+          matchedItems.map(item => {
+            const p = item.prod;
+            return `
+              <div onclick="autoOpenProductWithSize(PRODUCTS.find(x => x.id === '${p.id}'), '${item.exactSize || ''}'); toggleAiChat(false);" class="flex items-center gap-2.5 bg-black/80 hover:bg-zinc-800 p-2 rounded-xl border border-amber-500/50 cursor-pointer transition-all group">
+                <img src="${getProductImage(p)}" class="w-12 h-12 rounded-lg object-cover border border-amber-400/50 shrink-0">
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs font-extrabold text-white group-hover:text-amber-300 truncate">${p.title}</div>
+                  <div class="text-xs font-black text-amber-400 mt-0.5">${p.priceDirect.toLocaleString('vi-VN')} đ <span class="text-[10px] text-gray-400 font-normal line-through">${p.priceShopee.toLocaleString('vi-VN')}đ</span></div>
+                </div>
+                <span class="bg-amber-500 text-black text-[11px] font-black px-2.5 py-1.5 rounded-lg shrink-0">Mở Mua &rarr;</span>
               </div>
-              <span class="bg-amber-500 text-black text-[10px] font-black px-2 py-1.5 rounded-lg shrink-0">Xem Cỡ &rarr;</span>
-            </div>
-          `).join("") +
+            `;
+          }).join("") +
         `</div>`;
       }
 
       typingDiv.innerHTML = `
-        <div class="w-7 h-7 rounded-lg bg-amber-500 text-black flex items-center justify-center font-black text-xs shrink-0 mt-0.5">6</div>
-        <div class="bg-zinc-900 border border-amber-500/30 rounded-2xl rounded-tl-sm p-3 text-xs sm:text-[13px] text-gray-100 leading-relaxed max-w-[88%] shadow space-y-1.5">
+        <img src="assets/ong6_avatar.jpg" alt="Ông 6" class="w-9 h-9 rounded-full object-cover border-2 border-amber-400 shrink-0 mt-0.5">
+        <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl rounded-tl-sm p-3 text-xs sm:text-sm text-gray-100 leading-relaxed max-w-[88%] shadow space-y-1.5">
           <div>${formatAiTextToHtml(replyText)}</div>
           ${cardsHtml}
         </div>
       `;
       msgBox.scrollTop = msgBox.scrollHeight;
       isAiBusy = false;
+
+      // Tự động nhảy bật ra bảng mua hàng nếu khách nói rõ cỡ thép hoặc nói muốn mua/lấy/xem
+      const uLow = userText.toLowerCase();
+      const userSpecifiedSize = extractExactSizes(uLow).length > 0;
+      const userWantsToBuy = /mua|lấy|đặt|chốt|xem|cho tôi|cho anh|lựa/.test(uLow);
+      if (matchedItems.length > 0 && (userSpecifiedSize || userWantsToBuy)) {
+        const topMatch = matchedItems[0];
+        setTimeout(() => {
+          autoOpenProductWithSize(topMatch.prod, topMatch.exactSize);
+          showToast(`👴 Ông 6 đã mở sẵn mục "${topMatch.prod.title.slice(0, 42)}..." cho mình chọn mua nghen!`, "success");
+        }, 900);
+      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
