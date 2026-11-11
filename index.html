@@ -648,14 +648,6 @@
       text-decoration: line-through;
       margin-left: 6px;
     }
-    .detail-save-tag {
-      background: var(--green-soft);
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
-    }
     .detail-ship-note {
       background: #F8FAFC;
       border: 1px solid var(--border);
@@ -1654,7 +1646,6 @@
               <span class="detail-price">${fmtVnd(lineWeb)}</span>
               <span class="detail-old">${fmtVnd(lineSan)}</span>
             </div>
-            ${saveAmt > 0 ? `<span class="detail-save-tag">Tiết kiệm ${fmtVnd(saveAmt)}</span>` : ''}
           </div>
 
           ${tierHtml}
@@ -1879,7 +1870,6 @@
 
         <div class="summary-box">
           <div class="sum-row"><span>Tiền thép:</span><strong>${fmtVnd(subTotal)}</strong></div>
-          ${savedVsSan > 0 ? `<div class="sum-row"><span>Tiết kiệm hơn trên sàn:</span><strong style="color:var(--green)">-${fmtVnd(savedVsSan)}</strong></div>` : ''}
           <div class="sum-row"><span>Phí vận chuyển:</span><strong style="color:var(--green)">0đ (Bao Ship)</strong></div>
           <div class="sum-row total"><span>Thanh toán khi nhận hàng (COD):</span><span>${fmtVnd(subTotal)}</span></div>
         </div>
