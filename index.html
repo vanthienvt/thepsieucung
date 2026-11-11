@@ -1575,36 +1575,25 @@
       const shipFee = isFreeShip ? 0 : SMALL_SHIP_FEE;
       const estCod = lineWeb + (cartTotal > 0 ? 0 : shipFee);
 
-      const needForFree = Math.max(0, FREESHIP_THRESHOLD - cartTotal);
-      const suggestQty = unitWeb > 0 ? Math.ceil(needForFree / unitWeb) : 0;
-      const upsellBtnHtml = (!isFreeShip && suggestQty > modalQty && suggestQty <= 5)
-        ? `<br/><button type="button" class="upsell-qty-btn" onclick="setModalQty(${suggestQty})">✨ Bấm lấy ${suggestQty} gói (${fmtVnd(unitWeb * suggestQty)}) → ĐƯỢC BAO SHIP 0đ!</button>`
-        : '';
-
       const shipNoteHtml = isFreeShip
-        ? `<div class="detail-ship-note free">✅ <strong>Đơn từ 100.000đ — ĐƯỢC BAO SHIP 0đ TẬN NHÀ!</strong></div>`
-        : `<div class="detail-ship-note" style="background:#FFFBEB;border-color:#FDE68A;color:#92400E;">
-            🚚 <strong>Phụ phí vận chuyển: 15.000đ</strong><br/>
-            💡 <strong>Mua trên 100.000đ được BAO SHIP 0đ!</strong> (Thêm ${fmtVnd(FREESHIP_THRESHOLD - combined)} nữa là miễn ship)${upsellBtnHtml}
+        ? `<div class="detail-ship-note free" style="text-align:center;">✅ <strong>Đơn từ 100k — ĐƯỢC BAO SHIP 0đ!</strong></div>`
+        : `<div class="detail-ship-note" style="background:#FFFBEB;border-color:#FDE68A;color:#92400E;text-align:center;font-weight:700;">
+            🚚 Đơn từ <strong>100.000đ BAO SHIP</strong> tận nhà!
           </div>`;
 
       const actionButtonsHtml = `
         <div>
-          <button class="btn-buy-now" onclick="addCurrentToCart(true)">
-            👉 MUA LUÔN — ĐIỀN ĐỊA CHỈ (${isFreeShip ? fmtVnd(lineWeb) + ' • BAO SHIP' : 'Tổng ' + fmtVnd(estCod)})
+          <button class="btn-buy-now" onclick="addCurrentToCart(true)" style="line-height:1.3;">
+            👉 MUA LUÔN (${isFreeShip ? 'BAO SHIP 0đ' : '+15k phụ ship'})<br/>
+            <span style="font-size:12.5px;font-weight:600;opacity:0.95;">Tổng thanh toán: ${fmtVnd(estCod)}</span>
           </button>
           <button class="btn-add-cart" onclick="addCurrentToCart(false)">
-            🛒 + Chọn thêm cỡ thép khác (Mua trên 100k Bao Ship)
+            🛒 + Thêm vào giỏ
           </button>
           ${!isFreeShip ? `
-            <div style="margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);">
-              <div style="font-size:12px;color:var(--muted);margin-bottom:6px;text-align:center;">
-                Hoặc nếu có sẵn mã giảm giá trên sàn, bấm mua lẻ qua:
-              </div>
-              <div class="platform-bounce-grid" style="margin-bottom:0;">
-                <a href="${p.tiktokUrl}" target="_blank" rel="noopener" class="btn-tiktok" style="padding:9px 8px;font-size:12.5px;">🎵 TikTok Shop</a>
-                <a href="${p.shopeeUrl}" target="_blank" rel="noopener" class="btn-shopee" style="padding:9px 8px;font-size:12.5px;">🟠 Shopee</a>
-              </div>
+            <div class="platform-bounce-grid" style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);margin-bottom:0;">
+              <a href="${p.tiktokUrl}" target="_blank" rel="noopener" class="btn-tiktok" style="padding:9px 8px;font-size:12.5px;">🎵 Mua trên TikTok</a>
+              <a href="${p.shopeeUrl}" target="_blank" rel="noopener" class="btn-shopee" style="padding:9px 8px;font-size:12.5px;">🟠 Mua trên Shopee</a>
             </div>
           ` : ''}
         </div>
@@ -1691,13 +1680,10 @@
           ${shipNoteHtml}
           ${actionButtonsHtml}
 
-          <div class="custom-cut-help">
-            <div>Cần cắt chiều dài riêng hoặc đặt nhanh (Zalo / SMS / Gọi điện):</div>
-            <div class="custom-cut-pills">
-              <a href="https://zalo.me/0934376614" target="_blank" rel="noopener" style="background:#E0F2FE;color:#0369A1;">💬 Zalo</a>
-              <a href="${buildSmsHref('Đặt mua Thép Siêu Cứng: ' + p.title.slice(0, 38) + ' (' + v.name + ' x' + modalQty + ' = ' + fmtVnd(lineWeb) + '). Địa chỉ nhận: ')}" style="background:#DCFCE7;color:#15803D;">📩 Nhắn SMS</a>
-              <a href="tel:0934376614" style="background:#FFEDD5;color:#9A3412;">📞 Gọi Xưởng</a>
-            </div>
+          <div class="custom-cut-pills" style="margin-top:10px;">
+            <a href="https://zalo.me/0934376614" target="_blank" rel="noopener" style="background:#E0F2FE;color:#0369A1;">💬 Zalo</a>
+            <a href="${buildSmsHref('Đặt mua Thép Siêu Cứng: ' + p.title.slice(0, 38) + ' (' + v.name + ' x' + modalQty + ' = ' + fmtVnd(lineWeb) + '). Địa chỉ nhận: ')}" style="background:#DCFCE7;color:#15803D;">📩 Nhắn SMS</a>
+            <a href="tel:0934376614" style="background:#FFEDD5;color:#9A3412;">📞 Gọi Xưởng</a>
           </div>
 
           ${Array.isArray(p.reviews) && p.reviews.length ? `
@@ -1853,13 +1839,6 @@
         </div>
       `).join('');
 
-      const shipBannerHtml = isFreeShip
-        ? `<div class="ship-progress-box">✅ <strong>Đơn từ 100.000đ — ĐƯỢC BAO SHIP 0đ TẬN NHÀ!</strong></div>`
-        : `<div class="ship-progress-box warn">
-            🚚 Đơn nhỏ phụ phí vận chuyển <strong>15.000đ</strong>.<br/>
-            💡 <strong>Mua trên 100.000đ được BAO SHIP 0đ!</strong> (Thiếu <strong>${fmtVnd(diffFree)}</strong> nữa — bấm <strong>+</strong> tăng số lượng hoặc <button type="button" onclick="closeCart()" style="border:none;background:none;color:var(--brand);font-weight:800;text-decoration:underline;cursor:pointer;padding:0;font-size:13px;">chọn thêm món khác</button> nếu muốn miễn ship)
-          </div>`;
-
       const shipTextSms = isFreeShip ? '0đ (Bao Ship)' : '15.000đ';
       const quickSmsDraft = buildSmsHref(
         'ĐẶT THÉP SIÊU CỨNG:\n' +
@@ -1868,30 +1847,18 @@
       );
 
       box.innerHTML = `
-        ${shipBannerHtml}
-
         <div>${itemsListHtml}</div>
 
         <div class="summary-box">
           <div class="sum-row"><span>Tiền thép:</span><strong>${fmtVnd(subTotal)}</strong></div>
           <div class="sum-row">
-            <span>Phí vận chuyển:</span>
+            <span>Phụ ship <span style="color:var(--light);font-size:12px;">(Trên 100k Bao Ship)</span>:</span>
             ${isFreeShip
               ? `<strong style="color:var(--green)">0đ (Bao Ship)</strong>`
-              : `<strong style="color:#B45309;">+15.000đ <span style="font-weight:600;font-size:12px;">(Trên 100k Bao Ship)</span></strong>`
+              : `<strong style="color:#B45309;">+15.000đ</strong>`
             }
           </div>
-          <div class="sum-row total"><span>Tổng trả khi nhận hàng (COD):</span><span>${fmtVnd(grandTotal)}</span></div>
-        </div>
-
-        <div style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:10px;padding:10px 11px;margin-bottom:12px;">
-          <div style="font-size:12.5px;font-weight:700;color:#9A3412;margin-bottom:7px;">
-            👴 Chú / Anh ngại gõ chữ nhiều có thể bấm đặt nhanh luôn:
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <a href="tel:0934376614" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 8px;border-radius:8px;background:#15803D;color:#FFF;text-decoration:none;font-size:13px;font-weight:800;text-align:center;">📞 Gọi Đọc Địa Chỉ</a>
-            <a href="${quickSmsDraft}" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 8px;border-radius:8px;background:#0369A1;color:#FFF;text-decoration:none;font-size:13px;font-weight:800;text-align:center;">📩 Nhắn SMS Soạn Sẵn</a>
-          </div>
+          <div class="sum-row total"><span>Tổng trả khi nhận hàng:</span><span>${fmtVnd(grandTotal)}</span></div>
         </div>
 
         <div class="form-group">
@@ -1899,23 +1866,21 @@
           <input type="text" id="custName" value="${savedName.replace(/"/g, '&quot;')}" placeholder="Ví dụ: Chú Tư / Anh Minh" />
         </div>
         <div class="form-group">
-          <label>2. Số điện thoại nhận hàng *</label>
+          <label>2. Số điện thoại *</label>
           <input type="tel" id="custPhone" value="${savedPhone.replace(/"/g, '&quot;')}" placeholder="Nhập số điện thoại 10 số..." />
         </div>
         <div class="form-group">
-          <label>3. Địa chỉ giao hàng (Ấp/Khóm, Xã, Huyện, Tỉnh) *</label>
-          <textarea id="custAddr" rows="2" placeholder="Ví dụ: Ấp 3, Xã Phú Kiết, Chợ Gạo, Tiền Giang">${savedAddr}</textarea>
-        </div>
-        <div class="form-group">
-          <label>Ghi chú (không bắt buộc)</label>
-          <input type="text" id="custNote" placeholder="Ví dụ: Cắt lẻ 85cm / Giao buổi sáng..." />
+          <label>3. Địa chỉ nhận hàng *</label>
+          <textarea id="custAddr" rows="2" placeholder="Ấp, Xã, Huyện, Tỉnh...">${savedAddr}</textarea>
         </div>
 
         <button class="btn-submit-order" onclick="submitDirectOrder()">
-          ✅ HOÀN TẤT ĐẶT HÀNG (Tổng: ${fmtVnd(grandTotal)})
+          ✅ ĐẶT HÀNG NGAY (${fmtVnd(grandTotal)})
         </button>
-        <div style="text-align:center;font-size:12.5px;color:var(--muted);margin-top:8px;">
-          Nhận hàng mở ra kiểm tra đúng chất thép mới thanh toán.
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+          <a href="tel:0934376614" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 8px;border-radius:8px;background:#ECFDF5;border:1px solid #A7F3D0;color:#15803D;text-decoration:none;font-size:12.5px;font-weight:800;">📞 Gọi đặt nhanh</a>
+          <a href="${quickSmsDraft}" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 8px;border-radius:8px;background:#E0F2FE;border:1px solid #BAE6FD;color:#0369A1;text-decoration:none;font-size:12.5px;font-weight:800;">📩 Nhắn SMS nhanh</a>
         </div>
       `;
     }
@@ -1925,7 +1890,8 @@
       const rawPhone = (document.getElementById('custPhone').value || '').trim();
       const phone = rawPhone.replace(/[^0-9+]/g, '');
       const addr = (document.getElementById('custAddr').value || '').trim();
-      const note = (document.getElementById('custNote').value || '').trim();
+      const noteEl = document.getElementById('custNote');
+      const note = noteEl ? (noteEl.value || '').trim() : '';
       if (!name || phone.length < 9 || addr.length < 6) {
         alert('Chú / Anh vui lòng điền đủ Họ tên, Số điện thoại (10 số) và Địa chỉ nhận hàng nghen!');
         return;
