@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /in-the/
 
 Sitemap: https://thepsieucung.com/sitemap.xml
