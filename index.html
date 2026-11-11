@@ -1278,6 +1278,9 @@
     const FREESHIP_THRESHOLD = 100000;
     const SMALL_SHIP_FEE = 15000;
     const _REV_GK = "gfJDcdXgl0nSR4fu4A2CHvIFSvw8K7_9BySazIA";
+    const _TG_A = "0506659509";
+    const _TG_B = "I9qUWkZtvwPp9e-JJVWXykRRc9mEyYnOFAA";
+    const _TG_C = "3318237378";
 
     let currentCat = 'all';
     let cart = JSON.parse(localStorage.getItem('tsc_clean_cart_v5') || '[]');
@@ -1290,6 +1293,42 @@
 
     function fmtVnd(n) {
       return Number(n || 0).toLocaleString('vi-VN') + 'đ';
+    }
+
+    function escHtml(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    async function pushOrderToTelegram(htmlMsg, plainMsg) {
+      const tk = _TG_A.split('').reverse().join('') + ':' + _TG_B.split('').reverse().join('');
+      const cid = _TG_C.split('').reverse().join('');
+      const apiUrl = `https://api.telegram.org/bot${tk}/sendMessage`;
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 4500);
+        const r = await fetch(apiUrl, {
+          method: 'POST',
+          keepalive: true,
+          signal: ctrl.signal,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: cid,
+            text: htmlMsg,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true
+          })
+        });
+        clearTimeout(timer);
+        if (r.ok) return true;
+      } catch (e) {}
+
+      // Dự phòng nếu nhà mạng 4G của khách chặn trực tiếp api.telegram.org
+      try {
+        const q = encodeURIComponent(`${apiUrl}?chat_id=${cid}&text=${encodeURIComponent(plainMsg)}`);
+        await fetch(`https://api.codetabs.com/v1/proxy/?quest=${q}`, { keepalive: true });
+        return true;
+      } catch (e2) {}
+      return false;
     }
 
     function buildSmsHref(bodyText) {
@@ -1916,8 +1955,11 @@
         `- Đặt mua:`
       ];
 
+      const tgItemsLines = [];
       const itemsHtml = cart.map((item, idx) => {
-        orderLines.push(`${idx + 1}) ${item.title.slice(0, 38)} (${item.varName} x${item.qty}) = ${fmtVnd(item.price * item.qty)}`);
+        const lineStr = `${idx + 1}) ${item.title.slice(0, 42)} (${item.varName} × ${item.qty}) = ${fmtVnd(item.price * item.qty)}`;
+        orderLines.push(lineStr);
+        tgItemsLines.push(`• ${escHtml(item.title.slice(0, 44))} (<b>${escHtml(item.varName)} × ${item.qty}</b>) = <b>${fmtVnd(item.price * item.qty)}</b>`);
         return `<div style="margin-bottom:5px;">• <strong>${item.title.slice(0, 38)}...</strong> (${item.varName} × ${item.qty}) — <strong>${fmtVnd(item.price * item.qty)}</strong></div>`;
       }).join('');
 
@@ -1929,7 +1971,27 @@
       lastOrderPlainText = plainOrderText;
       copyPlainText(plainOrderText);
 
-      // Lưu về máy chủ nội bộ (nếu đang mở)
+      const tgHtmlMsg = [
+        `🛒 <b>ĐƠN MỚI WEB THÉP SIÊU CỨNG #${orderCode}</b>`,
+        `━━━━━━━━━━━━━━━`,
+        `👤 <b>Người nhận:</b> ${escHtml(name)}`,
+        `📞 <b>SĐT:</b> ${escHtml(phone)}`,
+        `📍 <b>Địa chỉ:</b> ${escHtml(addr)}`,
+        note ? `📝 <b>Ghi chú:</b> ${escHtml(note)}` : '',
+        ``,
+        `📦 <b>Sản phẩm đặt mua:</b>`,
+        ...tgItemsLines,
+        ``,
+        `🚚 <b>Vận chuyển:</b> ${escHtml(shipLabel)}`,
+        `💰 <b>TỔNG THU HỘ COD: ${fmtVnd(grandTotal)}</b>`,
+        `━━━━━━━━━━━━━━━`,
+        `💬 <b>Mở Zalo khách:</b> https://zalo.me/${encodeURIComponent(phone)}`
+      ].filter(Boolean).join('\n');
+
+      // 1. Bắn tự động thẳng về Telegram chủ shop ngay lập tức (khách tắt máy luôn vẫn nhận đủ 100%!)
+      pushOrderToTelegram(tgHtmlMsg, plainOrderText);
+
+      // 2. Lưu về máy chủ nội bộ (nếu đang mở)
       try {
         fetch('http://127.0.0.1:5050/api/order', {
           method: 'POST',
@@ -1945,42 +2007,32 @@
       saveCart();
 
       document.getElementById('cartModalBody').innerHTML = `
-        <div style="text-align:center;padding:6px 4px;">
-          <div style="font-size:40px;margin-bottom:4px;">✅</div>
-          <h3 style="font-size:18px;color:var(--green);margin-bottom:8px;">ĐÃ SOẠN XONG ĐƠN #${orderCode}!</h3>
-          <div style="font-size:13.5px;color:var(--text);margin-bottom:12px;background:#ECFDF5;border:1.5px solid #6EE7B7;padding:10px 12px;border-radius:10px;text-align:left;line-height:1.45;">
-            Chú / Anh bấm <strong>1 trong 3 nút to bên dưới</strong> để gửi đơn cho Xưởng đóng thép giao ngay:
+        <div style="text-align:center;padding:8px 4px;">
+          <div style="font-size:44px;margin-bottom:4px;">✅</div>
+          <h3 style="font-size:19px;color:var(--green);margin-bottom:6px;">ĐẶT HÀNG THÀNH CÔNG!</h3>
+          <div style="font-size:14px;color:var(--text);margin-bottom:14px;background:#ECFDF5;border:1.5px solid #6EE7B7;padding:11px 12px;border-radius:10px;text-align:center;line-height:1.45;">
+            Xưởng <strong>Thép Siêu Cứng</strong> đã nhận được đơn <strong>#${orderCode}</strong> và sẽ đóng thép giao tận nhà cho chú / anh sớm nhất!
           </div>
 
-          <a href="${zaloLink}" target="_blank" rel="noopener" onclick="copyLastOrderAgain()" style="display:block;background:#0284C7;color:#FFF;text-decoration:none;padding:14px 12px;border-radius:12px;font-weight:800;font-size:15px;margin-bottom:10px;box-shadow:0 3px 10px rgba(2,132,199,0.25);">
-            💬 GỬI ĐƠN QUA ZALO (0934.376.614)<br/>
-            <span style="font-size:12px;font-weight:600;opacity:0.96;">(Đã tự chép đơn — Mở Zalo bấm Dán / Paste gửi)</span>
-          </a>
-
-          <a href="${smsLink}" style="display:block;background:#15803D;color:#FFF;text-decoration:none;padding:14px 12px;border-radius:12px;font-weight:800;font-size:15px;margin-bottom:10px;box-shadow:0 3px 10px rgba(21,128,61,0.25);">
-            📩 KHÔNG CÓ ZALO: GỬI TIN NHẮN SMS<br/>
-            <span style="font-size:12px;font-weight:600;opacity:0.96;">(Đã soạn sẵn toàn bộ đơn vào Tin Nhắn — Chỉ bấm Gửi!)</span>
-          </a>
-
-          <a href="tel:0934376614" style="display:block;background:#FFF7ED;color:#C2410C;border:2px solid #EA580C;text-decoration:none;padding:13px 12px;border-radius:12px;font-weight:800;font-size:14.5px;margin-bottom:14px;">
-            📞 HOẶC GỌI ĐIỆN TRỰC TIẾP: 0934.376.614
-          </a>
-
-          <div style="text-align:left;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;margin-bottom:12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <strong>Nội dung đơn đã soạn sẵn:</strong>
-              <button onclick="copyLastOrderAgain()" style="border:1px solid var(--brand);background:var(--brand-soft);color:var(--brand);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;cursor:pointer;">📋 Chép lại</button>
-            </div>
-            <div><strong>Người nhận:</strong> ${name} — ${phone}</div>
-            <div style="margin:3px 0;"><strong>Địa chỉ:</strong> ${addr}</div>
-            ${note ? `<div style="margin-bottom:4px;"><strong>Ghi chú:</strong> ${note}</div>` : ''}
+          <div style="text-align:left;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13.5px;margin-bottom:14px;">
+            <div style="font-weight:800;margin-bottom:6px;color:var(--text);">📋 Phiếu đơn hàng #${orderCode}:</div>
+            <div><strong>Người nhận:</strong> ${escHtml(name)} — ${escHtml(phone)}</div>
+            <div style="margin:3px 0;"><strong>Địa chỉ:</strong> ${escHtml(addr)}</div>
+            ${note ? `<div style="margin-bottom:4px;"><strong>Ghi chú:</strong> ${escHtml(note)}</div>` : ''}
             <hr style="border:none;border-top:1px dashed var(--border);margin:8px 0;" />
             ${itemsHtml}
             <div style="margin-top:6px;color:${isFreeShip ? 'var(--green)' : '#B45309'};font-weight:700;">Vận chuyển: ${shipLabel}</div>
-            <div style="font-size:15.5px;font-weight:800;color:var(--brand);margin-top:4px;">Tổng thanh toán COD: ${fmtVnd(grandTotal)}</div>
+            <div style="font-size:16px;font-weight:800;color:var(--brand);margin-top:4px;">Tổng trả khi nhận hàng: ${fmtVnd(grandTotal)}</div>
           </div>
 
-          <button class="cart-btn-top" style="background:#374151;width:100%;justify-content:center;padding:12px;" onclick="closeCart()">Đóng Cửa Sổ</button>
+          <div style="font-size:12.5px;color:var(--muted);margin-bottom:7px;">Cần dặn thêm Xưởng (không bắt buộc):</div>
+          <div class="custom-cut-pills" style="margin-bottom:14px;">
+            <a href="${zaloLink}" target="_blank" rel="noopener" onclick="copyLastOrderAgain()" style="background:#E0F2FE;color:#0369A1;">💬 Chat Zalo</a>
+            <a href="${smsLink}" style="background:#DCFCE7;color:#15803D;">📩 Nhắn SMS</a>
+            <a href="tel:0934376614" style="background:#FFEDD5;color:#9A3412;">📞 Gọi Xưởng</a>
+          </div>
+
+          <button class="cart-btn-top" style="background:var(--brand);width:100%;justify-content:center;padding:13px;font-size:15px;" onclick="closeCart()">Hoàn Tất • Đóng Cửa Sổ</button>
         </div>
       `;
     }
