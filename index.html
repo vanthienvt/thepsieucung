@@ -91,11 +91,11 @@
     }
     .search-input {
       width: 100%;
-      padding: 9px 14px 9px 36px;
+      padding: 10px 14px 10px 36px;
       border-radius: 999px;
       border: 1.5px solid var(--border);
       background: #F9FAFB;
-      font-size: 14px;
+      font-size: 16px;
       color: var(--text);
       outline: none;
       transition: border-color 0.15s, background 0.15s;
@@ -116,21 +116,23 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       margin-left: auto;
     }
     .hotline-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: #F3F4F6;
-      color: var(--text);
+      background: #ECFDF5;
+      border: 1.5px solid #A7F3D0;
+      color: #065F46;
       text-decoration: none;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
     }
+    .hl-short { display: none; }
     .cart-btn-top {
       display: inline-flex;
       align-items: center;
@@ -293,11 +295,18 @@
       .product-grid { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 680px) {
-      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .hotline-pill { display: none; }
-      .brand-logo { width: 42px; height: 42px; }
-      .brand-title { font-size: 17px; }
+      .header-inner { padding: 8px 10px; gap: 8px; }
+      .brand-box { gap: 7px; }
+      .brand-logo { width: 36px; height: 36px; }
+      .brand-title { font-size: 15px; }
+      .header-actions { gap: 6px; }
+      .hl-full { display: none; }
+      .hl-short { display: inline; }
+      .hotline-pill { padding: 6px 9px; font-size: 12px; }
+      .cart-btn-top { padding: 6px 10px; font-size: 12.5px; gap: 5px; }
       .search-wrap { order: 3; min-width: 100%; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .sold-heat-text { font-size: 10.5px; }
     }
 
     /* Product Card */
@@ -438,6 +447,7 @@
       max-height: 92vh;
       border-radius: 16px;
       overflow-y: auto;
+      overflow-x: hidden;
       box-shadow: var(--shadow-md);
       position: relative;
     }
@@ -464,8 +474,8 @@
       font-weight: 800;
     }
     .close-btn {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: none;
       background: #F3F4F6;
@@ -476,11 +486,12 @@
     .sheet-content {
       padding: 16px;
       display: grid;
-      grid-template-columns: 330px 1fr;
+      grid-template-columns: 330px minmax(0, 1fr);
       gap: 20px;
     }
+    .sheet-content > div { min-width: 0; }
     @media (max-width: 740px) {
-      .sheet-content { grid-template-columns: 1fr; gap: 14px; }
+      .sheet-content { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px; }
     }
     .media-stage {
       width: 100%;
@@ -672,20 +683,22 @@
       gap: 7px;
     }
     .tier-btn {
-      padding: 7px 11px;
+      padding: 9px 13px;
       border-radius: 8px;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid #CBD5E1;
       background: #FFF;
       color: var(--text);
-      font-size: 12.5px;
-      font-weight: 600;
+      font-size: 13.5px;
+      font-weight: 700;
       cursor: pointer;
+      transition: all 0.12s;
     }
     .tier-btn.active {
       border-color: var(--brand);
-      background: var(--brand-soft);
-      color: var(--brand);
+      background: var(--brand);
+      color: #FFFFFF;
       font-weight: 800;
+      box-shadow: 0 2px 6px rgba(217, 72, 15, 0.28);
     }
     .qty-row {
       display: flex;
@@ -698,34 +711,34 @@
     .qty-ctrl {
       display: inline-flex;
       align-items: center;
-      border: 1px solid var(--border);
+      border: 1.5px solid #CBD5E1;
       border-radius: 8px;
       overflow: hidden;
     }
     .qty-ctrl button {
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       border: none;
       background: #F3F4F6;
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       cursor: pointer;
     }
     .qty-ctrl span {
-      width: 42px;
+      width: 46px;
       text-align: center;
-      font-weight: 700;
-      font-size: 14px;
+      font-weight: 800;
+      font-size: 15px;
     }
     .sheet-actions {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
+      grid-template-columns: 1fr 1.25fr;
       gap: 10px;
     }
     .btn-add-cart {
-      padding: 12px;
+      padding: 13px 10px;
       border-radius: 10px;
-      border: 1.5px solid var(--brand);
+      border: 2px solid var(--brand);
       background: #FFF;
       color: var(--brand);
       font-size: 14px;
@@ -733,14 +746,15 @@
       cursor: pointer;
     }
     .btn-buy-now {
-      padding: 12px;
+      padding: 13px 10px;
       border-radius: 10px;
       border: none;
       background: var(--brand);
       color: #FFF;
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 3px 10px rgba(217, 72, 15, 0.25);
     }
     /* Small Order Platform Bounce Buttons */
     .platform-bounce-grid {
@@ -791,20 +805,32 @@
     }
 
     .custom-cut-help {
-      margin-top: 10px;
+      margin-top: 12px;
       background: #F8FAFC;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 9px 11px;
+      border-radius: 10px;
+      padding: 10px 11px;
       font-size: 12.5px;
       color: var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
     }
-    .custom-cut-help a { color: var(--blue); font-weight: 700; text-decoration: none; }
+    .custom-cut-pills {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      margin-top: 7px;
+    }
+    .custom-cut-pills a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 6px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      text-align: center;
+    }
 
     /* Cart & Checkout Sheet */
     .cart-sheet { max-width: 560px; }
@@ -897,31 +923,31 @@
     }
     .sum-row.total span:last-child { color: var(--brand); font-size: 18px; }
 
-    .form-group { margin-bottom: 10px; }
+    .form-group { margin-bottom: 11px; }
     .form-group label {
       display: block;
-      font-size: 12.5px;
-      font-weight: 700;
-      margin-bottom: 4px;
+      font-size: 13.5px;
+      font-weight: 800;
+      margin-bottom: 5px;
       color: var(--text);
     }
     .form-group input, .form-group textarea {
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 12px;
       border-radius: 8px;
-      border: 1.5px solid var(--border);
-      font-size: 14px;
+      border: 1.5px solid #CBD5E1;
+      font-size: 16px;
       outline: none;
     }
     .form-group input:focus, .form-group textarea:focus { border-color: var(--brand); }
     .btn-submit-order {
       width: 100%;
-      padding: 14px;
+      padding: 15px 14px;
       border-radius: 10px;
       border: none;
       background: var(--brand);
       color: #FFF;
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 800;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(217, 72, 15, 0.30);
@@ -954,7 +980,7 @@
     .ong6-fab {
       position: fixed;
       right: 14px;
-      bottom: 80px;
+      bottom: 16px;
       z-index: 48;
       display: flex;
       align-items: center;
@@ -965,7 +991,9 @@
       padding: 5px 12px 5px 5px;
       box-shadow: var(--shadow-md);
       cursor: pointer;
+      transition: bottom 0.2s ease;
     }
+    body.has-cart .ong6-fab { bottom: 78px; }
     .ong6-fab img {
       width: 34px;
       height: 34px;
@@ -981,7 +1009,7 @@
     .chat-popup {
       position: fixed;
       right: 14px;
-      bottom: 132px;
+      bottom: 72px;
       width: 345px;
       max-width: calc(100vw - 28px);
       background: #FFF;
@@ -993,6 +1021,7 @@
       flex-direction: column;
       overflow: hidden;
     }
+    body.has-cart .chat-popup { bottom: 132px; }
     .chat-popup.open { display: flex; }
     .chat-head {
       background: #1F2937;
@@ -1047,7 +1076,7 @@
     }
     .chat-direct-bar {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 6px;
       padding: 6px 10px;
       background: #FFF;
@@ -1128,9 +1157,9 @@
       </div>
 
       <div class="header-actions">
-        <a href="tel:0934376614" class="hotline-pill">📞 0934.376.614</a>
+        <a href="tel:0934376614" class="hotline-pill">📞 <span class="hl-full">0934.376.614</span><span class="hl-short">Gọi</span></a>
         <button class="cart-btn-top" onclick="openCart()">
-          🛒 Giỏ hàng <span class="cart-badge" id="topCartCount">0</span>
+          🛒 <span class="hl-full">Giỏ hàng</span><span class="hl-short">Giỏ</span> <span class="cart-badge" id="topCartCount">0</span>
         </button>
       </div>
     </div>
@@ -1202,7 +1231,8 @@
     </div>
     <div class="chat-direct-bar">
       <a href="https://zalo.me/0934376614" target="_blank" style="background:#E0F2FE;color:#0369A1;">💬 Chat Zalo</a>
-      <a href="tel:0934376614" style="background:#DCFCE7;color:#15803D;">📞 Gọi 0934.376.614</a>
+      <a href="sms:0934376614" id="chatQuickSmsLink" style="background:#FEF3C7;color:#92400E;">📩 Nhắn SMS</a>
+      <a href="tel:0934376614" style="background:#DCFCE7;color:#15803D;">📞 Gọi Xưởng</a>
     </div>
     <div class="chat-input-row">
       <input type="text" id="chatInput" placeholder="Hỏi cỡ thép (VD: 3ly2 làm chĩa, 2ly câu)..." onkeydown="if(event.key==='Enter')sendChat()" />
@@ -1258,6 +1288,17 @@
     function fmtVnd(n) {
       return Number(n || 0).toLocaleString('vi-VN') + 'đ';
     }
+
+    function buildSmsHref(bodyText) {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent || '');
+      const sep = isIOS ? '&' : '?';
+      return 'sms:0934376614' + sep + 'body=' + encodeURIComponent(bodyText);
+    }
+
+    (function initChatSmsLink() {
+      const el = document.getElementById('chatQuickSmsLink');
+      if (el) el.href = buildSmsHref('Chào Thép Siêu Cứng, tư vấn giúp mình cỡ thép: ');
+    })();
 
     function showToast(msg) {
       const el = document.getElementById('toastBox');
@@ -1631,8 +1672,12 @@
           ${actionButtonsHtml}
 
           <div class="custom-cut-help">
-            <span>Cần cắt chiều dài riêng hoặc hỏi thêm?</span>
-            <a href="https://zalo.me/0934376614" target="_blank">💬 Zalo 0934.376.614</a>
+            <div>Cần cắt chiều dài riêng hoặc đặt nhanh (Zalo / SMS / Gọi điện):</div>
+            <div class="custom-cut-pills">
+              <a href="https://zalo.me/0934376614" target="_blank" rel="noopener" style="background:#E0F2FE;color:#0369A1;">💬 Zalo</a>
+              <a href="${buildSmsHref('Đặt mua Thép Siêu Cứng: ' + p.title.slice(0, 38) + ' (' + v.name + ' x' + modalQty + ' = ' + fmtVnd(lineWeb) + '). Địa chỉ nhận: ')}" style="background:#DCFCE7;color:#15803D;">📩 Nhắn SMS</a>
+              <a href="tel:0934376614" style="background:#FFEDD5;color:#9A3412;">📞 Gọi Xưởng</a>
+            </div>
           </div>
 
           ${Array.isArray(p.reviews) && p.reviews.length ? `
@@ -1697,6 +1742,7 @@
       const totalCount = cart.reduce((s, x) => s + x.qty, 0);
       const subTotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
       document.getElementById('topCartCount').textContent = totalCount;
+      document.body.classList.toggle('has-cart', totalCount > 0);
 
       const bar = document.getElementById('bottomCartBar');
       if (totalCount > 0) {
@@ -1818,6 +1864,12 @@
         return;
       }
 
+      const quickSmsDraft = buildSmsHref(
+        'ĐẶT THÉP SIÊU CỨNG:\n' +
+        cart.map((it, i) => `${i + 1}) ${it.title.slice(0, 34)} (${it.varName} x${it.qty})`).join('\n') +
+        `\nTổng COD: ${fmtVnd(subTotal)} (Bao Ship 0đ)\nTên & Địa chỉ nhận: `
+      );
+
       box.innerHTML = `
         <div class="ship-progress-box">
           ✅ <strong>Đơn đủ mốc 119.000đ — BAO SHIP 0đ Toàn Quốc!</strong>
@@ -1832,9 +1884,19 @@
           <div class="sum-row total"><span>Thanh toán khi nhận hàng (COD):</span><span>${fmtVnd(subTotal)}</span></div>
         </div>
 
+        <div style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:10px;padding:10px 11px;margin-bottom:12px;">
+          <div style="font-size:12.5px;font-weight:700;color:#9A3412;margin-bottom:7px;">
+            👴 Chú / Anh ngại gõ chữ nhiều có thể bấm đặt nhanh luôn:
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <a href="tel:0934376614" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 8px;border-radius:8px;background:#15803D;color:#FFF;text-decoration:none;font-size:13px;font-weight:800;text-align:center;">📞 Gọi Đọc Địa Chỉ</a>
+            <a href="${quickSmsDraft}" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 8px;border-radius:8px;background:#0369A1;color:#FFF;text-decoration:none;font-size:13px;font-weight:800;text-align:center;">📩 Nhắn SMS Soạn Sẵn</a>
+          </div>
+        </div>
+
         <div class="form-group">
           <label>1. Họ tên người nhận *</label>
-          <input type="text" id="custName" value="${savedName.replace(/"/g, '&quot;')}" placeholder="Ví dụ: Anh Minh / Chú Tư" />
+          <input type="text" id="custName" value="${savedName.replace(/"/g, '&quot;')}" placeholder="Ví dụ: Chú Tư / Anh Minh" />
         </div>
         <div class="form-group">
           <label>2. Số điện thoại nhận hàng *</label>
@@ -1846,13 +1908,13 @@
         </div>
         <div class="form-group">
           <label>Ghi chú (không bắt buộc)</label>
-          <input type="text" id="custNote" placeholder="Ví dụ: Cắt lẻ 85cm / Giao giờ hành chính..." />
+          <input type="text" id="custNote" placeholder="Ví dụ: Cắt lẻ 85cm / Giao buổi sáng..." />
         </div>
 
         <button class="btn-submit-order" onclick="submitDirectOrder()">
-          ✅ XÁC NHẬN ĐẶT HÀNG (${fmtVnd(subTotal)} • BAO SHIP)
+          ✅ BẤM ĐẶT HÀNG NGAY (${fmtVnd(subTotal)} • BAO SHIP)
         </button>
-        <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px;">
+        <div style="text-align:center;font-size:12.5px;color:var(--muted);margin-top:8px;">
           Nhận hàng mở ra kiểm tra đúng chất thép mới thanh toán.
         </div>
       `;
@@ -1864,7 +1926,7 @@
       const addr = (document.getElementById('custAddr').value || '').trim();
       const note = (document.getElementById('custNote').value || '').trim();
       if (!name || phone.length < 9 || addr.length < 6) {
-        alert('Anh em vui lòng điền đủ Họ tên, Số điện thoại (10 số) và Địa chỉ nhận hàng nghen!');
+        alert('Chú / Anh vui lòng điền đủ Họ tên, Số điện thoại (10 số) và Địa chỉ nhận hàng nghen!');
         return;
       }
 
@@ -1877,28 +1939,26 @@
       const orderCode = 'TSC' + Math.floor(100000 + Math.random() * 900000);
 
       const orderLines = [
-        `[ĐƠN ĐẶT WEB THEPSIEUCUNG.COM #${orderCode}]`,
+        `ĐẶT THÉP SIÊU CỨNG #${orderCode}`,
         `- Người nhận: ${name}`,
         `- SĐT: ${phone}`,
-        `- Địa chỉ: ${addr}`,
-        `--- DANH SÁCH ĐẶT HÀNG ---`
+        `- Đ/c: ${addr}`,
+        `- Đặt mua:`
       ];
 
       const itemsHtml = cart.map((item, idx) => {
-        orderLines.push(`${idx + 1}. ${item.title.slice(0, 44)} | Phân loại: ${item.varName} (SL: ${item.qty}) = ${fmtVnd(item.price * item.qty)}`);
+        orderLines.push(`${idx + 1}) ${item.title.slice(0, 38)} (${item.varName} x${item.qty}) = ${fmtVnd(item.price * item.qty)}`);
         return `<div style="margin-bottom:5px;">• <strong>${item.title.slice(0, 38)}...</strong> (${item.varName} × ${item.qty}) — <strong>${fmtVnd(item.price * item.qty)}</strong></div>`;
       }).join('');
 
-      orderLines.push(`---------------------------`);
-      orderLines.push(`- Vận chuyển: 0đ (Bao Ship)`);
-      orderLines.push(`- TỔNG THU HỘ COD: ${fmtVnd(grandTotal)}`);
+      orderLines.push(`- Tổng COD: ${fmtVnd(grandTotal)} (Bao Ship 0đ)`);
       if (note) orderLines.push(`- Ghi chú: ${note}`);
 
       const plainOrderText = orderLines.join('\n');
       lastOrderPlainText = plainOrderText;
       copyPlainText(plainOrderText);
 
-      // 1. Lưu về máy chủ nội bộ (nếu đang mở)
+      // Lưu về máy chủ nội bộ (nếu đang mở)
       try {
         fetch('http://127.0.0.1:5050/api/order', {
           method: 'POST',
@@ -1907,59 +1967,38 @@
         }).catch(() => {});
       } catch (e) {}
 
-      // 2. Tự động gửi đơn ngầm thẳng về Gmail chủ shop (vanthienvt1011@gmail.com) để khách KHÔNG có Zalo vẫn không bao giờ sót đơn!
-      try {
-        fetch('https://formsubmit.co/ajax/vanthienvt1011@gmail.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            _subject: `Đơn Web #${orderCode} - ${name} (${phone}) - ${fmtVnd(grandTotal)}`,
-            _template: 'table',
-            Ma_Don: orderCode,
-            Nguoi_Nhan: name,
-            So_Dien_Thoai: phone,
-            Dia_Chi: addr,
-            Tong_Thu_COD: fmtVnd(grandTotal),
-            Ghi_Chu: note || 'Không có',
-            Chi_Tiet_Don: plainOrderText
-          })
-        }).catch(() => {});
-      } catch (e) {}
-
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent || '');
-      const smsSep = isIOS ? '&' : '?';
       const zaloLink = 'https://zalo.me/0934376614';
-      const smsLink = 'sms:0934376614' + smsSep + 'body=' + encodeURIComponent(plainOrderText);
+      const smsLink = buildSmsHref(plainOrderText);
 
       cart = [];
       saveCart();
 
       document.getElementById('cartModalBody').innerHTML = `
-        <div style="text-align:center;padding:8px 4px;">
+        <div style="text-align:center;padding:6px 4px;">
           <div style="font-size:40px;margin-bottom:4px;">✅</div>
-          <h3 style="font-size:17.5px;color:var(--green);margin-bottom:6px;">ĐÃ GHI NHẬN ĐƠN #${orderCode}!</h3>
-          <div style="font-size:12.5px;color:var(--text);margin-bottom:12px;background:#ECFDF5;border:1px solid #A7F3D0;padding:9px 11px;border-radius:8px;text-align:left;">
-            Hệ thống đã lưu đơn &amp; số điện thoại <strong>${phone}</strong> của anh em. Để shop đóng thép gửi đi nhanh nhất ngay trong ngày, anh em bấm <strong>1 trong các cách dưới đây</strong>:
+          <h3 style="font-size:18px;color:var(--green);margin-bottom:8px;">ĐÃ SOẠN XONG ĐƠN #${orderCode}!</h3>
+          <div style="font-size:13.5px;color:var(--text);margin-bottom:12px;background:#ECFDF5;border:1.5px solid #6EE7B7;padding:10px 12px;border-radius:10px;text-align:left;line-height:1.45;">
+            Chú / Anh bấm <strong>1 trong 3 nút to bên dưới</strong> để gửi đơn cho Xưởng đóng thép giao ngay:
           </div>
 
-          <a href="${zaloLink}" target="_blank" rel="noopener" onclick="copyLastOrderAgain()" style="display:block;background:#0284C7;color:#FFF;text-decoration:none;padding:12px;border-radius:10px;font-weight:800;font-size:14px;margin-bottom:8px;">
-            💬 Cách 1 (Có Zalo): Mở Zalo 0934.376.614<br/>
-            <span style="font-size:11.5px;font-weight:600;opacity:0.95;">(Đã tự chép đơn — Mở Zalo bấm Dán / Paste gửi)</span>
+          <a href="${zaloLink}" target="_blank" rel="noopener" onclick="copyLastOrderAgain()" style="display:block;background:#0284C7;color:#FFF;text-decoration:none;padding:14px 12px;border-radius:12px;font-weight:800;font-size:15px;margin-bottom:10px;box-shadow:0 3px 10px rgba(2,132,199,0.25);">
+            💬 GỬI ĐƠN QUA ZALO (0934.376.614)<br/>
+            <span style="font-size:12px;font-weight:600;opacity:0.96;">(Đã tự chép đơn — Mở Zalo bấm Dán / Paste gửi)</span>
           </a>
 
-          <a href="${smsLink}" style="display:block;background:#15803D;color:#FFF;text-decoration:none;padding:12px;border-radius:10px;font-weight:800;font-size:14px;margin-bottom:8px;">
-            📩 Cách 2 (Không có Zalo): Gửi Tin Nhắn SMS Thường<br/>
-            <span style="font-size:11.5px;font-weight:600;opacity:0.95;">(Tự điền sẵn đơn vào mục Tin Nhắn điện thoại)</span>
+          <a href="${smsLink}" style="display:block;background:#15803D;color:#FFF;text-decoration:none;padding:14px 12px;border-radius:12px;font-weight:800;font-size:15px;margin-bottom:10px;box-shadow:0 3px 10px rgba(21,128,61,0.25);">
+            📩 KHÔNG CÓ ZALO: GỬI TIN NHẮN SMS<br/>
+            <span style="font-size:12px;font-weight:600;opacity:0.96;">(Đã soạn sẵn toàn bộ đơn vào Tin Nhắn — Chỉ bấm Gửi!)</span>
           </a>
 
-          <a href="tel:0934376614" style="display:block;background:#F3F4F6;color:var(--text);border:1.5px solid var(--border);text-decoration:none;padding:10px;border-radius:10px;font-weight:800;font-size:13.5px;margin-bottom:12px;">
-            📞 Cách 3: Gọi Trực Tiếp 0934.376.614
+          <a href="tel:0934376614" style="display:block;background:#FFF7ED;color:#C2410C;border:2px solid #EA580C;text-decoration:none;padding:13px 12px;border-radius:12px;font-weight:800;font-size:14.5px;margin-bottom:14px;">
+            📞 HOẶC GỌI ĐIỆN TRỰC TIẾP: 0934.376.614
           </a>
 
-          <div style="text-align:left;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:12.5px;margin-bottom:12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <strong>Tóm tắt đơn #${orderCode}:</strong>
-              <button onclick="copyLastOrderAgain()" style="border:1px solid var(--brand);background:var(--brand-soft);color:var(--brand);border-radius:6px;padding:3px 8px;font-size:11.5px;font-weight:700;cursor:pointer;">📋 Sao chép đơn</button>
+          <div style="text-align:left;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+              <strong>Nội dung đơn đã soạn sẵn:</strong>
+              <button onclick="copyLastOrderAgain()" style="border:1px solid var(--brand);background:var(--brand-soft);color:var(--brand);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;cursor:pointer;">📋 Chép lại</button>
             </div>
             <div><strong>Người nhận:</strong> ${name} — ${phone}</div>
             <div style="margin:3px 0;"><strong>Địa chỉ:</strong> ${addr}</div>
@@ -1967,10 +2006,10 @@
             <hr style="border:none;border-top:1px dashed var(--border);margin:8px 0;" />
             ${itemsHtml}
             <div style="margin-top:6px;color:var(--green);font-weight:700;">Vận chuyển: 0đ (Bao Ship)</div>
-            <div style="font-size:15px;font-weight:800;color:var(--brand);margin-top:4px;">Tổng thanh toán COD: ${fmtVnd(grandTotal)}</div>
+            <div style="font-size:15.5px;font-weight:800;color:var(--brand);margin-top:4px;">Tổng thanh toán COD: ${fmtVnd(grandTotal)}</div>
           </div>
 
-          <button class="cart-btn-top" style="background:#374151;width:100%;justify-content:center;padding:11px;" onclick="closeCart()">Đóng Cửa Sổ</button>
+          <button class="cart-btn-top" style="background:#374151;width:100%;justify-content:center;padding:12px;" onclick="closeCart()">Đóng Cửa Sổ</button>
         </div>
       `;
     }
