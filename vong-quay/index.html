@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Vòng Quay Dự Thưởng — Thép Siêu Cứng (thepsieucung.com)</title>
+  <meta name="description" content="Nhập mã dự thưởng 8 ký tự trên thẻ Thép Siêu Cứng Ông 6. Đặt trực tiếp trên thepsieucung.com giảm ngay 10%, đơn từ 100k bao ship!" />
+  <link rel="icon" href="logo_gachien.webp" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 12%, #331807 0%, #110803 55%, #050302 100%);
+      color: #FFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 14px 24px;
+      overflow-x: hidden;
+    }
+    .top-bar {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 999px;
+      padding: 6px 10px 6px 8px;
+      margin-bottom: 10px;
+    }
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: #FFF;
+    }
+    .brand-mini img { width: 32px; height: 32px; object-fit: contain; }
+    .brand-mini span { font-size: 13px; font-weight: 900; color: #FBBF24; letter-spacing: 0.4px; }
+    .btn-top-web {
+      background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
+      color: #FFF;
+      text-decoration: none;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 6px 11px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.4);
+    }
+    .hero-title { text-align: center; margin-bottom: 8px; }
+    .hero-title h1 {
+      font-size: 21px;
+      font-weight: 900;
+      color: #FDE047;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+    }
+    .hero-title p { font-size: 12.5px; color: #FED7AA; margin-top: 2px; }
+    .wheel-card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(24, 14, 8, 0.88);
+      border: 1.5px solid rgba(245, 158, 11, 0.42);
+      border-radius: 22px;
+      padding: 16px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.65);
+    }
+    .wheel-wrap {
+      position: relative;
+      width: 312px;
+      height: 312px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0 14px;
+    }
+    .pointer-svg {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 38px;
+      height: 46px;
+      z-index: 25;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.85));
+    }
+    #wheel-canvas {
+      width: 312px;
+      height: 312px;
+      border-radius: 50%;
+      box-shadow: 0 0 28px rgba(245, 158, 11, 0.35);
+    }
+    .center-cap {
+      position: absolute;
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #1F2937 0%, #09090B 100%);
+      border: 3.5px solid #FBBF24;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+    .center-cap img { width: 52px; height: 52px; object-fit: contain; }
+    .input-zone { width: 100%; display: flex; flex-direction: column; gap: 9px; }
+    .input-label { font-size: 13px; font-weight: 800; color: #FDE047; text-align: center; }
+    .code-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px solid #F59E0B;
+      background: #090604;
+      color: #FDE047;
+      font-size: 18px;
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .code-input::placeholder { color: #64748B; font-size: 14px; letter-spacing: 1px; font-weight: 700; }
+    .error-msg {
+      display: none;
+      background: rgba(185, 28, 28, 0.25);
+      border: 1px solid #F87171;
+      color: #FCA5A5;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 9px;
+      text-align: center;
+    }
+    .btn-spin-main {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
+      color: #FFF;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 5px 16px rgba(234, 88, 12, 0.45);
+    }
+    .btn-spin-main:disabled { opacity: 0.55; cursor: not-allowed; }
+    .one-time-note { font-size: 11.5px; color: #94A3B8; text-align: center; margin-top: 2px; }
+    .store-banner {
+      width: 100%;
+      max-width: 420px;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(234, 88, 12, 0.14);
+      border: 1px solid rgba(251, 146, 60, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-decoration: none;
+      color: #FFF;
+    }
+    .store-banner-txt { font-size: 12.5px; line-height: 1.35; }
+    .store-banner-txt b { color: #FDE047; }
+    .store-banner-go {
+      white-space: nowrap;
+      background: #FFF;
+      color: #C2410C;
+      font-weight: 900;
+      font-size: 12px;
+      padding: 7px 11px;
+      border-radius: 8px;
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.86);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      width: 100%;
+      max-width: 360px;
+      background: #1C120C;
+      border: 2.5px solid #F59E0B;
+      border-radius: 22px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.85);
+    }
+    .modal-icon { font-size: 40px; margin-bottom: 6px; }
+    .modal-title { font-size: 20px; font-weight: 900; color: #FBBF24; line-height: 1.25; }
+    .modal-promo {
+      margin: 14px 0;
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: rgba(234, 88, 12, 0.20);
+      border: 1.5px solid #FB923C;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.4;
+      color: #FFF;
+    }
+    .modal-promo span { color: #FDE047; }
+    .btn-go-store {
+      display: block;
+      width: 100%;
+      padding: 15px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
+      color: #FFF;
+      font-size: 15.5px;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 5px 16px rgba(234, 88, 12, 0.5);
+    }
+    .countdown-txt { margin-top: 10px; font-size: 12.5px; color: #FED7AA; font-weight: 700; }
+    .countdown-num {
+      display: inline-block;
+      min-width: 22px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: #EA580C;
+      color: #FFF;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="https://thepsieucung.com/" class="brand-mini">
+      <img src="logo_gachien.webp" alt="Thép Siêu Cứng" />
+      <span>THEPSIEUCUNG.COM</span>
+    </a>
+    <a href="https://thepsieucung.com/" class="btn-top-web">🛒 Xem Giá Thép →</a>
+  </div>
+
+  <div class="hero-title">
+    <h1>VÒNG QUAY DỰ THƯỞNG</h1>
+    <p>Nhập mã 8 ký tự trên thẻ để quay thưởng</p>
+  </div>
+
+  <div class="wheel-card">
+    <div class="wheel-wrap">
+      <svg class="pointer-svg" viewBox="0 0 40 50" fill="none">
+        <path d="M20 48L5 15C5 6.7 11.7 0 20 0C28.3 0 35 6.7 35 15L20 48Z" fill="#FBBF24" stroke="#78350F" stroke-width="2"/>
+        <circle cx="20" cy="14" r="6" fill="#991B1B"/>
+      </svg>
+      <canvas id="wheel-canvas" width="624" height="624"></canvas>
+      <div class="center-cap">
+        <img src="logo_gachien.webp" alt="Ông 6" />
+      </div>
+    </div>
+
+    <div class="input-zone">
+      <div class="input-label">👇 NHẬP MÃ TRÊN THẺ (MỖI MÃ QUAY 1 LẦN):</div>
+      <input id="code-input" class="code-input" type="text" maxlength="9" placeholder="Ví dụ: 22AJ-BW2T" autocomplete="off" />
+      <div id="error-msg" class="error-msg"></div>
+      <button id="btn-spin" class="btn-spin-main" onclick="handleSpin()">🎯 QUAY NGAY</button>
+      <div class="one-time-note">🔒 Mã dự thưởng hợp lệ chỉ sử dụng được 1 lần duy nhất</div>
+    </div>
+  </div>
+
+  <a href="https://thepsieucung.com/" class="store-banner">
+    <div class="store-banner-txt">
+      Đặt thép trực tiếp tại <b>thepsieucung.com</b><br/>
+      <b>Giảm 10%</b> rẻ hơn sàn • Đơn <b>100k Bao Ship</b>
+    </div>
+    <div class="store-banner-go">Mở Web →</div>
+  </a>
+
+  <div id="result-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-icon">🍀</div>
+      <div class="modal-title">CHÚC ANH<br/>MAY MẮN LẦN SAU!</div>
+      <div class="modal-promo">
+        Đặt trên Web <span>GIẢM NGAY 10%</span><br/>
+        <span>Đơn từ 100k BAO SHIP 0đ</span>
+      </div>
+      <a href="https://thepsieucung.com/" class="btn-go-store">👉 VÀO WEB THEPSIEUCUNG.COM</a>
+      <div class="countdown-txt">
+        Tự động chuyển sang Web sau <span id="cd-sec" class="countdown-num">5</span> giây...
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORE_URL = "https://thepsieucung.com/";
+    const VALID_CODES = new Set(["22AJ-BW2T", "28RV-5EXA", "29QD-B23A", "2CTM-XQZ9", "2D9A-342M", "2EHD-2D85", "2F9D-FVTP", "2H78-DXK6", "2HMD-VQAV", "2JD5-5NAU", "2VHB-M693", "2X35-DT6G", "2X7P-TPQ5", "2XW2-N4TU", "2YSZ-JYW6", "2ZXA-64AW", "3FEH-STN9", "3QKC-38YB", "3R3B-C5ZX", "3RKD-75ZV", "3SUT-G39E", "3SXB-95W4", "3TJZ-XNPE", "3UW9-AEGD", "3VXQ-5EBQ", "3W7K-JVBF", "3YZH-XYEF", "3ZNY-TBQ4", "428M-8FFM", "42G8-QR47", "433Q-K8VQ", "437M-FV2K", "4549-MA6B", "45J6-MN87", "47B9-HYK9", "4CN5-VZHN", "4DT9-3E95", "4EV3-DDS5", "4GXC-CA49", "4N3F-CT99", "4N9Y-B33Z", "4PAZ-KEE2", "4UAT-HUZY", "4V2B-DUJM", "4WD6-M5CH", "525Z-ZN7C", "528C-5FQD", "544V-PNA2", "55N2-Q473", "5723-BVCC", "57M7-7QDX", "5CUA-WBCC", "5KSK-23FG", "5MUD-AXGZ", "5PDZ-BC3B", "5T47-QUK8", "5V2N-HZS7", "5YPN-JATQ", "627G-Z5GD", "63D6-WQ8F", "64NU-YSGC", "65WJ-B75Q", "6ARH-PSVV", "6AS8-KY56", "6D8Y-QJRB", "6D98-N9SP", "6DTA-PGSJ", "6DYC-5WPT", "6FQV-5FKR", "6H3Y-9DCG", "6J4Z-6EWT", "6M4C-2S6U", "6NZF-P7EH", "6QBC-UUPC", "6VY8-MUJA", "6YPT-4YQD", "6ZZG-XNHP", "72DE-5PAE", "764C-QMEP", "79GD-TX6K", "7A3G-H4F5", "7AT8-Q9ND", "7C2Z-ZMEG", "7E64-CMDX", "7FNF-4WSH", "7J2F-AM2R", "7NPZ-QNAF", "7Q9T-JZ2Y", "7RTW-UERN", "7TWU-4ZGR", "7VGY-ANQ4", "82HS-H42Z", "835P-6W33", "87U7-D43H", "88ED-ZMBA", "8944-X4NN", "89QR-ZGAM", "8D78-HZWN", "8DHW-7UVP", "8DWQ-6Q75", "8E6E-628E", "8F8J-7YRQ", "8GKR-NEW8", "8JA3-PHPC", "8KK4-SQ6V", "8MTN-354B", "8Q76-Y64R", "8QVK-GS9V", "8QVM-7WKP", "8T3Y-ETKB", "8UWN-W85K", "8YVZ-58D6", "956C-VTFG", "96GW-C56R", "973W-474U", "9AVN-AKGV", "9BWK-WKAH", "9BZC-Q6DM", "9DXW-YH63", "9EB5-V93M", "9F8D-9649", "9FKF-9ZZ8", "9FY3-5CVV", "9GMM-GPF7", "9J48-TY3F", "9RTS-J8HF", "9UTV-DQVF", "9ZN8-5G2J", "A6J5-RUAB", "A6YN-ECKP", "A72C-E9KR", "A88K-PK5M", "ABND-HSSW", "ACSF-BUCF", "AD59-MMF8", "AEF3-5J4H", "AFFQ-MEJJ", "AFRF-MFZY", "AFVQ-PTEY", "AHTP-HW5M", "AR4B-R4ES", "ARGQ-D3WA", "ASVW-3FDV", "ATH8-Z3TS", "AWUW-UWHK", "AZB2-ZBKF", "B6GA-HNFN", "B7C6-YM2D", "B86A-VRJX", "BATH-9FJK", "BB2P-XGA8", "BB95-43S7", "BCRH-4WNM", "BER4-J7MC", "BGWE-TURR", "BJPP-PBWQ", "BNFE-M78C", "BPA4-D9PB", "BSCG-DE5M", "BT77-HYCT", "BUTD-J7SC", "BYPK-S6U2", "C3ZP-4S62", "C4SK-D6ZN", "C5FF-FGDY", "C9DS-BD53", "CEBJ-P4ZJ", "CEV6-K32W", "CF8A-K9UB", "CKGM-DSQR", "CR82-YDUP", "CSA8-QWSF", "CU39-GB74", "CXHJ-5F7B", "CZ8Y-5RET", "D3KP-B8FY", "D5S9-5GYT", "D5XC-NC8R", "D7AN-3E4Q", "D84M-U253", "DAAV-RTY7", "DCTF-CE9T", "DFBE-DJK6", "DS3D-ANCW", "DSDZ-832V", "DU24-3WUV", "DU4C-DYW5", "DV9S-5CVB", "DVE6-NTSZ", "DX5J-7BK7", "DXJX-GVKK", "DZRS-CJNH", "E2Z2-RTK3", "E35P-TUAF", "E3WC-JEFG", "E7VX-965Z", "E8DU-UGE6", "EA38-7K6V", "EBA2-UWFF", "ECK3-D4HB", "ECZY-BAW2", "EDUZ-KYZE", "EHG3-XJ26", "EHS4-DTEU", "EK77-SBQ4", "EM57-N5KM", "EQ2N-DRC6", "EQQF-YYSU", "EU2G-HDQF", "EUWH-Z6XG", "F2W9-ZF7H", "F8K4-M2U7", "F8QZ-M2QU", "F9C3-HZW4", "FCZY-859X", "FF4V-AVCB", "FGYF-FTJ8", "FNDB-4AUK", "FRTU-BEU9", "FSG4-VU2P", "FTEA-8KSW", "FZSH-P568", "G38N-27W6", "G5TW-HKQN", "G7EU-UXAA", "GBHY-2XFG", "GBVA-YTSQ", "GDCM-XDN8", "GJ48-35FU", "GKTW-F5JQ", "GMAV-DHVK", "GMF4-WUF9", "GMGQ-GHWC", "GPDR-F2RH", "GS6Z-8R9H", "GSUF-W9WD", "GSYT-ARXY", "GWR3-ZCJM", "GXQ6-PZN8", "GYQU-62TA", "GZRZ-93Z4", "H3KF-KX9X", "H4F7-3UKD", "H56Z-7X5Y", "H5PZ-7M9U", "H6J3-2TMZ", "H7ES-Z75S", "HD6C-2XB6", "HE7F-J66G", "HE95-2K9G", "HEY7-3FWK", "HF27-YSAQ", "HMZ7-VM5A", "HSPT-5FHC", "HWW4-EFMA", "HYE6-VJ73", "HYSQ-73RR", "J2A7-EJRJ", "J4HY-2F9N", "J8ZV-AJM5", "JF24-QNWT", "JGAS-DZBQ", "JKUE-QD3G", "JMZV-XBW8", "JNZG-M2JG", "JV7F-DZYK", "JX37-9AKE", "JXKD-F7XM", "JYXV-XVFW", "JZVE-U783", "K4NN-X3XM", "K57V-2Z8D", "K667-HF9C", "K7VE-CNMN", "K7Z3-MJ6T", "K8JH-NAW7", "KC2A-WZ64", "KHEA-CEAN", "KKW8-CAZX", "KKZQ-5T2Z", "KMC9-2ZV6", "KPW9-YBQP", "KTCZ-V783", "KTPB-N5VP", "KU7X-C58H", "KU9X-QGEG", "KX3N-DMZU", "KY36-HPNW", "KZCF-FZZW", "M682-SD2T", "M6KP-2NG4", "M7QM-GJ27", "M8K6-8RSF", "MB6Z-2TH2", "MC4P-6SZB", "MJVZ-6Y55", "MMRZ-HQCK", "MNUY-AZJ2", "MR4G-SYF5", "MUVX-HZRE", "MV5G-Z3XH", "MY6E-MJMN", "MYMX-ME7E", "N4FU-26ND", "N578-BJFQ", "N628-5EZT", "N7WY-FCRM", "N865-Y5K3", "N9N6-WDAF", "NA3D-NK79", "NDRV-CU8Z", "NGYJ-FGXX", "NHTG-53WS", "NJSP-JJ7M", "NKH3-WG3Z", "NN9Q-EFCQ", "NP7X-KC7F", "NPAM-J3WP", "NQCW-VAS4", "NRCU-3GP2", "NUNT-T88C", "NXAE-VKXV", "NXFJ-MDGB", "NXPS-DPE3", "P224-TH4M", "P35Z-TNRA", "P3NN-UD34", "P64Y-CXVZ", "P74F-SJRN", "P995-NGWJ", "PH6C-8JJY", "PHHU-C2SE", "PQME-HAR5", "PR7C-QC7Q", "PRKY-DTXE", "PUQQ-H8F7", "PWWX-523D", "PWZ7-UWZ6", "PY6J-G228", "PYPR-SSHD", "PZH6-49NP", "Q2SQ-WKMR", "Q33M-PQZ4", "Q4GE-WSH6", "Q6DE-RWTE", "Q77A-E367", "QAHA-P73B", "QBMF-XEN7", "QMNA-T5X7", "QPU5-4UDD", "QRCP-Z4F9", "QZBN-W3DN", "R25V-B567", "R3DQ-EEH3", "R3RQ-BHPP", "R5QK-GJ3U", "R72G-QDZJ", "R7XT-HMTE", "R83M-N27Q", "R94N-MG28", "RBXJ-WYQJ", "RC67-5C4Z", "RE66-AWY5", "RGXZ-K45E", "RH6W-Y27T", "RNF8-SK3C", "RP3R-EVEH", "RPYF-RWBX", "RT6B-KHEC", "RTDQ-NXFB", "RUR2-XGAR", "RX5K-SESJ", "RYPC-ZBXM", "RZ72-XGHH", "S28U-9UDX", "SBF8-GN23", "SFVX-WJPC", "SGD2-G2MD", "SHAG-Q5BM", "SKKK-TS9D", "SP77-C7VW", "SQYE-6B86", "STFK-G566", "SZPA-VMB8", "T3WZ-34NP", "T4GV-N8C3", "T89R-HHDQ", "T8C8-NB6W", "T8Y7-NT4D", "TAK4-UWQ8", "TB9P-BSGR", "TBG4-FASY", "TCBV-A5R5", "TEJH-RV8G", "TG8Z-JAQK", "TGJV-BQ56", "TPCV-YJWE", "TQKH-T5QF", "TREA-E7S4", "TUFS-YYTA", "TY8Y-KP7M", "TY9Y-SSV5", "TYYA-FDRN", "U5DX-DV9A", "U5R7-7UFF", "U62J-UZWZ", "U66P-AW6M", "U7U5-6YMB", "UAZW-HJSB", "UGCR-WDMV", "UJMC-G8DD", "UMZ4-TQQF", "UNK6-6XSK", "USMX-UWVH", "UWNE-7WVV", "UYPS-MWYS", "V3V9-F5NZ", "V8AE-6Q3Q", "V8B3-RRNK", "VCKT-48SU", "VEAN-GYQN", "VJA4-8XA5", "VM59-7BDK", "VMSG-SRDS", "VPWN-F375", "VPYG-683C", "VRJ7-29HG", "VV89-K58N", "VWZB-MXU9", "VXPF-7E8T", "W5VC-NP6N", "W6FE-GMHU", "W9K6-ADUU", "WDF7-AMNX", "WF8A-FY46", "WJ77-SYQC", "WNTA-WV49", "WPEB-DDDC", "WQ32-S35W", "WQ3F-5DYZ", "WS26-7JVV", "WSVG-NV99", "WXAK-GCGQ", "WZK3-WGE9", "X3DC-MKZA", "X7VB-7TZW", "X9CJ-RZ22", "X9RB-83NC", "XAKU-U2QK", "XBGB-V7PM", "XDJT-CH6A", "XDUD-XB2J", "XE9M-6396", "XGJY-2A89", "XHRM-T8XE", "XJMS-ARW7", "XKTA-NMSX", "XQQ2-72XD", "XR22-RKWC", "XTPY-Y4GQ", "XUJF-32FB", "XWH2-U8JX", "XWYS-E76V", "XYU3-RKUA", "Y23V-T8JG", "Y3F7-TAD3", "Y3JZ-XBWQ", "Y3MF-X92E", "Y4ZF-3WFF", "Y6SB-X989", "Y7SR-NFVX", "Y7X2-XSDP", "Y94T-UE3P", "YBQU-EWQW", "YDQS-5UQH", "YE57-7KXT", "YG5V-RWU2", "YGJD-2WNH", "YJY3-D2BE", "YNAB-KBYT", "YPTV-H8U7", "YRJ3-6YB5", "YZKX-HJXV", "Z74A-EX6X", "Z9HM-DAQD", "ZBFC-YDNQ", "ZBS6-BXRS", "ZEX9-5G6V", "ZF62-MQSX", "ZF8W-TUMK", "ZG75-RSD2", "ZJHV-F4DE", "ZP4R-HQ8Y", "ZQH8-78KP", "ZR43-AFXB", "ZS8S-XXB7", "ZTR4-BRDY", "ZTUV-RUDJ", "ZXJ3-GE27", "ZZRS-Z4XR"]);
+
+    const SLICES = [
+      { line1: "10 PHÔI", line2: "SIÊU CỨNG", bg: "#991B1B", fg: "#FEF08A" },
+      { line1: "THẺ CÀO", line2: "10K - 20K", bg: "#B45309", fg: "#FFFFFF" },
+      { line1: "5 PHÔI",  line2: "LƯỠI CÂU",  bg: "#1E3A8A", fg: "#FEF08A" },
+      { line1: "VOUCHER", line2: "GIẢM 50K",  bg: "#9A3412", fg: "#FFFFFF" },
+      { line1: "2 PHÔI",  line2: "LÀM CHĨA",  bg: "#14532D", fg: "#FEF08A" },
+      { line1: "MAY MẮN", line2: "LẦN SAU",   bg: "#334155", fg: "#F8FAFC" }
+    ];
+
+    const LUCKY_NEXT_TIME_INDEX = 5;
+    let currentDeg = 0;
+    let spinning = false;
+    let redirectTimer = null;
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("ma")) {
+      document.getElementById("code-input").value = params.get("ma").toUpperCase();
+    }
+
+    document.getElementById("code-input").addEventListener("input", (e) => {
+      let v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+      if (v.length > 4) v = v.slice(0, 4) + "-" + v.slice(4, 8);
+      e.target.value = v;
+      document.getElementById("error-msg").style.display = "none";
+    });
+
+    function drawWheel(deg) {
+      const canvas = document.getElementById("wheel-canvas");
+      const ctx = canvas.getContext("2d");
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const r = cx - 10;
+      const n = SLICES.length;
+      const arc = (2 * Math.PI) / n;
+      const rotRad = (deg * Math.PI) / 180;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      SLICES.forEach((s, i) => {
+        const start = i * arc + rotRad;
+        const end = start + arc;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = s.bg;
+        ctx.fill();
+
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#F59E0B";
+        ctx.stroke();
+
+        const mid = start + arc / 2;
+        const norm = ((mid % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+        const flip = (norm > Math.PI / 2 && norm < (3 * Math.PI) / 2);
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(flip ? mid + Math.PI : mid);
+        const tx = flip ? -r * 0.63 : r * 0.63;
+        ctx.textAlign = "center";
+        ctx.fillStyle = s.fg;
+        ctx.shadowColor = "rgba(0,0,0,0.75)";
+        ctx.shadowBlur = 4;
+
+        ctx.font = "900 25px 'Segoe UI', sans-serif";
+        ctx.fillText(s.line1, tx, -6);
+        ctx.font = "800 22px 'Segoe UI', sans-serif";
+        ctx.fillText(s.line2, tx, 22);
+        ctx.restore();
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = "#F59E0B";
+      ctx.stroke();
+
+      for (let i = 0; i < 12; i++) {
+        const a = (i * Math.PI) / 6;
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = "#FEF08A";
+        ctx.fill();
+      }
+    }
+
+    function showError(msg) {
+      const el = document.getElementById("error-msg");
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+
+    function playTick() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "triangle";
+        o.frequency.setValueAtTime(580, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.035);
+        g.gain.setValueAtTime(0.15, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.035);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(); o.stop(ctx.currentTime + 0.04);
+      } catch (e) {}
+    }
+
+    function handleSpin() {
+      if (spinning) return;
+      const input = document.getElementById("code-input");
+      let code = (input.value || "").trim().toUpperCase();
+      if (!code.includes("-") && code.length === 8) {
+        code = code.slice(0, 4) + "-" + code.slice(4);
+        input.value = code;
+      }
+
+      if (!code) {
+        showError("⚠️ Anh vui lòng nhập mã 8 ký tự trên thẻ trước khi quay!");
+        return;
+      }
+
+      if (!VALID_CODES.has(code)) {
+        showError("⚠️ Mã dự thưởng không đúng! Vui lòng kiểm tra lại 8 ký tự trên thẻ.");
+        return;
+      }
+
+      const usedKey = "tsc_used_code_" + code;
+      if (localStorage.getItem(usedKey)) {
+        showError("⚠️ Mã " + code + " đã được sử dụng rồi (mỗi mã chỉ quay 1 lần)!");
+        return;
+      }
+
+      localStorage.setItem(usedKey, new Date().toISOString());
+      document.getElementById("error-msg").style.display = "none";
+
+      spinning = true;
+      document.getElementById("btn-spin").disabled = true;
+
+      const sliceDeg = 360 / SLICES.length;
+      const sliceCenterBeforeRot = LUCKY_NEXT_TIME_INDEX * sliceDeg + sliceDeg / 2;
+      const jitter = (Math.random() * 16) - 8;
+      const desiredMod = (270 - sliceCenterBeforeRot + jitter + 360) % 360;
+      const currentMod = ((currentDeg % 360) + 360) % 360;
+      const deltaToTarget = (desiredMod - currentMod + 360) % 360;
+      const totalSpin = 360 * 6 + deltaToTarget;
+
+      const startDeg = currentDeg;
+      const duration = 4200;
+      const t0 = performance.now();
+      let lastTick = startDeg;
+
+      function frame(now) {
+        const p = Math.min((now - t0) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3.5);
+        currentDeg = startDeg + totalSpin * ease;
+        drawWheel(currentDeg);
+
+        if (currentDeg - lastTick >= 32) {
+          playTick();
+          lastTick = currentDeg;
+        }
+
+        if (p < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          spinning = false;
+          document.getElementById("btn-spin").disabled = false;
+          setTimeout(openResultAndCountdown, 350);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function openResultAndCountdown() {
+      const modal = document.getElementById("result-modal");
+      const secEl = document.getElementById("cd-sec");
+      let remain = 5;
+      secEl.textContent = remain;
+      modal.classList.add("open");
+
+      if (redirectTimer) clearInterval(redirectTimer);
+      redirectTimer = setInterval(() => {
+        remain -= 1;
+        if (remain <= 0) {
+          clearInterval(redirectTimer);
+          window.location.href = STORE_URL;
+        } else {
+          secEl.textContent = remain;
+        }
+      }, 1000);
+    }
+
+    drawWheel(0);
+  </script>
+</body>
+</html>
