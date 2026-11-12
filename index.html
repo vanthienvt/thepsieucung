@@ -1151,22 +1151,11 @@
       padding-top: 14px;
       border-top: 1px solid var(--border);
     }
-    .reviews-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
     .reviews-title {
       font-size: 13.5px;
       font-weight: 800;
       color: var(--text);
-    }
-    .reviews-hint {
-      font-size: 11.5px;
-      color: var(--muted);
+      margin-bottom: 8px;
     }
     .reviews-scroll-box {
       max-height: 360px;
@@ -1864,10 +1853,7 @@
 
           ${Array.isArray(p.reviews) && p.reviews.length ? `
             <div class="reviews-section">
-              <div class="reviews-header">
-                <div class="reviews-title">⭐ Đánh giá thực tế (${p.reviews.length})</div>
-                ${p.reviews.length > 4 ? `<div class="reviews-hint">Kéo xuống xem tất cả (5★ → 4★)</div>` : ''}
-              </div>
+              <div class="reviews-title">⭐ Đánh giá của khách hàng (${p.reviews.length})</div>
               <div class="reviews-scroll-box">
                 ${p.reviews.map((r, ri) => {
                   const star = Math.max(1, Math.min(5, Number(r.rating_star) || 5));
