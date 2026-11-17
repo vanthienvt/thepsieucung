@@ -1,43 +1,19 @@
 {
-  "updatedAt": 1794910903,
-  "numPages": 9,
-  "pdfFile": "don_tiktok.pdf",
+  "updatedAt": 1794911123,
+  "numPages": 3,
+  "pdfFile": "don_shopee.pdf",
   "orders": [
     {
-      "label": "Trang 1 / 9 • TikTok J&T",
+      "label": "Trang 1 / 3 • Shopee SPX",
       "src": "preview_p1.png"
     },
     {
-      "label": "Trang 2 / 9 • TikTok J&T",
+      "label": "Trang 2 / 3 • Shopee SPX",
       "src": "preview_p2.png"
     },
     {
-      "label": "Trang 3 / 9 • TikTok J&T",
+      "label": "Trang 3 / 3 • Shopee SPX",
       "src": "preview_p3.png"
-    },
-    {
-      "label": "Trang 4 / 9 • TikTok J&T",
-      "src": "preview_p4.png"
-    },
-    {
-      "label": "Trang 5 / 9 • TikTok J&T",
-      "src": "preview_p5.png"
-    },
-    {
-      "label": "Trang 6 / 9 • TikTok J&T",
-      "src": "preview_p6.png"
-    },
-    {
-      "label": "Trang 7 / 9 • TikTok J&T",
-      "src": "preview_p7.png"
-    },
-    {
-      "label": "Trang 8 / 9 • TikTok J&T",
-      "src": "preview_p8.png"
-    },
-    {
-      "label": "Trang 9 / 9 • TikTok J&T",
-      "src": "preview_p9.png"
     }
   ]
 }
