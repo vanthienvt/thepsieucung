@@ -136,6 +136,20 @@
       font-size: 13px;
       font-weight: 800;
     }
+    .wheel-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #FEF3C7;
+      border: 1.5px solid #F59E0B;
+      color: #92400E;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .wheel-pill:hover { background: #FDE68A; }
     .hl-short { display: none; }
     .cart-btn-top {
       display: inline-flex;
@@ -307,6 +321,7 @@
       .hl-full { display: none; }
       .hl-short { display: inline; }
       .hotline-pill { padding: 6px 9px; font-size: 12px; }
+      .wheel-pill { padding: 6px 9px; font-size: 12px; }
       .cart-btn-top { padding: 6px 10px; font-size: 12.5px; gap: 5px; }
       .search-wrap { order: 3; min-width: 100%; }
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -1314,6 +1329,7 @@
       </div>
 
       <div class="header-actions">
+        <a href="vong-quay/" class="wheel-pill">🎯 <span class="hl-full">Vòng Quay</span><span class="hl-short">Quay</span></a>
         <a href="tel:0934376614" class="hotline-pill">📞 <span class="hl-full">0934.376.614</span><span class="hl-short">Gọi</span></a>
         <button class="cart-btn-top" onclick="openCart()">
           🛒 <span class="hl-full">Giỏ hàng</span><span class="hl-short">Giỏ</span> <span class="cart-badge" id="topCartCount">0</span>
@@ -1342,6 +1358,7 @@
       <button class="cat-tab" data-cat="chia" onclick="setCat('chia', this)">🔱 Thép Chĩa &amp; Cơ Khí (10)</button>
       <button class="cat-tab" data-cat="cua_ga" onclick="setCat('cua_ga', this)">🐓 Phôi &amp; Đế Cựa Gà (9)</button>
       <button class="cat-tab" data-cat="cau_ca" onclick="setCat('cau_ca', this)">🎣 Thép Làm Lưỡi Câu (7)</button>
+      <a href="vong-quay/" class="cat-tab" style="background:#FFFBEB;border-color:#F59E0B;color:#B45309;text-decoration:none;">🎯 Vòng Quay May Mắn</a>
     </div>
 
     <!-- Product Grid -->
