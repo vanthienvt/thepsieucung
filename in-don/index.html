@@ -4,334 +4,208 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Tạo Link PDF & In Đơn Hàng v3 — Thép Siêu Cứng</title>
+  <title>In Đơn Nhanh v3 — Thép Siêu Cứng</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif;
       background: #0F172A;
       color: #F8FAFC;
-      padding: 18px 14px 40px;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 14px;
     }
-    .panel {
-      max-width: 780px;
-      margin: 0 auto 22px;
+    .card {
+      width: 100%;
+      max-width: 680px;
       background: #1E293B;
       border: 1.5px solid #F59E0B;
-      border-radius: 14px;
-      padding: 18px 20px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      border-radius: 16px;
+      padding: 24px 22px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
     }
-    .panel-title {
-      font-size: 18px;
+    h1 {
+      font-size: 20px;
       font-weight: 900;
       color: #FDE047;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
-    .panel-sub {
-      font-size: 13px;
+    .sub {
+      font-size: 13.5px;
       color: #CBD5E1;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
+      line-height: 1.5;
     }
-    .url-box {
-      background: #0F172A;
-      border: 1px solid #334155;
-      border-radius: 11px;
-      padding: 12px;
-      margin-bottom: 14px;
-    }
-    .url-lbl {
-      font-size: 12.5px;
+    .lbl {
+      font-size: 13px;
       font-weight: 800;
       color: #FDBA74;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
     }
-    .url-input-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .url-input {
-      flex: 1;
-      min-width: 240px;
-      padding: 10px 12px;
-      border-radius: 9px;
+    textarea {
+      width: 100%;
+      min-height: 92px;
+      padding: 12px 13px;
+      border-radius: 10px;
       border: 1.5px solid #475569;
       background: #020617;
       color: #F8FAFC;
-      font-family: inherit;
+      font-family: ui-monospace, Consolas, monospace;
       font-size: 13px;
       line-height: 1.45;
       resize: vertical;
-      min-height: 62px;
       outline: none;
+      margin-bottom: 12px;
     }
-    .url-input:focus { border-color: #F59E0B; }
-    .btn-gen {
-      padding: 11px 18px;
-      border-radius: 9px;
+    textarea:focus { border-color: #F59E0B; }
+    .btn-main {
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 11px;
       border: none;
       background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
       color: #FFFFFF;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 900;
       cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.45);
     }
-    .btn-gen:disabled { opacity: 0.6; cursor: wait; }
-    .gen-status {
-      margin-top: 8px;
-      font-size: 12.5px;
+    .btn-main:disabled { opacity: 0.6; cursor: wait; }
+    .status {
+      margin-top: 12px;
+      font-size: 13.5px;
       font-weight: 700;
       color: #86EFAC;
       display: none;
-      line-height: 1.4;
+      line-height: 1.45;
     }
-    .gen-status.err { color: #FCA5A5; }
-
-    .result-box {
-      background: #064E3B;
-      border: 1.5px solid #10B981;
-      border-radius: 11px;
-      padding: 13px 14px;
-      margin-bottom: 12px;
+    .status.err { color: #FCA5A5; }
+    .open-wrap {
+      display: none;
+      margin-top: 14px;
     }
-    .result-lbl {
-      font-size: 12.5px;
-      font-weight: 800;
-      color: #A7F3D0;
-      margin-bottom: 6px;
-    }
-    .result-link-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .result-url {
-      flex: 1;
-      min-width: 240px;
-      padding: 9px 11px;
-      border-radius: 8px;
-      border: 1px solid #34D399;
-      background: #022C22;
-      color: #ECFDF5;
-      font-family: ui-monospace, Consolas, monospace;
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .btn-copy {
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: none;
-      background: #FDE047;
-      color: #0F172A;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 900;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .btn-open-pdf {
+    .btn-pdf {
       display: flex;
       width: 100%;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 13px 16px;
-      border-radius: 9px;
-      background: #FFFFFF;
-      color: #065F46;
+      padding: 15px 18px;
+      border-radius: 11px;
+      background: #10B981;
+      color: #022C22;
       text-decoration: none;
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 900;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+      box-shadow: 0 5px 14px rgba(16, 185, 129, 0.35);
     }
-    .print-tip {
-      background: rgba(255, 255, 255, 0.06);
+    .tip {
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid #334155;
-      border-radius: 9px;
-      padding: 9px 12px;
+      border-radius: 10px;
+      padding: 10px 12px;
       font-size: 12.5px;
-      color: #E2E8F0;
+      color: #CBD5E1;
       line-height: 1.5;
     }
-    .print-tip b { color: #FDE047; }
-
-    /* Vertical 1-Column PDF Page Preview Stack (Same direction as TikTok link) */
-    .preview-head {
-      max-width: 615px;
-      margin: 0 auto 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 13.5px;
-      font-weight: 800;
-      color: #CBD5E1;
-      padding: 0 4px;
-    }
-    .vertical-stack {
-      max-width: 615px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
-    .sheet-item {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-    }
-    .sheet-caption {
-      background: #334155;
-      color: #F8FAFC;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-    .sheet-card {
-      width: 100%;
-      max-width: 560px;
-      background: #FFFFFF;
-      border-radius: 5px;
-      overflow: hidden;
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6);
-    }
-    .sheet-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+    .tip b { color: #FDE047; }
   </style>
 </head>
 <body>
+  <div class="card">
+    <h1>🖨️ IN VẬN ĐƠN v3 — THÉP SIÊU CỨNG</h1>
+    <div class="sub">Dán link in từ <b>TikTok Shop</b> hoặc <b>Shopee (GHN / SPX)</b>, bấm 1 nút là mở thẳng file PDF v3 để in ngay (xử lý nội bộ trên RAM, không lưu đơn lên web).</div>
 
-  <div class="panel">
-    <div class="panel-title">🖨️ TẠO LINK FILE .PDF IN VẬN ĐƠN v3 — THÉP SIÊU CỨNG</div>
-    <div class="panel-sub">Dán đường dẫn PDF từ <b>TikTok Shop</b> hoặc <b>Shopee (GHN / SPX)</b> để tự động chèn v3 và nhận link .PDF chuẩn in từng trang dọc (chế độ <b>Vừa với vùng in được</b>).</div>
+    <div class="lbl">DÁN ĐƯỜNG DẪN IN ĐƠN CỦA SÀN (CÓ THỂ DÁN NHIỀU LINK MỖI DÒNG 1 LINK):</div>
+    <textarea id="urlInput" placeholder="https://seller-vn.tiktok.com/... hoặc https://banhang.shopee.vn/awbprint?job_id=..."></textarea>
 
-    <div class="url-box">
-      <div class="url-lbl">1️⃣ DÁN ĐƯỜNG DẪN TIKTOK HOẶC SHOPEE VÀO ĐÂY (CÓ THỂ DÁN NHIỀU LINK MỖI DÒNG 1 LINK):</div>
-      <div class="url-input-row">
-        <textarea id="tiktokUrlInput" class="url-input" rows="2" placeholder="Dán link https://seller-vn.tiktok.com/... hoặc https://banhang.shopee.vn/awbprint?job_id=..."></textarea>
-        <button id="btnProcess" class="btn-gen" onclick="processTikTokLink()">⚡ Chèn v3 &amp; Tạo Link PDF</button>
-      </div>
-      <div id="genStatus" class="gen-status"></div>
+    <button id="btnGo" class="btn-main" onclick="runPrintV3()">🖨️ CHÈN V3 &amp; MỞ FILE PDF IN NGAY</button>
+
+    <div id="statusBox" class="status"></div>
+
+    <div id="openWrap" class="open-wrap">
+      <a id="btnOpenPdf" href="#" class="btn-pdf">📄 BẤM ĐỂ MỞ FILE PDF V3 &amp; IN (Ctrl + P)</a>
     </div>
 
-    <div class="result-box">
-      <div class="result-lbl">2️⃣ ĐƯỜNG DẪN FILE .PDF ĐÃ CHÈN V3 (DÁN LINK NÀY QUA LAPTOP ĐỂ IN):</div>
-      <div class="result-link-row">
-        <input id="pdfResultInput" type="text" class="result-url" readonly value="https://thepsieucung.com/in-don/don_shopee.pdf" onclick="this.select()" />
-        <button id="btnCopy" class="btn-copy" onclick="copyPdfLink()">📋 Copy Link PDF</button>
-      </div>
-      <a id="btnOpenPdf" href="don_shopee.pdf" target="_blank" rel="noopener" class="btn-open-pdf">
-        📄 MỞ FILE .PDF CHUẨN ĐỂ BẤM IN (Ctrl + P) →
-      </a>
-    </div>
-
-    <div class="print-tip">
-      💡 <b>Cách in chuẩn nhất trên Laptop:</b> Dán link PDF ở trên vào trình duyệt → Bấm <b>Ctrl + P</b> → Chọn Khổ giấy <b>4"x6" 10x15cm</b> (hoặc A6) → Mục Tỷ lệ chọn <b>“Vừa với vùng in được”</b> là in đúng 1 tờ / 1 đơn sắc nét.
+    <div class="tip">
+      💡 Sau khi file PDF mở ra: bấm <b>Ctrl + P</b> → Khổ giấy <b>4"x6" 10x15cm</b> (hoặc A6) → Tỷ lệ chọn <b>“Vừa với vùng in được”</b> → Bấm <b>In</b> là xong.
     </div>
   </div>
-
-  <div class="preview-head">
-    <span id="previewCount">📄 Xem trước từng trang dọc</span>
-    <span style="font-size:12px;color:#94A3B8;">Bản v3 chuẩn A6 / 10×15cm</span>
-  </div>
-
-  <div id="verticalStack" class="vertical-stack"></div>
 
   <script>
-    const SERVER_CANDIDATES = [
-      'http://127.0.0.1:5055',
-      'https://076599d315578e.app.lhr.life',
-      'http://192.168.1.137:5055'
-    ];
-    const BASE_DIR_URL = 'https://thepsieucung.com/in-don/';
-    const DEFAULT_ORDERS = [
-      { label: 'Trang 1 / 2 • 862714922626 — Lương Văn Thức (1Ly8 14cm)', src: 'order1_v3.png' },
-      { label: 'Trang 2 / 2 • 862777292626 — Danh Tình (2Ly8 40cm)', src: 'order2_v3.png' }
-    ];
+    const LAN_FALLBACK = 'http://192.168.1.137:5055';
+    const LOCAL_URL = 'http://127.0.0.1:5055';
+
+    async function getTunnelUrl() {
+      try {
+        const r = await fetch('tunnel.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!r.ok) return '';
+        const j = await r.json();
+        return (j && j.tunnelUrl) ? String(j.tunnelUrl).trim() : '';
+      } catch (e) {
+        return '';
+      }
+    }
 
     async function probeHealth(baseUrl) {
+      if (!baseUrl) return null;
       const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 3500);
+      const t = setTimeout(() => ctrl.abort(), 3500);
       try {
         const r = await fetch(baseUrl + '/health', { cache: 'no-store', signal: ctrl.signal });
         if (!r.ok) return null;
         const j = await r.json();
-        return j && j.ok ? baseUrl : null;
+        return (j && j.ok) ? baseUrl : null;
       } catch (e) {
         return null;
       } finally {
-        clearTimeout(timer);
+        clearTimeout(t);
       }
     }
 
     async function findActiveServer() {
-      for (const base of SERVER_CANDIDATES) {
-        const hit = await probeHealth(base);
+      const tunnelUrl = await getTunnelUrl();
+      const candidates = [LOCAL_URL, tunnelUrl, LAN_FALLBACK].filter(Boolean);
+      for (const c of candidates) {
+        const hit = await probeHealth(c);
         if (hit) return hit;
       }
       return null;
     }
 
-    function renderVerticalStack(list) {
-      document.getElementById('previewCount').textContent = `📄 Xem trước từng trang dọc (${list.length} đơn)`;
-      document.getElementById('verticalStack').innerHTML = list.map((item, idx) => `
-        <div class="sheet-item">
-          <div class="sheet-caption">${item.label || ('Trang ' + (idx + 1) + ' / ' + list.length)}</div>
-          <div class="sheet-card">
-            <img src="${item.src}" alt="${item.label || ('Don ' + (idx + 1))}" />
-          </div>
-        </div>
-      `).join('');
-    }
+    async function runPrintV3() {
+      const rawUrl = (document.getElementById('urlInput').value || '').trim();
+      const st = document.getElementById('statusBox');
+      const btn = document.getElementById('btnGo');
+      const wrap = document.getElementById('openWrap');
+      const openLink = document.getElementById('btnOpenPdf');
 
-    function copyPdfLink() {
-      const inp = document.getElementById('pdfResultInput');
-      inp.select();
-      inp.setSelectionRange(0, 99999);
-      try { navigator.clipboard.writeText(inp.value); } catch (e) {}
-      try { document.execCommand('copy'); } catch (e) {}
-      const btn = document.getElementById('btnCopy');
-      const old = btn.textContent;
-      btn.textContent = '✅ Đã Copy!';
-      setTimeout(() => { btn.textContent = old; }, 2200);
-    }
+      st.className = 'status';
+      wrap.style.display = 'none';
 
-    async function processTikTokLink() {
-      const rawUrl = (document.getElementById('tiktokUrlInput').value || '').trim();
-      const st = document.getElementById('genStatus');
-      const btn = document.getElementById('btnProcess');
-      st.className = 'gen-status';
       if (!rawUrl || !rawUrl.includes('http')) {
         st.style.display = 'block';
         st.classList.add('err');
-        st.textContent = '⚠️ Vui lòng dán đường dẫn TikTok Shop hoặc Shopee (http/https) vào ô trên trước.';
+        st.textContent = '⚠️ Vui lòng dán đường dẫn TikTok Shop hoặc Shopee (bắt đầu bằng http/https) vào ô trên.';
         return;
       }
 
       btn.disabled = true;
       st.style.display = 'block';
-      st.textContent = '⏳ Đang kết nối máy chủ, tải PDF và chèn bản v3 (chờ 10–30 giây)...';
+      st.textContent = '⏳ Đang tải đơn từ sàn và chèn v3 trực tiếp trên RAM (chờ 4–8 giây)...';
+
       try {
         const serverUrl = await findActiveServer();
         if (!serverUrl) {
-          throw new Error('Không kết nối được tới máy chủ chèn PDF (hãy bật máy chính chạy tool hoặc tải lại trang).');
+          throw new Error('Không kết nối được tới máy chủ xử lý PDF trên máy chính. Hãy kiểm tra máy chính đang bật mạng và thử tải lại trang.');
         }
+
         const resp = await fetch(serverUrl + '/api/process-tiktok-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -341,40 +215,19 @@
         if (!resp.ok || !data.ok) {
           throw new Error(data.error || ('HTTP ' + resp.status));
         }
-        document.getElementById('pdfResultInput').value = data.pdfUrl;
-        document.getElementById('btnOpenPdf').href = data.pdfUrl;
-        st.textContent = `✅ Xong! Đã chèn bản v3 cho ${data.numPages} đơn (${data.pdfFile}) và cập nhật link PDF ở ô xanh bên dưới.`;
-        await loadManifest();
+
+        const fullPdfUrl = serverUrl + data.pdfPath;
+        openLink.href = fullPdfUrl;
+        wrap.style.display = 'block';
+        st.textContent = `✅ Xong ${data.numPages} trang v3! Đang mở thẳng file PDF để bạn bấm Ctrl + P in...`;
+        window.location.href = fullPdfUrl;
       } catch (err) {
         st.classList.add('err');
-        st.textContent = '⚠️ Lỗi: ' + (err.message || err);
+        st.textContent = '⚠️ Lỗi: ' + (err && err.message ? err.message : err);
       } finally {
         btn.disabled = false;
       }
     }
-
-    async function loadManifest() {
-      try {
-        const r = await fetch('manifest.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!r.ok) return renderVerticalStack(DEFAULT_ORDERS);
-        const m = await r.json();
-        if (Array.isArray(m.orders) && m.orders.length) {
-          const ts = m.updatedAt || Date.now();
-          const pdfFile = m.pdfFile || 'don_tiktok.pdf';
-          const verUrl = BASE_DIR_URL + pdfFile + '?v=' + ts;
-          document.getElementById('pdfResultInput').value = verUrl;
-          document.getElementById('btnOpenPdf').href = pdfFile + '?v=' + ts;
-          renderVerticalStack(m.orders.map((o, i) => ({
-            label: o.label || `Trang ${i + 1} / ${m.orders.length}`,
-            src: o.src + '?v=' + ts
-          })));
-          return;
-        }
-      } catch (e) {}
-      renderVerticalStack(DEFAULT_ORDERS);
-    }
-
-    loadManifest();
   </script>
 </body>
 </html>
