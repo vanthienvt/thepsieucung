@@ -4,62 +4,657 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Mở Công Cụ In Đơn Nội Bộ v3 — Thép Siêu Cứng</title>
+  <title>In Đơn Nhanh v3 — Thép Siêu Cứng</title>
+  <script src="pdf.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: #0F172A;
       color: #F8FAFC;
+      min-height: 100vh;
+    }
+    .input-screen {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 20px 14px;
     }
-    .box {
-      max-width: 520px;
+    .card {
       width: 100%;
+      max-width: 680px;
       background: #1E293B;
       border: 1.5px solid #F59E0B;
       border-radius: 16px;
-      padding: 26px 22px;
-      text-align: center;
+      padding: 24px 22px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
     }
-    h1 { font-size: 19px; font-weight: 800; color: #FDE047; margin-bottom: 8px; }
-    p { font-size: 14px; color: #CBD5E1; margin-bottom: 18px; line-height: 1.5; }
-    .btn {
-      display: inline-block;
+    h1 { font-size: 20px; font-weight: 800; color: #FDE047; margin-bottom: 6px; }
+    .sub { font-size: 13.5px; color: #CBD5E1; margin-bottom: 18px; line-height: 1.5; }
+    .lbl { font-size: 13px; font-weight: 700; color: #FDBA74; margin-bottom: 8px; }
+    textarea {
+      width: 100%;
+      min-height: 98px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      border: 1.5px solid #475569;
+      background: #020617;
+      color: #F8FAFC;
+      font-family: Consolas, ui-monospace, monospace;
+      font-size: 13px;
+      line-height: 1.45;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    textarea:focus { border-color: #F59E0B; }
+    .btn-main {
       width: 100%;
       padding: 15px 18px;
       border-radius: 11px;
+      border: none;
       background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
       color: #FFFFFF;
-      text-decoration: none;
+      font-family: inherit;
       font-size: 16px;
       font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.45);
+    }
+    .btn-main:disabled { opacity: 0.6; cursor: wait; }
+    .status { margin-top: 12px; font-size: 13.5px; font-weight: 700; color: #86EFAC; display: none; line-height: 1.45; }
+    .status.err { color: #FCA5A5; }
+    .tip {
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+    .tip b { color: #FDE047; }
+
+    /* Fullscreen PDF Viewer Mode */
+    .pdf-screen {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+    .pdf-bar {
+      background: #1E293B;
+      border-bottom: 1.5px solid #334155;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pdf-info { font-size: 13.5px; font-weight: 800; color: #86EFAC; }
+    .pdf-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-bar {
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: none;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-tab { background: #10B981; color: #022C22; }
+    .btn-reset { background: #334155; color: #F8FAFC; }
+    .pdf-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #525659;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>🖨️ ĐANG CHUYỂN SANG TRANG IN ĐƠN NỘI BỘ...</h1>
-    <p>Công cụ in đơn v3 chạy hoàn toàn nội bộ tại mạng nhà/xưởng để bảo mật và in tức thì.</p>
-    <a class="btn" href="http://192.168.1.137:5055/">MỞ TRANG IN ĐƠN v3 (http://192.168.1.137:5055/) →</a>
+  <div id="inputScreen" class="input-screen">
+    <div class="card">
+      <h1>🖨️ IN VẬN ĐƠN v3 — THÉP SIÊU CỨNG</h1>
+      <div class="sub">Dán link in của <b>TikTok Shop</b> hoặc <b>Shopee (GHN / SPX)</b> và bấm 1 nút. Mọi bước chèn tem v3 và tạo file PDF chạy trực tiếp trên trình duyệt Laptop, không mở cửa sổ và không lưu lên GitHub.</div>
+      <div class="lbl">DÁN ĐƯỜNG DẪN IN ĐƠN CỦA SÀN (CÓ THỂ DÁN NHIỀU LINK MỖI DÒNG 1 LINK):</div>
+      <textarea id="urlInput" placeholder="https://seller-vn.tiktok.com/... hoặc https://banhang.shopee.vn/awbprint?job_id=..."></textarea>
+      <button id="btnGo" class="btn-main" onclick="runPrintV3()">🖨️ CHÈN V3 &amp; MỞ FILE PDF IN NGAY</button>
+      <div id="statusBox" class="status"></div>
+      <div class="tip">
+        💡 Khi file PDF mở ra: bấm <b>Mở tab PDF riêng (hoặc Ctrl + P)</b> → Khổ giấy <b>4"x6" 10x15cm</b> (hoặc A6) → Tỷ lệ chọn <b>“Vừa với vùng in được”</b> → Bấm <b>In</b>.
+      </div>
+    </div>
   </div>
+
+  <div id="pdfScreen" class="pdf-screen">
+    <div class="pdf-bar">
+      <div id="pdfInfo" class="pdf-info">✅ Đã chèn v3 xong!</div>
+      <div class="pdf-actions">
+        <a id="openTabLink" href="#" target="_blank" rel="noopener" class="btn-bar btn-tab">📄 Mở tab PDF riêng để bấm Ctrl + P</a>
+        <button class="btn-bar btn-reset" onclick="resetToInput()">🔄 Dán đơn khác</button>
+      </div>
+    </div>
+    <iframe id="pdfFrame" class="pdf-frame" title="Xem & In PDF v3"></iframe>
+  </div>
+
   <script>
-    (async () => {
-      try {
-        const c = new AbortController();
-        setTimeout(() => c.abort(), 900);
-        const r = await fetch('http://127.0.0.1:5055/health', { cache: 'no-store', signal: c.signal });
-        if (r.ok) {
-          location.replace('http://127.0.0.1:5055/');
-          return;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
+
+    const LOCAL_URL = 'http://127.0.0.1:5055';
+    let currentBlobUrl = '';
+
+    function loadImage(src) {
+      return new Promise((res, rej) => {
+        const im = new Image();
+        im.onload = () => res(im);
+        im.onerror = rej;
+        im.src = src;
+      });
+    }
+
+    function drawRoundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function findTextBottom615(imgData, W, H, sx, sy, xStart615, xEnd615, yTop615, yBottom615, fallback615) {
+      const px0 = Math.max(0, Math.round(xStart615 * sx));
+      const px1 = Math.min(W - 1, Math.round(xEnd615 * sx));
+      const stepX = Math.max(1, Math.round(2 * sx));
+      for (let y615 = Math.floor(yBottom615); y615 >= Math.ceil(yTop615); y615--) {
+        const py = Math.min(H - 1, Math.max(0, Math.round(y615 * sy)));
+        let darkCnt = 0;
+        for (let px = px0; px <= px1; px += stepX) {
+          const idx = (py * W + px) * 4;
+          const g = (imgData[idx] + imgData[idx + 1] + imgData[idx + 2]) / 3;
+          if (g < 175) darkCnt++;
         }
+        if (darkCnt >= 3) return y615;
+      }
+      return fallback615;
+    }
+
+    function stampCanvasTikTokV3(canvas, logoLight, logoDark) {
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const sx = W / 615;
+      const sy = sx;
+
+      const imgData = ctx.getImageData(0, 0, W, H).data;
+      const rowDarkRatio = (y615) => {
+        const py = Math.min(H - 1, Math.round(y615 * sy));
+        let cnt = 0;
+        for (let px = 0; px < W; px += 2) {
+          const idx = (py * W + px) * 4;
+          const g = (imgData[idx] + imgData[idx + 1] + imgData[idx + 2]) / 3;
+          if (g < 150) cnt++;
+        }
+        return cnt / (W / 2);
+      };
+
+      let tableBottom = 726;
+      for (let y = 690; y <= 785; y++) {
+        if (rowDarkRatio(y) > 0.70) { tableBottom = y; break; }
+      }
+      let bottomRule = Math.round(H / sy) - 62;
+      for (let y = tableBottom + 45; y <= Math.round(H / sy) - 42; y++) {
+        if (rowDarkRatio(y) > 0.70) { bottomRule = y; break; }
+      }
+
+      ctx.save();
+      ctx.scale(sx, sy);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(361, 169, 215, 29);
+      ctx.drawImage(logoLight, 366, 171, 24, 24);
+      ctx.fillStyle = '#000000';
+      ctx.textBaseline = 'top';
+      ctx.font = '900 10.5px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('THEPSIEUCUNG.COM', 395, 172);
+      ctx.font = '800 8.5px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Zalo/ĐT: 0934.376.614', 395, 184);
+
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(35, 480, 259, 95);
+      ctx.drawImage(logoDark, 42, 489, 76, 76);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 10.5px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('THÉP SIÊU CỨNG', 125, 488);
+      drawRoundRect(ctx, 125, 503, 160, 17, 3);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.fillStyle = '#000000';
+      ctx.font = '900 10.8px "Segoe UI", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('THEPSIEUCUNG.COM', 205, 505.5);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '800 8.8px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('“Tay nghề cứng —', 125, 524);
+      ctx.fillText('Xài Thép Siêu Cứng”', 125, 535);
+      ctx.font = '900 9.2px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Zalo / ĐT: 0934.376.614', 125, 550);
+
+      const skuH = Math.max(66, Math.min(92, tableBottom - 656));
+      drawRoundRect(ctx, 354, 652, 180, skuH, 4);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#000000';
+      ctx.stroke();
+
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(354, 652, 180, 16);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 8.8px "Segoe UI", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('★ CÓ THẺ MÃ QUAY TRONG GÓI ★', 444, 655);
+
+      ctx.textAlign = 'left';
+      const bodyMidY = 668 + (skuH - 16) / 2;
+      ctx.drawImage(logoLight, 360, bodyMidY - 19, 38, 38);
+      ctx.fillStyle = '#000000';
+      ctx.font = '800 8.6px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Mở gói lấy mã quay tại:', 403, bodyMidY - 15);
+      ctx.font = '900 9.5px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('THEPSIEUCUNG.COM', 403, bodyMidY - 3);
+      ctx.fillRect(403, bodyMidY + 8, 108, 1);
+      ctx.font = '700 8.2px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Cảm ơn AE đã ủng hộ!', 403, bodyMidY + 11);
+
+      const botTop = Math.min(Math.round(H / sy) - 47, bottomRule + 3);
+      drawRoundRect(ctx, 14, botTop, 582, 45, 5);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#000000';
+      ctx.stroke();
+
+      ctx.drawImage(logoLight, 21, botTop + 4, 37, 37);
+      drawRoundRect(ctx, 64, botTop + 5, 523, 17, 3);
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 10.2px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('★ CÓ THẺ CÀO BÊN TRONG — VÀO THEPSIEUCUNG.COM BẤM [VÒNG QUAY] NHẬN QUÀ!', 70, botTop + 8);
+      ctx.fillStyle = '#000000';
+      ctx.font = '800 10.2px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Cảm ơn anh em đã tin tưởng ủng hộ! • Zalo / ĐT: 0934.376.614', 64, botTop + 26);
+
+      ctx.restore();
+    }
+
+    function drawProductV3Card(ctx, logoLight, x, y, w, h) {
+      drawRoundRect(ctx, x, y, w, h, 5);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2.2;
+      ctx.strokeStyle = '#000000';
+      ctx.stroke();
+
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(x, y, w, 23);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'center';
+      ctx.font = '900 10.8px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('★ CÓ THẺ CÀO BÊN TRONG — VÀO THEPSIEUCUNG.COM', x + w / 2, y + 6, w - 12);
+
+      const pillY = y + 27;
+      drawRoundRect(ctx, x + 8, pillY, w - 16, 19, 3.5);
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 9.8px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('BẤM MỤC [VÒNG QUAY MAY MẮN] NHẬN QUÀ NGAY!', x + w / 2, pillY + 4.5, w - 24);
+
+      const bodyTop = y + 51;
+      const bodyH = Math.max(54, h - 55);
+      const logoSize = Math.min(72, bodyH - 2);
+      ctx.drawImage(logoLight, x + 10, bodyTop + (bodyH - logoSize) / 2, logoSize, logoSize);
+
+      const tx = x + 10 + logoSize + 10;
+      const maxTw = w - (tx - x) - 10;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#000000';
+      ctx.font = '900 12.2px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('THÉP SIÊU CỨNG • THEPSIEUCUNG.COM', tx, bodyTop + 3, maxTw);
+
+      ctx.fillRect(tx, bodyTop + 19, maxTw, 1.2);
+
+      ctx.font = '800 10.8px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('“Tay nghề cứng — Xài Thép Siêu Cứng”', tx, bodyTop + 24, maxTw);
+
+      ctx.font = '800 10.6px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Cảm ơn anh em đã tin tưởng ủng hộ!', tx, bodyTop + 40, maxTw);
+
+      ctx.font = '900 11.4px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Zalo / ĐT: 0934.376.614', tx, bodyTop + 56, maxTw);
+    }
+
+    function stampCanvasShopeeGhnV3(canvas, logoLight, logoDark) {
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const sx = W / 615;
+      const sy = sx;
+      const imgData = ctx.getImageData(0, 0, W, H).data;
+      const prodBottom = findTextBottom615(imgData, W, H, sx, sy, 26, 420, 335, 646, 415);
+
+      ctx.save();
+      ctx.scale(sx, sy);
+
+      const boxBottom = 651;
+      const boxTop = Math.min(542, Math.max(prodBottom + 14, 514));
+      const boxH = boxBottom - boxTop;
+      if (boxH >= 96) {
+        drawProductV3Card(ctx, logoLight, 22, boxTop, 400, Math.min(134, boxH));
+      }
+
+      const rx = 435, ry = 453, rw = 156, rh = 141;
+      drawRoundRect(ctx, rx, ry, rw, rh, 5);
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+
+      const logoSize = 54;
+      ctx.drawImage(logoDark, rx + (rw - logoSize) / 2, ry + 7, logoSize, logoSize);
+
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'center';
+      const cx = rx + rw / 2;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 10.6px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('THÉP SIÊU CỨNG', cx, ry + 64, rw - 10);
+
+      drawRoundRect(ctx, rx + 8, ry + 78, rw - 16, 17, 3);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.fillStyle = '#000000';
+      ctx.font = '900 10.2px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('THEPSIEUCUNG.COM', cx, ry + 81, rw - 20);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '800 8.8px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('“Tay nghề cứng —', cx, ry + 99, rw - 10);
+      ctx.fillText('Xài Thép Siêu Cứng”', cx, ry + 110, rw - 10);
+
+      ctx.font = '900 9.4px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Zalo/ĐT: 0934.376.614', cx, ry + 125, rw - 10);
+
+      ctx.restore();
+    }
+
+    function stampCanvasShopeeSpxV3(canvas, logoLight) {
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const sx = W / 615;
+      const sy = sx;
+      const imgData = ctx.getImageData(0, 0, W, H).data;
+      const prodBottom = findTextBottom615(imgData, W, H, sx, sy, 26, 422, 360, 590, 435);
+
+      ctx.save();
+      ctx.scale(sx, sy);
+
+      const boxBottom = 595;
+      const boxTop = Math.min(500, Math.max(prodBottom + 14, 467));
+      const boxH = boxBottom - boxTop;
+      if (boxH >= 96) {
+        drawProductV3Card(ctx, logoLight, 22, boxTop, 408, Math.min(128, boxH));
+      }
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(19, 804.5, 577, 55);
+
+      const bx = 22, by = 806.5, bw = 571, bh = 49;
+      drawRoundRect(ctx, bx, by, bw, bh, 5);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#000000';
+      ctx.stroke();
+
+      ctx.drawImage(logoLight, bx + 6, by + 4.5, 40, 40);
+
+      drawRoundRect(ctx, bx + 51, by + 5, bw - 58, 18, 3);
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'left';
+      ctx.font = '900 9.9px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('★ CÓ THẺ CÀO BÊN TRONG — VÀO THEPSIEUCUNG.COM BẤM [VÒNG QUAY] NHẬN QUÀ!', bx + 57, by + 8, bw - 70);
+
+      ctx.fillStyle = '#000000';
+      ctx.font = '800 9.8px "Segoe UI", Arial, sans-serif';
+      ctx.fillText('Cảm ơn anh em đã tin tưởng ủng hộ! • Zalo / ĐT: 0934.376.614', bx + 51, by + 28.5, bw - 60);
+
+      ctx.restore();
+    }
+
+    function classifyPage(text) {
+      if (/SPX|1900\s*6885|Tuyển NV/i.test(text)) return 'SHOPEE_SPX';
+      if (/GiaoHangNhanh|GYE|Nội dung hàng|Mã vận đơn/i.test(text)) return 'SHOPEE_GHN';
+      return 'TIKTOK';
+    }
+
+    function b64ToUint8Array(b64) {
+      const bin = atob(b64);
+      const out = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    function buildPdfBlobFromCanvases(canvases) {
+      const enc = new TextEncoder();
+      const chunks = [];
+      let offset = 0;
+      const pushBytes = (u8) => { chunks.push(u8); offset += u8.length; };
+      const pushStr = (s) => pushBytes(enc.encode(s));
+
+      pushStr('%PDF-1.4\n%\xFF\xFF\xFF\xFF\n');
+
+      const N = canvases.length;
+      const totalObjs = 3 + N * 3;
+      const offsets = new Array(totalObjs).fill(0);
+      const kids = [];
+      for (let i = 0; i < N; i++) kids.push((3 + i * 3) + ' 0 R');
+
+      offsets[1] = offset;
+      pushStr('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+
+      offsets[2] = offset;
+      pushStr('2 0 obj\n<< /Type /Pages /Kids [' + kids.join(' ') + '] /Count ' + N + ' >>\nendobj\n');
+
+      for (let i = 0; i < N; i++) {
+        const c = canvases[i];
+        const imgW = c.width;
+        const imgH = c.height;
+        const ptW = 283.4646;
+        const ptH = +(ptW * imgH / imgW).toFixed(4);
+        const jpegB64 = c.toDataURL('image/jpeg', 0.94).split(',')[1];
+        const jpegBytes = b64ToUint8Array(jpegB64);
+
+        const pageObj = 3 + i * 3;
+        const contentObj = 4 + i * 3;
+        const imgObj = 5 + i * 3;
+
+        offsets[pageObj] = offset;
+        pushStr(
+          pageObj + ' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' +
+          ptW.toFixed(4) + ' ' + ptH.toFixed(4) +
+          '] /Resources << /XObject << /Im1 ' + imgObj + ' 0 R >> >> /Contents ' +
+          contentObj + ' 0 R >>\nendobj\n'
+        );
+
+        const streamStr = 'q\n' + ptW.toFixed(4) + ' 0 0 ' + ptH.toFixed(4) + ' 0 0 cm\n/Im1 Do\nQ\n';
+        const streamBytes = enc.encode(streamStr);
+        offsets[contentObj] = offset;
+        pushStr(contentObj + ' 0 obj\n<< /Length ' + streamBytes.length + ' >>\nstream\n');
+        pushBytes(streamBytes);
+        pushStr('\nendstream\nendobj\n');
+
+        offsets[imgObj] = offset;
+        pushStr(
+          imgObj + ' 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + imgW +
+          ' /Height ' + imgH + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' +
+          jpegBytes.length + ' >>\nstream\n'
+        );
+        pushBytes(jpegBytes);
+        pushStr('\nendstream\nendobj\n');
+      }
+
+      const xrefOffset = offset;
+      pushStr('xref\n0 ' + totalObjs + '\n');
+      pushStr('0000000000 65535 f \n');
+      for (let o = 1; o < totalObjs; o++) {
+        pushStr(String(offsets[o]).padStart(10, '0') + ' 00000 n \n');
+      }
+      pushStr('trailer\n<< /Size ' + totalObjs + ' /Root 1 0 R >>\nstartxref\n' + xrefOffset + '\n%%EOF\n');
+
+      return new Blob(chunks, { type: 'application/pdf' });
+    }
+
+    async function fetchRawPdfsWithAutoServer(rawUrl) {
+      // 1. Try localhost first (instant on Main PC, fails in <100ms on Laptop)
+      let useLocal = false;
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 800);
+        const h = await fetch(LOCAL_URL + '/health', { cache: 'no-store', signal: ctrl.signal });
+        clearTimeout(t);
+        useLocal = h.ok;
       } catch (e) {}
-      location.replace('http://192.168.1.137:5055/');
-    })();
+
+      if (useLocal) {
+        const r = await fetch(LOCAL_URL + '/api/raw-pdf', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: rawUrl })
+        });
+        const j = await r.json();
+        if (!r.ok || !j.ok) throw new Error(j.error || ('HTTP ' + r.status));
+        return j.pdfs;
+      }
+
+      // 2. On Laptop: fetch tunnelUrl from tunnel.json directly
+      const tr = await fetch('tunnel.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!tr.ok) throw new Error('Không đọc được tunnel.json trên web.');
+      const tj = await tr.json();
+      const tunnelUrl = (tj && tj.tunnelUrl) ? String(tj.tunnelUrl).trim() : '';
+      if (!tunnelUrl) throw new Error('Máy chính chưa bật cầu nối tải đơn.');
+
+      const resp = await fetch(tunnelUrl + '/api/raw-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: rawUrl })
+      });
+      const data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.error || ('HTTP ' + resp.status));
+      return data.pdfs;
+    }
+
+    async function buildStampedPdfBlob(rawUrl, onProgress) {
+      if (onProgress) onProgress('⏳ Đang lấy dữ liệu đơn gốc từ sàn...');
+      const [b64Pdfs, logoLight, logoDark] = await Promise.all([
+        fetchRawPdfsWithAutoServer(rawUrl),
+        loadImage('logo_bw_light.png'),
+        loadImage('logo_bw_darkbg.png')
+      ]);
+
+      if (onProgress) onProgress('⚙️ Đang đóng dấu v3 & ghép file PDF ngay trên Laptop...');
+      const canvases = [];
+      for (const b64 of b64Pdfs) {
+        const bytes = b64ToUint8Array(b64);
+        const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+        for (let p = 1; p <= pdf.numPages; p++) {
+          const page = await pdf.getPage(p);
+          const tc = await page.getTextContent();
+          const pageText = tc.items.map(it => it.str).join(' ');
+          const layoutType = classifyPage(pageText);
+
+          const vp1 = page.getViewport({ scale: 1.0 });
+          const scale = 1230 / vp1.width;
+          const vp = page.getViewport({ scale });
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(vp.width);
+          canvas.height = Math.round(vp.height);
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+
+          if (layoutType === 'SHOPEE_SPX') {
+            stampCanvasShopeeSpxV3(canvas, logoLight);
+          } else if (layoutType === 'SHOPEE_GHN') {
+            stampCanvasShopeeGhnV3(canvas, logoLight, logoDark);
+          } else {
+            stampCanvasTikTokV3(canvas, logoLight, logoDark);
+          }
+          canvases.push(canvas);
+        }
+      }
+
+      const blob = buildPdfBlobFromCanvases(canvases);
+      return { blob, numPages: canvases.length };
+    }
+
+    async function runPrintV3() {
+      const rawUrl = (document.getElementById('urlInput').value || '').trim();
+      const st = document.getElementById('statusBox');
+      const btn = document.getElementById('btnGo');
+      st.className = 'status';
+
+      if (!rawUrl || !rawUrl.includes('http')) {
+        st.style.display = 'block';
+        st.classList.add('err');
+        st.textContent = '⚠️ Vui lòng dán đường dẫn TikTok Shop hoặc Shopee (bắt đầu bằng http/https) vào ô trên.';
+        return;
+      }
+
+      btn.disabled = true;
+      st.style.display = 'block';
+      try {
+        const { blob, numPages } = await buildStampedPdfBlob(rawUrl, (msg) => {
+          st.textContent = msg;
+        });
+
+        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = URL.createObjectURL(blob);
+
+        document.getElementById('pdfInfo').textContent = `✅ Đã tạo xong ${numPages} trang v3 trực tiếp trên trình duyệt! Bấm in hoặc mở tab PDF riêng.`;
+        document.getElementById('openTabLink').href = currentBlobUrl;
+        document.getElementById('pdfFrame').src = currentBlobUrl;
+        document.getElementById('inputScreen').style.display = 'none';
+        document.getElementById('pdfScreen').style.display = 'flex';
+      } catch (err) {
+        st.classList.add('err');
+        st.textContent = '⚠️ Lỗi: ' + (err && err.message ? err.message : err);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function resetToInput() {
+      document.getElementById('pdfScreen').style.display = 'none';
+      document.getElementById('pdfFrame').src = 'about:blank';
+      document.getElementById('inputScreen').style.display = 'flex';
+      document.getElementById('urlInput').value = '';
+      document.getElementById('statusBox').style.display = 'none';
+      document.getElementById('urlInput').focus();
+    }
   </script>
 </body>
 </html>
