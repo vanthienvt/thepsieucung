@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>In Phiếu Đơn Hàng — Thép Siêu Cứng (thepsieucung.com)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style id="page-print-style">
+    @page { size: 100mm 150mm; margin: 0; }
+  </style>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    body {
+      font-family: 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif;
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 18px 16px 32px;
+      min-height: 100vh;
+    }
+    .toolbar {
+      max-width: 980px;
+      margin: 0 auto 20px;
+      background: #1E293B;
+      border: 1.5px solid #F59E0B;
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+    .tb-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .tb-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #FDE047;
+    }
+    .tb-sub {
+      font-size: 13px;
+      color: #CBD5E1;
+      margin-top: 3px;
+    }
+    .paper-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .paper-btn {
+      flex: 1;
+      min-width: 190px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1.5px solid #475569;
+      background: #0F172A;
+      color: #E2E8F0;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .paper-btn.active {
+      background: #FFF7ED;
+      border-color: #EA580C;
+      color: #C2410C;
+    }
+    .action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-print {
+      flex: 1;
+      min-width: 240px;
+      padding: 13px 18px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 15.5px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.4);
+    }
+    .btn-upload {
+      padding: 13px 16px;
+      border-radius: 10px;
+      border: 1.5px solid #38BDF8;
+      background: #0C4A6E;
+      color: #E0F2FE;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-reset {
+      padding: 13px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #64748B;
+      background: #334155;
+      color: #F8FAFC;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+    }
+    #pdfStatus {
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: #86EFAC;
+      font-weight: 700;
+      display: none;
+    }
+
+    /* Screen Preview Grid */
+    .sheets-stage {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px;
+    }
+    .order-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+    .order-tag {
+      background: #334155;
+      color: #F8FAFC;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .label-page {
+      width: 460px;
+      background: #FFFFFF;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+    }
+    .label-page img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .a4-pair-sheet {
+      display: contents;
+    }
+
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .sheets-stage {
+        display: block !important;
+        max-width: none !important;
+        margin: 0 !important;
+      }
+      body.mode-100x150 .order-wrap {
+        display: block !important;
+        width: 100mm !important;
+        height: 150mm !important;
+        margin: 0 !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      body.mode-100x150 .order-wrap:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      body.mode-100x150 .label-page {
+        width: 100mm !important;
+        height: 150mm !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      body.mode-100x150 .label-page img {
+        width: 100mm !important;
+        height: 150mm !important;
+        object-fit: contain !important;
+      }
+
+      body.mode-a6 .order-wrap {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 105mm !important;
+        height: 148mm !important;
+        margin: 0 !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      body.mode-a6 .order-wrap:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      body.mode-a6 .label-page {
+        width: 102mm !important;
+        height: 144mm !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      body.mode-a6 .label-page img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+      }
+
+      body.mode-a4 .a4-pair-sheet {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 14mm !important;
+        width: 100% !important;
+        height: 192mm !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      body.mode-a4 .a4-pair-sheet:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      body.mode-a4 .label-page {
+        width: 120mm !important;
+        height: 169.5mm !important;
+        border: 0.25mm dashed #94A3B8 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      body.mode-a4 .label-page img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+      }
+    }
+  </style>
+  <script src="pdf.min.js"></script>
+  <script src="pdf.worker.min.js"></script>
+</head>
+<body class="mode-100x150">
+
+  <div class="toolbar no-print">
+    <div class="tb-top">
+      <div>
+        <div class="tb-title">🖨️ IN PHIẾU ĐƠN HÀNG — THÉP SIÊU CỨNG</div>
+        <div class="tb-sub" id="statusSummary">Đang mở 2 đơn đã gắn sẵn bản v3: #1 Lương Văn Thức (862714922626) • #2 Danh Tình (862777292626)</div>
+      </div>
+    </div>
+
+    <div class="paper-row">
+      <button id="btn-100x150" class="paper-btn active" onclick="setPaper('100x150')">🏷️ Khổ Tem Nhiệt 100×150mm (1 đơn/trang)</button>
+      <button id="btn-a6" class="paper-btn" onclick="setPaper('a6')">📄 Khổ Giấy A6 (105×148mm - Canon G1100)</button>
+      <button id="btn-a4" class="paper-btn" onclick="setPaper('a4')">📄 Khổ A4 Ngang (2 đơn / 1 tờ A4 cắt đôi)</button>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-print" onclick="window.print()">🖨️ BẤM IN NGAY (<span id="printCountLbl">2</span> ĐƠN — Ctrl + P)</button>
+      <label class="btn-upload">
+        📂 Chọn File PDF Đơn Mới Từ Máy Để Chèn Tự Động
+        <input type="file" id="pdfInput" accept="application/pdf" style="display:none;" onchange="handlePdfUpload(event)" />
+      </label>
+      <button id="btnResetDefault" class="btn-reset" onclick="resetToDefault2Orders()">↺ Quay lại 2 đơn hôm nay</button>
+    </div>
+
+    <div id="pdfStatus"></div>
+  </div>
+
+  <div id="sheetsStage" class="sheets-stage"></div>
+
+  <script>
+    const DEFAULT_ORDERS = [
+      { label: 'Đơn #1 • 862714922626 — Lương Văn Thức (1Ly8 14cm)', src: 'order1_v3.png' },
+      { label: 'Đơn #2 • 862777292626 — Danh Tình (2Ly8 40cm)', src: 'order2_v3.png' }
+    ];
+    let currentOrders = [...DEFAULT_ORDERS];
+
+    function setPaper(mode) {
+      document.body.className = 'mode-' + mode;
+      document.getElementById('btn-100x150').classList.toggle('active', mode === '100x150');
+      document.getElementById('btn-a6').classList.toggle('active', mode === 'a6');
+      document.getElementById('btn-a4').classList.toggle('active', mode === 'a4');
+      const styleEl = document.getElementById('page-print-style');
+      if (mode === '100x150') styleEl.textContent = '@page { size: 100mm 150mm; margin: 0; }';
+      else if (mode === 'a6') styleEl.textContent = '@page { size: 105mm 148mm; margin: 0; }';
+      else styleEl.textContent = '@page { size: A4 landscape; margin: 6mm; }';
+    }
+
+    function renderOrders(list) {
+      currentOrders = list;
+      document.getElementById('printCountLbl').textContent = String(list.length);
+      const stage = document.getElementById('sheetsStage');
+      let html = '';
+      for (let i = 0; i < list.length; i += 2) {
+        html += '<div class="a4-pair-sheet">';
+        for (let j = i; j < Math.min(i + 2, list.length); j++) {
+          const o = list[j];
+          html += `
+            <div class="order-wrap">
+              <div class="order-tag no-print">${o.label}</div>
+              <div class="label-page">
+                <img src="${o.src}" alt="${o.label}" />
+              </div>
+            </div>
+          `;
+        }
+        html += '</div>';
+      }
+      stage.innerHTML = html;
+    }
+
+    function resetToDefault2Orders() {
+      renderOrders(DEFAULT_ORDERS);
+      document.getElementById('btnResetDefault').style.display = 'none';
+      document.getElementById('pdfStatus').style.display = 'none';
+      document.getElementById('statusSummary').textContent = 'Đang mở 2 đơn đã gắn sẵn bản v3: #1 Lương Văn Thức (862714922626) • #2 Danh Tình (862777292626)';
+    }
+
+    function loadImage(src) {
+      return new Promise((res, rej) => {
+        const im = new Image();
+        im.onload = () => res(im);
+        im.onerror = rej;
+        im.src = src;
+      });
+    }
+
+    function drawRoundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    async function stampCanvasV3(canvas, logoLight, logoDark) {
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;   // 1230
+      const H = canvas.height;  // ~1734
+      const sx = W / 615;
+      const sy = sx;
+
+      // Auto-detect bottom table border line and bottom divider line in 615px space
+      const imgData = ctx.getImageData(0, 0, W, H).data;
+      const rowDarkRatio = (y615) => {
+        const py = Math.min(H - 1, Math.round(y615 * sy));
+        let cnt = 0;
+        for (let px = 0; px < W; px += 2) {
+          const idx = (py * W + px) * 4;
+          const g = (imgData[idx] + imgData[idx + 1] + imgData[idx + 2]) / 3;
+          if (g < 150) cnt++;
+        }
+        return cnt / (W / 2);
+      };
+
+      // Find H-line closing the Product table (between y=690 and y=785)
+      let tableBottom = 726;
+      for (let y = 690; y <= 785; y++) {
+        if (rowDarkRatio(y) > 0.70) { tableBottom = y; break; }
+      }
+      // Find gray bottom rule below TikTok Shop logo (between tableBottom+40 and H/sy-42)
+      let bottomRule = Math.round(H / sy) - 62;
+      for (let y = tableBottom + 45; y <= Math.round(H / sy) - 42; y++) {
+        if (rowDarkRatio(y) > 0.70) { bottomRule = y; break; }
+      }
+
+      // Apply 2x coordinate transform so all layout coordinates match 615x867 design space cleanly
+      ctx.save();
+      ctx.scale(sx, sy);
+
+      // 1. Sender right empty cell (x=361..576, y=169..198)
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(361, 169, 215, 29);
+      ctx.drawImage(logoLight, 366, 171, 24, 24);
+      ctx.fillStyle = '#000000';
+      ctx.textBaseline = 'top';
+      ctx.font = '900 10.5px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('THEPSIEUCUNG.COM', 395, 172);
+      ctx.font = '800 8.5px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('Zalo/ĐT: 0934.376.614', 395, 184);
+
+      // 2. Replace TikTok 40Tr black ad box (x=35..294, y=480..575)
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(35, 480, 259, 95);
+      ctx.drawImage(logoDark, 42, 489, 76, 76);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 10.5px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('THÉP SIÊU CỨNG', 125, 488);
+      drawRoundRect(ctx, 125, 503, 160, 17, 3);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.fillStyle = '#000000';
+      ctx.font = '900 10.8px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('THEPSIEUCUNG.COM', 205, 505.5);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '800 8.8px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('“Tay nghề cứng —', 125, 524);
+      ctx.fillText('Xài Thép Siêu Cứng”', 125, 535);
+      ctx.font = '900 9.2px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('Zalo / ĐT: 0934.376.614', 125, 550);
+
+      // 3. Seller SKU callout next to product row (x=354, y=652..tableBottom-4)
+      const skuH = Math.max(66, Math.min(92, tableBottom - 656));
+      drawRoundRect(ctx, 354, 652, 180, skuH, 4);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#000000';
+      ctx.stroke();
+
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(354, 652, 180, 16);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 8.8px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('★ CÓ THẺ MÃ QUAY TRONG GÓI ★', 444, 655);
+
+      ctx.textAlign = 'left';
+      const bodyMidY = 668 + (skuH - 16) / 2;
+      ctx.drawImage(logoLight, 360, bodyMidY - 19, 38, 38);
+      ctx.fillStyle = '#000000';
+      ctx.font = '800 8.6px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('Mở gói lấy mã quay tại:', 403, bodyMidY - 15);
+      ctx.font = '900 9.5px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('THEPSIEUCUNG.COM', 403, bodyMidY - 3);
+      ctx.fillRect(403, bodyMidY + 8, 108, 1);
+      ctx.font = '700 8.2px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('Cảm ơn AE đã ủng hộ!', 403, bodyMidY + 11);
+
+      // 4. Bottom banner under bottomRule
+      const botTop = Math.min(Math.round(H / sy) - 47, bottomRule + 3);
+      drawRoundRect(ctx, 14, botTop, 582, 45, 5);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#000000';
+      ctx.stroke();
+
+      ctx.drawImage(logoLight, 21, botTop + 4, 37, 37);
+      drawRoundRect(ctx, 64, botTop + 5, 523, 17, 3);
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '900 10.2px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('★ CÓ THẺ CÀO BÊN TRONG — VÀO THEPSIEUCUNG.COM BẤM [VÒNG QUAY] NHẬN QUÀ!', 70, botTop + 8);
+      ctx.fillStyle = '#000000';
+      ctx.font = '800 10.2px "Be Vietnam Pro", "Segoe UI", sans-serif';
+      ctx.fillText('Cảm ơn anh em đã tin tưởng ủng hộ! • Zalo / ĐT: 0934.376.614', 64, botTop + 26);
+
+      ctx.restore();
+    }
+
+    async function handlePdfUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const st = document.getElementById('pdfStatus');
+      st.style.display = 'block';
+      st.textContent = '⏳ Đang đọc file PDF và đóng dấu v3 tự động...';
+      try {
+        const [buf, logoLight, logoDark] = await Promise.all([
+          file.arrayBuffer(),
+          loadImage('logo_bw_light.png'),
+          loadImage('logo_bw_darkbg.png')
+        ]);
+        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
+        const outList = [];
+        for (let p = 1; p <= pdf.numPages; p++) {
+          const page = await pdf.getPage(p);
+          const vp1 = page.getViewport({ scale: 1.0 });
+          const scale = 1230 / vp1.width;
+          const vp = page.getViewport({ scale });
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(vp.width);
+          canvas.height = Math.round(vp.height);
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+          await stampCanvasV3(canvas, logoLight, logoDark);
+          outList.push({ label: `Đơn #${p} (${file.name})`, src: canvas.toDataURL('image/png') });
+        }
+        renderOrders(outList);
+        document.getElementById('btnResetDefault').style.display = 'inline-flex';
+        document.getElementById('statusSummary').textContent = `Đã chèn bản v3 cho ${outList.length} đơn từ file: ${file.name}`;
+        st.textContent = `✅ Đã xử lý xong ${outList.length} đơn! Bấm "BẤM IN NGAY" ở trên để in.`;
+      } catch (err) {
+        st.textContent = '⚠️ Lỗi đọc PDF: ' + (err.message || err);
+      }
+      e.target.value = '';
+    }
+
+    renderOrders(DEFAULT_ORDERS);
+  </script>
+</body>
+</html>
