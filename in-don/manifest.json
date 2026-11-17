@@ -1,23 +1,19 @@
 {
-  "updatedAt": 1794909729,
-  "numPages": 4,
+  "updatedAt": 1794910694,
+  "numPages": 3,
   "pdfFile": "don_shopee.pdf",
   "orders": [
     {
-      "label": "Trang 1 / 4 • Shopee GHN",
+      "label": "Trang 1 / 3 • Shopee SPX",
       "src": "preview_p1.png"
     },
     {
-      "label": "Trang 2 / 4 • Shopee SPX",
+      "label": "Trang 2 / 3 • Shopee SPX",
       "src": "preview_p2.png"
     },
     {
-      "label": "Trang 3 / 4 • Shopee SPX",
+      "label": "Trang 3 / 3 • Shopee SPX",
       "src": "preview_p3.png"
-    },
-    {
-      "label": "Trang 4 / 4 • Shopee SPX",
-      "src": "preview_p4.png"
     }
   ]
 }
