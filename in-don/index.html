@@ -4,230 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>In Đơn Nhanh v3 — Thép Siêu Cứng</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <title>Mở Công Cụ In Đơn Nội Bộ v3 — Thép Siêu Cứng</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Segoe UI', system-ui, sans-serif;
       background: #0F172A;
       color: #F8FAFC;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px 14px;
+      padding: 20px;
     }
-    .card {
+    .box {
+      max-width: 520px;
       width: 100%;
-      max-width: 680px;
       background: #1E293B;
       border: 1.5px solid #F59E0B;
       border-radius: 16px;
-      padding: 24px 22px;
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+      padding: 26px 22px;
+      text-align: center;
     }
-    h1 {
-      font-size: 20px;
-      font-weight: 900;
-      color: #FDE047;
-      margin-bottom: 6px;
-    }
-    .sub {
-      font-size: 13.5px;
-      color: #CBD5E1;
-      margin-bottom: 18px;
-      line-height: 1.5;
-    }
-    .lbl {
-      font-size: 13px;
-      font-weight: 800;
-      color: #FDBA74;
-      margin-bottom: 8px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 92px;
-      padding: 12px 13px;
-      border-radius: 10px;
-      border: 1.5px solid #475569;
-      background: #020617;
-      color: #F8FAFC;
-      font-family: ui-monospace, Consolas, monospace;
-      font-size: 13px;
-      line-height: 1.45;
-      resize: vertical;
-      outline: none;
-      margin-bottom: 12px;
-    }
-    textarea:focus { border-color: #F59E0B; }
-    .btn-main {
+    h1 { font-size: 19px; font-weight: 800; color: #FDE047; margin-bottom: 8px; }
+    p { font-size: 14px; color: #CBD5E1; margin-bottom: 18px; line-height: 1.5; }
+    .btn {
+      display: inline-block;
       width: 100%;
       padding: 15px 18px;
       border-radius: 11px;
-      border: none;
       background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
       color: #FFFFFF;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.45);
-    }
-    .btn-main:disabled { opacity: 0.6; cursor: wait; }
-    .status {
-      margin-top: 12px;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #86EFAC;
-      display: none;
-      line-height: 1.45;
-    }
-    .status.err { color: #FCA5A5; }
-    .open-wrap {
-      display: none;
-      margin-top: 14px;
-    }
-    .btn-pdf {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      padding: 15px 18px;
-      border-radius: 11px;
-      background: #10B981;
-      color: #022C22;
       text-decoration: none;
-      font-size: 15.5px;
-      font-weight: 900;
-      box-shadow: 0 5px 14px rgba(16, 185, 129, 0.35);
+      font-size: 16px;
+      font-weight: 800;
     }
-    .tip {
-      margin-top: 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 12.5px;
-      color: #CBD5E1;
-      line-height: 1.5;
-    }
-    .tip b { color: #FDE047; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>🖨️ IN VẬN ĐƠN v3 — THÉP SIÊU CỨNG</h1>
-    <div class="sub">Dán link in từ <b>TikTok Shop</b> hoặc <b>Shopee (GHN / SPX)</b>, bấm 1 nút là mở thẳng file PDF v3 để in ngay (xử lý nội bộ trên RAM, không lưu đơn lên web).</div>
-
-    <div class="lbl">DÁN ĐƯỜNG DẪN IN ĐƠN CỦA SÀN (CÓ THỂ DÁN NHIỀU LINK MỖI DÒNG 1 LINK):</div>
-    <textarea id="urlInput" placeholder="https://seller-vn.tiktok.com/... hoặc https://banhang.shopee.vn/awbprint?job_id=..."></textarea>
-
-    <button id="btnGo" class="btn-main" onclick="runPrintV3()">🖨️ CHÈN V3 &amp; MỞ FILE PDF IN NGAY</button>
-
-    <div id="statusBox" class="status"></div>
-
-    <div id="openWrap" class="open-wrap">
-      <a id="btnOpenPdf" href="#" class="btn-pdf">📄 BẤM ĐỂ MỞ FILE PDF V3 &amp; IN (Ctrl + P)</a>
-    </div>
-
-    <div class="tip">
-      💡 Sau khi file PDF mở ra: bấm <b>Ctrl + P</b> → Khổ giấy <b>4"x6" 10x15cm</b> (hoặc A6) → Tỷ lệ chọn <b>“Vừa với vùng in được”</b> → Bấm <b>In</b> là xong.
-    </div>
+  <div class="box">
+    <h1>🖨️ ĐANG CHUYỂN SANG TRANG IN ĐƠN NỘI BỘ...</h1>
+    <p>Công cụ in đơn v3 chạy hoàn toàn nội bộ tại mạng nhà/xưởng để bảo mật và in tức thì.</p>
+    <a class="btn" href="http://192.168.1.137:5055/">MỞ TRANG IN ĐƠN v3 (http://192.168.1.137:5055/) →</a>
   </div>
-
   <script>
-    const LAN_FALLBACK = 'http://192.168.1.137:5055';
-    const LOCAL_URL = 'http://127.0.0.1:5055';
-
-    async function getTunnelUrl() {
+    (async () => {
       try {
-        const r = await fetch('tunnel.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!r.ok) return '';
-        const j = await r.json();
-        return (j && j.tunnelUrl) ? String(j.tunnelUrl).trim() : '';
-      } catch (e) {
-        return '';
-      }
-    }
-
-    async function probeHealth(baseUrl) {
-      if (!baseUrl) return null;
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 3500);
-      try {
-        const r = await fetch(baseUrl + '/health', { cache: 'no-store', signal: ctrl.signal });
-        if (!r.ok) return null;
-        const j = await r.json();
-        return (j && j.ok) ? baseUrl : null;
-      } catch (e) {
-        return null;
-      } finally {
-        clearTimeout(t);
-      }
-    }
-
-    async function findActiveServer() {
-      const tunnelUrl = await getTunnelUrl();
-      const candidates = [LOCAL_URL, tunnelUrl, LAN_FALLBACK].filter(Boolean);
-      for (const c of candidates) {
-        const hit = await probeHealth(c);
-        if (hit) return hit;
-      }
-      return null;
-    }
-
-    async function runPrintV3() {
-      const rawUrl = (document.getElementById('urlInput').value || '').trim();
-      const st = document.getElementById('statusBox');
-      const btn = document.getElementById('btnGo');
-      const wrap = document.getElementById('openWrap');
-      const openLink = document.getElementById('btnOpenPdf');
-
-      st.className = 'status';
-      wrap.style.display = 'none';
-
-      if (!rawUrl || !rawUrl.includes('http')) {
-        st.style.display = 'block';
-        st.classList.add('err');
-        st.textContent = '⚠️ Vui lòng dán đường dẫn TikTok Shop hoặc Shopee (bắt đầu bằng http/https) vào ô trên.';
-        return;
-      }
-
-      btn.disabled = true;
-      st.style.display = 'block';
-      st.textContent = '⏳ Đang tải đơn từ sàn và chèn v3 trực tiếp trên RAM (chờ 4–8 giây)...';
-
-      try {
-        const serverUrl = await findActiveServer();
-        if (!serverUrl) {
-          throw new Error('Không kết nối được tới máy chủ xử lý PDF trên máy chính. Hãy kiểm tra máy chính đang bật mạng và thử tải lại trang.');
+        const c = new AbortController();
+        setTimeout(() => c.abort(), 900);
+        const r = await fetch('http://127.0.0.1:5055/health', { cache: 'no-store', signal: c.signal });
+        if (r.ok) {
+          location.replace('http://127.0.0.1:5055/');
+          return;
         }
-
-        const resp = await fetch(serverUrl + '/api/process-tiktok-url', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: rawUrl })
-        });
-        const data = await resp.json();
-        if (!resp.ok || !data.ok) {
-          throw new Error(data.error || ('HTTP ' + resp.status));
-        }
-
-        const fullPdfUrl = serverUrl + data.pdfPath;
-        openLink.href = fullPdfUrl;
-        wrap.style.display = 'block';
-        st.textContent = `✅ Xong ${data.numPages} trang v3! Đang mở thẳng file PDF để bạn bấm Ctrl + P in...`;
-        window.location.href = fullPdfUrl;
-      } catch (err) {
-        st.classList.add('err');
-        st.textContent = '⚠️ Lỗi: ' + (err && err.message ? err.message : err);
-      } finally {
-        btn.disabled = false;
-      }
-    }
+      } catch (e) {}
+      location.replace('http://192.168.1.137:5055/');
+    })();
   </script>
 </body>
 </html>
