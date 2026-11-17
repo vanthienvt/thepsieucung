@@ -254,12 +254,39 @@
   <div id="verticalStack" class="vertical-stack"></div>
 
   <script>
-    const LOCAL_SERVER = 'http://127.0.0.1:5055';
+    const SERVER_CANDIDATES = [
+      'http://127.0.0.1:5055',
+      'https://076599d315578e.app.lhr.life',
+      'http://192.168.1.137:5055'
+    ];
     const BASE_DIR_URL = 'https://thepsieucung.com/in-don/';
     const DEFAULT_ORDERS = [
       { label: 'Trang 1 / 2 • 862714922626 — Lương Văn Thức (1Ly8 14cm)', src: 'order1_v3.png' },
       { label: 'Trang 2 / 2 • 862777292626 — Danh Tình (2Ly8 40cm)', src: 'order2_v3.png' }
     ];
+
+    async function probeHealth(baseUrl) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 3500);
+      try {
+        const r = await fetch(baseUrl + '/health', { cache: 'no-store', signal: ctrl.signal });
+        if (!r.ok) return null;
+        const j = await r.json();
+        return j && j.ok ? baseUrl : null;
+      } catch (e) {
+        return null;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function findActiveServer() {
+      for (const base of SERVER_CANDIDATES) {
+        const hit = await probeHealth(base);
+        if (hit) return hit;
+      }
+      return null;
+    }
 
     function renderVerticalStack(list) {
       document.getElementById('previewCount').textContent = `📄 Xem trước từng trang dọc (${list.length} đơn)`;
@@ -299,9 +326,13 @@
 
       btn.disabled = true;
       st.style.display = 'block';
-      st.textContent = '⏳ Đang tải PDF từ link, chèn bản v3 và đẩy file .PDF lên web (chờ 10–30 giây)...';
+      st.textContent = '⏳ Đang kết nối máy chủ, tải PDF và chèn bản v3 (chờ 10–30 giây)...';
       try {
-        const resp = await fetch(LOCAL_SERVER + '/api/process-tiktok-url', {
+        const serverUrl = await findActiveServer();
+        if (!serverUrl) {
+          throw new Error('Không kết nối được tới máy chủ chèn PDF (hãy bật máy chính chạy tool hoặc tải lại trang).');
+        }
+        const resp = await fetch(serverUrl + '/api/process-tiktok-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: rawUrl })
@@ -316,7 +347,7 @@
         await loadManifest();
       } catch (err) {
         st.classList.add('err');
-        st.textContent = '⚠️ Không kết nối được máy chủ chèn PDF (http://127.0.0.1:5055) hoặc lỗi: ' + (err.message || err);
+        st.textContent = '⚠️ Lỗi: ' + (err.message || err);
       } finally {
         btn.disabled = false;
       }
