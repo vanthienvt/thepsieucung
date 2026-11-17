@@ -58,13 +58,16 @@
     .url-input {
       flex: 1;
       min-width: 240px;
-      padding: 11px 12px;
+      padding: 10px 12px;
       border-radius: 9px;
       border: 1.5px solid #475569;
       background: #020617;
       color: #F8FAFC;
       font-family: inherit;
-      font-size: 13.5px;
+      font-size: 13px;
+      line-height: 1.45;
+      resize: vertical;
+      min-height: 62px;
       outline: none;
     }
     .url-input:focus { border-color: #F59E0B; }
@@ -216,12 +219,12 @@
 
   <div class="panel">
     <div class="panel-title">🖨️ TẠO LINK FILE .PDF IN VẬN ĐƠN v3 — THÉP SIÊU CỨNG</div>
-    <div class="panel-sub">Dán đường dẫn PDF từ TikTok Shop để tự động chèn v3 và nhận link PDF chuẩn in từng trang dọc (chế độ <b>Vừa với vùng in được</b>).</div>
+    <div class="panel-sub">Dán đường dẫn PDF từ <b>TikTok Shop</b> hoặc <b>Shopee (GHN / SPX)</b> để tự động chèn v3 và nhận link .PDF chuẩn in từng trang dọc (chế độ <b>Vừa với vùng in được</b>).</div>
 
     <div class="url-box">
-      <div class="url-lbl">1️⃣ DÁN ĐƯỜNG DẪN TIKTOK VÀO ĐÂY (ĐỂ TỰ ĐỘNG CHÈN V3):</div>
+      <div class="url-lbl">1️⃣ DÁN ĐƯỜNG DẪN TIKTOK HOẶC SHOPEE VÀO ĐÂY (CÓ THỂ DÁN NHIỀU LINK MỖI DÒNG 1 LINK):</div>
       <div class="url-input-row">
-        <input id="tiktokUrlInput" type="text" class="url-input" placeholder="https://seller-vn.tiktok.com/easesafe/oec_fulfillment_doc_tts/object/..." />
+        <textarea id="tiktokUrlInput" class="url-input" rows="2" placeholder="Dán link https://seller-vn.tiktok.com/... hoặc https://banhang.shopee.vn/awbprint?job_id=..."></textarea>
         <button id="btnProcess" class="btn-gen" onclick="processTikTokLink()">⚡ Chèn v3 &amp; Tạo Link PDF</button>
       </div>
       <div id="genStatus" class="gen-status"></div>
@@ -230,10 +233,10 @@
     <div class="result-box">
       <div class="result-lbl">2️⃣ ĐƯỜNG DẪN FILE .PDF ĐÃ CHÈN V3 (DÁN LINK NÀY QUA LAPTOP ĐỂ IN):</div>
       <div class="result-link-row">
-        <input id="pdfResultInput" type="text" class="result-url" readonly value="https://thepsieucung.com/in-don/don_tiktok.pdf" onclick="this.select()" />
+        <input id="pdfResultInput" type="text" class="result-url" readonly value="https://thepsieucung.com/in-don/don_shopee.pdf" onclick="this.select()" />
         <button id="btnCopy" class="btn-copy" onclick="copyPdfLink()">📋 Copy Link PDF</button>
       </div>
-      <a id="btnOpenPdf" href="don_tiktok.pdf" target="_blank" rel="noopener" class="btn-open-pdf">
+      <a id="btnOpenPdf" href="don_shopee.pdf" target="_blank" rel="noopener" class="btn-open-pdf">
         📄 MỞ FILE .PDF CHUẨN ĐỂ BẤM IN (Ctrl + P) →
       </a>
     </div>
@@ -244,7 +247,7 @@
   </div>
 
   <div class="preview-head">
-    <span id="previewCount">📄 Xem trước từng trang dọc (2 đơn sẵn sàng)</span>
+    <span id="previewCount">📄 Xem trước từng trang dọc</span>
     <span style="font-size:12px;color:#94A3B8;">Bản v3 chuẩn A6 / 10×15cm</span>
   </div>
 
@@ -252,7 +255,7 @@
 
   <script>
     const LOCAL_SERVER = 'http://127.0.0.1:5055';
-    const BASE_PDF_URL = 'https://thepsieucung.com/in-don/don_tiktok.pdf';
+    const BASE_DIR_URL = 'https://thepsieucung.com/in-don/';
     const DEFAULT_ORDERS = [
       { label: 'Trang 1 / 2 • 862714922626 — Lương Văn Thức (1Ly8 14cm)', src: 'order1_v3.png' },
       { label: 'Trang 2 / 2 • 862777292626 — Danh Tình (2Ly8 40cm)', src: 'order2_v3.png' }
@@ -287,16 +290,16 @@
       const st = document.getElementById('genStatus');
       const btn = document.getElementById('btnProcess');
       st.className = 'gen-status';
-      if (!rawUrl || !rawUrl.startsWith('http')) {
+      if (!rawUrl || !rawUrl.includes('http')) {
         st.style.display = 'block';
         st.classList.add('err');
-        st.textContent = '⚠️ Vui lòng dán đường dẫn https://seller-vn.tiktok.com/... vào ô trên trước.';
+        st.textContent = '⚠️ Vui lòng dán đường dẫn TikTok Shop hoặc Shopee (http/https) vào ô trên trước.';
         return;
       }
 
       btn.disabled = true;
       st.style.display = 'block';
-      st.textContent = '⏳ Đang tải PDF từ TikTok, chèn bản v3 và đẩy file .PDF lên web (chờ 10–25 giây)...';
+      st.textContent = '⏳ Đang tải PDF từ link, chèn bản v3 và đẩy file .PDF lên web (chờ 10–30 giây)...';
       try {
         const resp = await fetch(LOCAL_SERVER + '/api/process-tiktok-url', {
           method: 'POST',
@@ -309,11 +312,11 @@
         }
         document.getElementById('pdfResultInput').value = data.pdfUrl;
         document.getElementById('btnOpenPdf').href = data.pdfUrl;
-        st.textContent = `✅ Xong! Đã chèn bản v3 cho ${data.numPages} đơn và cập nhật link PDF ở ô xanh bên dưới.`;
+        st.textContent = `✅ Xong! Đã chèn bản v3 cho ${data.numPages} đơn (${data.pdfFile}) và cập nhật link PDF ở ô xanh bên dưới.`;
         await loadManifest();
       } catch (err) {
         st.classList.add('err');
-        st.textContent = '⚠️ Không kết nối được máy chủ chèn PDF trên máy chính (http://127.0.0.1:5055) hoặc lỗi: ' + (err.message || err);
+        st.textContent = '⚠️ Không kết nối được máy chủ chèn PDF (http://127.0.0.1:5055) hoặc lỗi: ' + (err.message || err);
       } finally {
         btn.disabled = false;
       }
@@ -326,9 +329,10 @@
         const m = await r.json();
         if (Array.isArray(m.orders) && m.orders.length) {
           const ts = m.updatedAt || Date.now();
-          const verUrl = BASE_PDF_URL + '?v=' + ts;
+          const pdfFile = m.pdfFile || 'don_tiktok.pdf';
+          const verUrl = BASE_DIR_URL + pdfFile + '?v=' + ts;
           document.getElementById('pdfResultInput').value = verUrl;
-          document.getElementById('btnOpenPdf').href = 'don_tiktok.pdf?v=' + ts;
+          document.getElementById('btnOpenPdf').href = pdfFile + '?v=' + ts;
           renderVerticalStack(m.orders.map((o, i) => ({
             label: o.label || `Trang ${i + 1} / ${m.orders.length}`,
             src: o.src + '?v=' + ts
