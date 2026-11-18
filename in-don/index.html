@@ -63,6 +63,35 @@
       box-shadow: 0 6px 16px rgba(234, 88, 12, 0.45);
     }
     .btn-main:disabled { opacity: 0.6; cursor: wait; }
+    .btn-file {
+      margin-top: 10px;
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px dashed #475569;
+      background: rgba(15, 23, 42, 0.7);
+      color: #CBD5E1;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-file:hover { border-color: #F59E0B; color: #FDE047; }
+    .ext-badge {
+      display: none;
+      margin-bottom: 12px;
+      padding: 7px 11px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid #10B981;
+      color: #6EE7B7;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
     .status { margin-top: 12px; font-size: 13.5px; font-weight: 700; color: #86EFAC; display: none; line-height: 1.45; }
     .status.err { color: #FCA5A5; }
     .tip {
@@ -124,9 +153,12 @@
     <div class="card">
       <h1>🖨️ IN VẬN ĐƠN v3 — THÉP SIÊU CỨNG</h1>
       <div class="sub">Dán link in của <b>TikTok Shop</b> hoặc <b>Shopee (GHN / SPX)</b> và bấm 1 nút. Mọi bước chèn tem v3 và tạo file PDF chạy trực tiếp trên trình duyệt Laptop, không mở cửa sổ và không lưu lên GitHub.</div>
+      <div id="extBadge" class="ext-badge">🟢 Đã bật Extension tải đơn trực tiếp trên Chrome máy này (không cần bật server phụ).</div>
       <div class="lbl">DÁN ĐƯỜNG DẪN IN ĐƠN CỦA SÀN (CÓ THỂ DÁN NHIỀU LINK MỖI DÒNG 1 LINK):</div>
       <textarea id="urlInput" placeholder="https://seller-vn.tiktok.com/... hoặc https://banhang.shopee.vn/awbprint?job_id=..."></textarea>
       <button id="btnGo" class="btn-main" onclick="runPrintV3()">🖨️ CHÈN V3 &amp; MỞ FILE PDF IN NGAY</button>
+      <input id="localPdfInput" type="file" accept="application/pdf,.pdf" multiple style="display:none" onchange="handleLocalPdfFiles(this.files)" />
+      <button type="button" class="btn-file" onclick="document.getElementById('localPdfInput').click()">📂 Hoặc chọn trực tiếp file PDF vận đơn đã tải về máy</button>
       <div id="statusBox" class="status"></div>
       <div class="tip">
         💡 Khi file PDF mở ra: bấm <b>Mở tab PDF riêng (hoặc Ctrl + P)</b> → Khổ giấy <b>4"x6" 10x15cm</b> (hoặc A6) → Tỷ lệ chọn <b>“Vừa với vùng in được”</b> → Bấm <b>In</b>.
@@ -530,8 +562,50 @@
       return new Blob(chunks, { type: 'application/pdf' });
     }
 
+    function extractUrlList(rawText) {
+      return (rawText || '')
+        .trim()
+        .split(/\s+/)
+        .map((s) => s.trim())
+        .filter((s) => s.startsWith('http://') || s.startsWith('https://'));
+    }
+
+    function fetchViaChromeExtension(urls) {
+      return new Promise((resolve, reject) => {
+        const reqId = 'tsc_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        const timer = setTimeout(() => {
+          window.removeEventListener('message', onMsg);
+          reject(new Error('Extension tải đơn quá thời gian phản hồi.'));
+        }, 25000);
+
+        function onMsg(event) {
+          if (event.source !== window || !event.data || event.data.type !== 'TSC_EXT_FETCH_PDFS_RESULT') return;
+          if (event.data.reqId !== reqId) return;
+          clearTimeout(timer);
+          window.removeEventListener('message', onMsg);
+          if (event.data.ok && Array.isArray(event.data.pdfs)) {
+            resolve(event.data.pdfs);
+          } else {
+            reject(new Error(event.data.error || 'Extension không tải được PDF.'));
+          }
+        }
+        window.addEventListener('message', onMsg);
+        window.postMessage({ type: 'TSC_EXT_FETCH_PDFS', reqId, urls }, '*');
+      });
+    }
+
     async function fetchRawPdfsWithAutoServer(rawUrl) {
-      // 1. Try localhost first (instant on Main PC, fails in <100ms on Laptop)
+      const urls = extractUrlList(rawUrl);
+      if (!urls.length) {
+        throw new Error('Không tìm thấy đường dẫn http/https hợp lệ.');
+      }
+
+      // Priority 1: Chrome Extension running natively on this machine (uses live Shopee/TikTok Chrome cookies)
+      if (document.documentElement.dataset.tscExtInstalled === '1') {
+        return await fetchViaChromeExtension(urls);
+      }
+
+      // Priority 2: Local Python server (http://127.0.0.1:5055)
       let useLocal = false;
       try {
         const ctrl = new AbortController();
@@ -552,12 +626,12 @@
         return j.pdfs;
       }
 
-      // 2. On Laptop: fetch tunnelUrl from tunnel.json directly
+      // Priority 3: Tunnel URL fallback from tunnel.json
       const tr = await fetch('tunnel.json?t=' + Date.now(), { cache: 'no-store' });
       if (!tr.ok) throw new Error('Không đọc được tunnel.json trên web.');
       const tj = await tr.json();
       const tunnelUrl = (tj && tj.tunnelUrl) ? String(tj.tunnelUrl).trim() : '';
-      if (!tunnelUrl) throw new Error('Máy chính chưa bật cầu nối tải đơn.');
+      if (!tunnelUrl) throw new Error('Chưa bật Extension Chrome hoặc máy chủ tải đơn nội bộ.');
 
       const resp = await fetch(tunnelUrl + '/api/raw-pdf', {
         method: 'POST',
@@ -569,18 +643,9 @@
       return data.pdfs;
     }
 
-    async function buildStampedPdfBlob(rawUrl, onProgress) {
-      if (onProgress) onProgress('⏳ Đang lấy dữ liệu đơn gốc từ sàn...');
-      const [b64Pdfs, logoLight, logoDark] = await Promise.all([
-        fetchRawPdfsWithAutoServer(rawUrl),
-        loadImage('logo_bw_light.png'),
-        loadImage('logo_bw_darkbg.png')
-      ]);
-
-      if (onProgress) onProgress('⚙️ Đang đóng dấu v3 & ghép file PDF ngay trên Laptop...');
+    async function stampByteArraysToBlob(byteArrays, logoLight, logoDark) {
       const canvases = [];
-      for (const b64 of b64Pdfs) {
-        const bytes = b64ToUint8Array(b64);
+      for (const bytes of byteArrays) {
         const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
         for (let p = 1; p <= pdf.numPages; p++) {
           const page = await pdf.getPage(p);
@@ -606,9 +671,59 @@
           canvases.push(canvas);
         }
       }
-
       const blob = buildPdfBlobFromCanvases(canvases);
       return { blob, numPages: canvases.length };
+    }
+
+    function showStampedPdfResult(blob, numPages) {
+      if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+      currentBlobUrl = URL.createObjectURL(blob);
+
+      document.getElementById('pdfInfo').textContent = `✅ Đã tạo xong ${numPages} trang v3 trực tiếp trên trình duyệt! Bấm in hoặc mở tab PDF riêng.`;
+      document.getElementById('openTabLink').href = currentBlobUrl;
+      document.getElementById('pdfFrame').src = currentBlobUrl;
+      document.getElementById('inputScreen').style.display = 'none';
+      document.getElementById('pdfScreen').style.display = 'flex';
+    }
+
+    async function buildStampedPdfBlob(rawUrl, onProgress) {
+      if (onProgress) onProgress('⏳ Đang lấy dữ liệu đơn gốc từ sàn...');
+      const [b64Pdfs, logoLight, logoDark] = await Promise.all([
+        fetchRawPdfsWithAutoServer(rawUrl),
+        loadImage('logo_bw_light.png'),
+        loadImage('logo_bw_darkbg.png')
+      ]);
+
+      if (onProgress) onProgress('⚙️ Đang đóng dấu v3 & ghép file PDF ngay trên Laptop...');
+      return await stampByteArraysToBlob(b64Pdfs.map(b64ToUint8Array), logoLight, logoDark);
+    }
+
+    async function handleLocalPdfFiles(fileList) {
+      const files = Array.from(fileList || []);
+      document.getElementById('localPdfInput').value = '';
+      if (!files.length) return;
+
+      const st = document.getElementById('statusBox');
+      const btn = document.getElementById('btnGo');
+      st.className = 'status';
+      st.style.display = 'block';
+      btn.disabled = true;
+
+      try {
+        st.textContent = `⚙️ Đang đóng dấu v3 cho ${files.length} file PDF đã chọn...`;
+        const [byteArrays, logoLight, logoDark] = await Promise.all([
+          Promise.all(files.map(async (f) => new Uint8Array(await f.arrayBuffer()))),
+          loadImage('logo_bw_light.png'),
+          loadImage('logo_bw_darkbg.png')
+        ]);
+        const { blob, numPages } = await stampByteArraysToBlob(byteArrays, logoLight, logoDark);
+        showStampedPdfResult(blob, numPages);
+      } catch (err) {
+        st.classList.add('err');
+        st.textContent = '⚠️ Lỗi: ' + (err && err.message ? err.message : err);
+      } finally {
+        btn.disabled = false;
+      }
     }
 
     async function runPrintV3() {
@@ -630,21 +745,17 @@
         const { blob, numPages } = await buildStampedPdfBlob(rawUrl, (msg) => {
           st.textContent = msg;
         });
-
-        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-        currentBlobUrl = URL.createObjectURL(blob);
-
-        document.getElementById('pdfInfo').textContent = `✅ Đã tạo xong ${numPages} trang v3 trực tiếp trên trình duyệt! Bấm in hoặc mở tab PDF riêng.`;
-        document.getElementById('openTabLink').href = currentBlobUrl;
-        document.getElementById('pdfFrame').src = currentBlobUrl;
-        document.getElementById('inputScreen').style.display = 'none';
-        document.getElementById('pdfScreen').style.display = 'flex';
+        showStampedPdfResult(blob, numPages);
       } catch (err) {
         st.classList.add('err');
         st.textContent = '⚠️ Lỗi: ' + (err && err.message ? err.message : err);
       } finally {
         btn.disabled = false;
       }
+    }
+
+    if (document.documentElement.dataset.tscExtInstalled === '1') {
+      document.getElementById('extBadge').style.display = 'block';
     }
 
     function resetToInput() {
